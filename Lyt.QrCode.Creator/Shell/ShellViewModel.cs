@@ -7,7 +7,7 @@ public sealed partial class ShellViewModel
     IRecipient<ToolbarCommandMessage>,
     IRecipient<LanguageChangedMessage>
 {
-    private readonly QrCodeCreatorModel jigsawModel;
+    private readonly QrCodeCreatorModel qrCodeCreatorModel;
     private readonly IToaster toaster;
 
     [ObservableProperty]
@@ -16,9 +16,9 @@ public sealed partial class ShellViewModel
     private ViewSelector<ActivatedView>? viewSelector;
     public bool isFirstActivation;
 
-    public ShellViewModel(QrCodeCreatorModel astroPicModel, IToaster toaster)
+    public ShellViewModel(QrCodeCreatorModel qrCodeCreatorModel, IToaster toaster)
     {
-        this.jigsawModel = astroPicModel;
+        this.qrCodeCreatorModel = qrCodeCreatorModel;
         this.toaster = toaster;
 
         //this.Messenger.Subscribe<ViewActivationMessage>(this.OnViewActivation);
@@ -51,7 +51,7 @@ public sealed partial class ShellViewModel
         }
 
         // Select default language 
-        string preferredLanguage = this.jigsawModel.Language;
+        string preferredLanguage = this.qrCodeCreatorModel.Language;
         this.Logger.Debug("Language: " + preferredLanguage);
         this.Localizer.SelectLanguage(preferredLanguage);
         Thread.CurrentThread.CurrentCulture = new CultureInfo(preferredLanguage);
@@ -70,7 +70,7 @@ public sealed partial class ShellViewModel
         //    5_000, InformationLevel.Info);
 
         this.isFirstActivation = true;
-        // Select(this.jigsawModel.IsFirstRun ? ActivatedView.Language : ActivatedView.Collection);
+        Select(this.qrCodeCreatorModel.IsFirstRun ? ActivatedView.Language : ActivatedView.Encoding);
 
         this.Logger.Debug("OnViewLoaded complete");
     }
@@ -99,21 +99,20 @@ public sealed partial class ShellViewModel
                 new SelectableView<ActivatedView>(activatedView, vm, control, vmToolbar));
         }
 
-        //void SetupNoToolbar<TViewModel, TControl>(
-        //        ActivatedView activatedView, Control control)
-        //    where TViewModel : ViewModel<TControl>
-        //    where TControl : Control, IView, new()
-        //{
-        //    var vm = App.GetRequiredService<TViewModel>();
-        //    vm.CreateViewAndBind();
-        //    selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
-        //}
+        void SetupNoToolbar<TViewModel, TControl>(
+                ActivatedView activatedView, Control control)
+            where TViewModel : ViewModel<TControl>
+            where TControl : Control, IView, new()
+        {
+            var vm = App.GetRequiredService<TViewModel>();
+            vm.CreateViewAndBind();
+            selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
+        }
+
+        SetupNoToolbar<EncodingViewModel, EncodingView>( ActivatedView.Encoding, view.EncodingButton);
 
         Setup<LanguageViewModel, LanguageView, LanguageToolbarViewModel, LanguageToolbarView>(
             ActivatedView.Language, view.FlagButton);
-
-        //Setup<IntroViewModel, IntroView, IntroToolbarViewModel, IntroToolbarView>(
-        //    ActivatedView.Intro, view.IntroButton);
 
         // Needs to be kept alive as a class member, or else callbacks will die (and wont work) 
         this.viewSelector =
@@ -124,7 +123,7 @@ public sealed partial class ShellViewModel
                 selectableViews,
                 this.OnViewSelected);
 
-        //ViewSelector<ActivatedView>.Disable(ActivatedView.Puzzle); 
+        // ViewSelector<ActivatedView>.Disable(ActivatedView.Puzzle); 
     }
 
     private void OnViewSelected(ActivatedView activatedView)
@@ -149,8 +148,8 @@ public sealed partial class ShellViewModel
 #pragma warning disable IDE0079 
 #pragma warning disable CA1822 // Mark members as static
 
-    //[RelayCommand]
-    //public void OnCollection() => Select(ActivatedView.Collection);
+    [RelayCommand]
+    public void OnEncoding() => Select(ActivatedView.Encoding);
 
     [RelayCommand]
     public void OnLanguage() => Select(ActivatedView.Language);

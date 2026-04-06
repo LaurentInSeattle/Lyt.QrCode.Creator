@@ -106,6 +106,15 @@
                     >
                     <glyphs:SelectionGroup x:Name="SelectionGroup" />
                     <glyphs:GlyphButton
+                        x:Name="EncodingButton"
+                        Style="{StaticResource NavigationIconButton}"
+                        GlyphSource="collections"
+                        GlyphStrokeThickness="0"
+                        Text="{DynamicResource Shell.Collection}"
+                        Command="{Binding OnEncoding}"
+                        Group="{Binding ElementName=SelectionGroup}"
+                        />
+                    <glyphs:GlyphButton
                         x:Name="FlagButton"
                         Style="{StaticResource NavigationIconButton}"
                         GlyphSource="flag"
@@ -115,15 +124,6 @@
                         Group="{Binding ElementName=SelectionGroup}"
                         />
                     <!-- 
-                    <glyphs:GlyphButton
-                        x:Name="CollectionButton"
-                        Style="{StaticResource NavigationIconButton}"
-                        GlyphSource="collections"
-                        GlyphStrokeThickness="0"
-                        Text="{DynamicResource Shell.Collection}"
-                        Command="{Binding OnCollection}"
-                        Group="{Binding ElementName=SelectionGroup}"
-                        />
                     <glyphs:GlyphButton
                         x:Name="IntroButton"
                         Style="{StaticResource NavigationIconButton}"

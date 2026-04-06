@@ -48,7 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Workflow\Encoding\" />
+    <Compile Update="Workflow\Encoding\EncodingView.axaml.cs">
+      <DependentUpon>EncodingView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

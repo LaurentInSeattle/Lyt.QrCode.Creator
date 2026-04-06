@@ -98,7 +98,7 @@ global using Lyt.QrCode.Creator.Model;
 //global using Lyt.QrCode.Creator.Interfaces;
 global using Lyt.QrCode.Creator.Messaging;
 global using Lyt.QrCode.Creator.Shell;
-//global using Lyt.QrCode.Creator.Workflow.Encoding;
+global using Lyt.QrCode.Creator.Workflow.Encoding;
 global using Lyt.QrCode.Creator.Workflow.Language;
 // global using Lyt.QrCode.Creator.Workflow.Shared;
 // global using Lyt.QrCode.Creator.Utilities;
