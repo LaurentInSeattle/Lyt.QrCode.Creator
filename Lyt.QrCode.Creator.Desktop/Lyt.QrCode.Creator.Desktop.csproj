@@ -10,12 +10,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <ApplicationIcon>puzzle.ico</ApplicationIcon>
+    <ApplicationIcon>qrcode.ico</ApplicationIcon>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="puzzle.ico" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lyt.QrCode.Creator\Lyt.QrCode.Creator.csproj" />
@@ -30,4 +26,8 @@
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="start /WAIT ..\Tools\prebuild.bat&#xD;&#xA;" />
   </Target>
+
+  <ItemGroup>
+    <AvaloniaResource Remove="puzzle.ico" />
+  </ItemGroup>
 </Project>

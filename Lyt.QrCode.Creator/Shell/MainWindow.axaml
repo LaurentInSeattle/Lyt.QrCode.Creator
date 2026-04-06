@@ -14,5 +14,5 @@
     WindowStartupLocation="CenterScreen"
     ExtendClientAreaTitleBarHeightHint="50"
     ExtendClientAreaToDecorationsHint="False"
-    Icon="\Assets\Images\puzzle.ico"
+    Icon="\Assets\Images\qrcode.ico"
     />

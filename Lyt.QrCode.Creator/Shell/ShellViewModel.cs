@@ -21,7 +21,6 @@ public sealed partial class ShellViewModel
         this.qrCodeCreatorModel = qrCodeCreatorModel;
         this.toaster = toaster;
 
-        //this.Messenger.Subscribe<ViewActivationMessage>(this.OnViewActivation);
         this.Subscribe<ToolbarCommandMessage>();
         this.Subscribe<LanguageChangedMessage>();
     }
@@ -63,14 +62,15 @@ public sealed partial class ShellViewModel
         this.SetupWorkflow();
         this.Logger.Debug("OnViewLoaded SetupWorkflow complete");
 
-        //// Ready 
-        //this.toaster.Host = this.View.ToasterHost;
-        //this.toaster.Show(
-        //    this.Localize("Shell.Ready"), this.Localize("Shell.Greetings"),
-        //    5_000, InformationLevel.Info);
+        // Ready 
+        this.toaster.Host = this.View.ToasterHost;
+        this.toaster.Show(
+            this.Localize("Shell.Ready"), this.Localize("Shell.Greetings"),
+            5_000, InformationLevel.Info);
 
         this.isFirstActivation = true;
-        Select(this.qrCodeCreatorModel.IsFirstRun ? ActivatedView.Language : ActivatedView.Encoding);
+        // Select(this.qrCodeCreatorModel.IsFirstRun ? ActivatedView.Language : ActivatedView.Encoding);
+        Select(ActivatedView.Language);
 
         this.Logger.Debug("OnViewLoaded complete");
     }
@@ -106,7 +106,7 @@ public sealed partial class ShellViewModel
         {
             var vm = App.GetRequiredService<TViewModel>();
             vm.CreateViewAndBind();
-            selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm));
+            selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm, control));
         }
 
         SetupNoToolbar<EncodingViewModel, EncodingView>( ActivatedView.Encoding, view.EncodingButton);
@@ -122,8 +122,6 @@ public sealed partial class ShellViewModel
                 this.View.SelectionGroup,
                 selectableViews,
                 this.OnViewSelected);
-
-        // ViewSelector<ActivatedView>.Disable(ActivatedView.Puzzle); 
     }
 
     private void OnViewSelected(ActivatedView activatedView)

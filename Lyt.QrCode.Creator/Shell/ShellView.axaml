@@ -82,7 +82,7 @@
                     />
                 <Image
                     Stretch="UniformToFill"
-                    Source="\Assets\Images\puzzle.png"
+                    Source="\Assets\Images\qrcode.png"
                     Grid.Row="0" Grid.Column="0"
                     Width="64" Height="64"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -108,9 +108,9 @@
                     <glyphs:GlyphButton
                         x:Name="EncodingButton"
                         Style="{StaticResource NavigationIconButton}"
-                        GlyphSource="collections"
+                        GlyphSource="qrcode"
                         GlyphStrokeThickness="0"
-                        Text="{DynamicResource Shell.Collection}"
+                        Text="{DynamicResource Shell.Encoding}"
                         Command="{Binding OnEncoding}"
                         Group="{Binding ElementName=SelectionGroup}"
                         />
@@ -123,17 +123,6 @@
                         Command="{Binding OnLanguage}"
                         Group="{Binding ElementName=SelectionGroup}"
                         />
-                    <!-- 
-                    <glyphs:GlyphButton
-                        x:Name="IntroButton"
-                        Style="{StaticResource NavigationIconButton}"
-                        GlyphSource="arrow_up"
-                        GlyphStrokeThickness="0"
-                        Text="{DynamicResource Shell.About}"
-                        Command="{Binding OnInfo}"
-                        Group="{Binding ElementName=SelectionGroup}"
-                        />
-                    -->
                 </StackPanel>
 
                 <!-- Close tool bar - Aligned Right -->
@@ -156,7 +145,7 @@
                 <Grid
                     x:Name="ShellViewToolbar"
                     Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="999" Grid.RowSpan="1"
-                    Margin="280 0 0 0"
+                    Margin="440 0 0 0"
                     VerticalAlignment="Stretch" HorizontalAlignment="Left"
                     />
                 <!-- Do not add rows and/or columns to the toaster host-->
