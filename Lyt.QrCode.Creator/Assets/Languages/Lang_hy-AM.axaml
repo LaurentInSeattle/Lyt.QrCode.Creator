@@ -13,7 +13,7 @@
 
     <system:String x:Key="Shell.Play">Խաղալ</system:String>
 
-    <system:String x:Key="Shell.Collection">Հավաքածու</system:String>
+    <system:String x:Key="Shell.Encoding">Կոդավորում</system:String>
 
     <system:String x:Key="Shell.Settings">Կարգավորումներ</system:String>
 

@@ -13,7 +13,7 @@
 
     <system:String x:Key="Shell.Play">Παιχνίδι</system:String>
 
-    <system:String x:Key="Shell.Collection">Συλλογή</system:String>
+    <system:String x:Key="Shell.Encoding">Κωδικοποίηση</system:String>
 
     <system:String x:Key="Shell.Settings">Ρυθμίσεις</system:String>
 

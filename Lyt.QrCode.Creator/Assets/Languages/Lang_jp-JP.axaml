@@ -13,7 +13,7 @@
 
     <system:String x:Key="Shell.Play">遊ぶ</system:String>
 
-    <system:String x:Key="Shell.Collection">コレクション</system:String>
+    <system:String x:Key="Shell.Encoding">エンコーディング</system:String>
 
     <system:String x:Key="Shell.Settings">設定</system:String>
 

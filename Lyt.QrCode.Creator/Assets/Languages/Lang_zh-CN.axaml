@@ -13,7 +13,7 @@
 
     <system:String x:Key="Shell.Play">玩</system:String>
 
-    <system:String x:Key="Shell.Collection">收藏</system:String>
+    <system:String x:Key="Shell.Encoding">编码</system:String>
 
     <system:String x:Key="Shell.Settings">设置</system:String>
 

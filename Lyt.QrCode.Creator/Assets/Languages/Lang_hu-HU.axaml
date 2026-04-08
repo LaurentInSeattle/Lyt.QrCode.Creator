@@ -13,7 +13,7 @@
 
     <system:String x:Key="Shell.Play">Játék</system:String>
 
-    <system:String x:Key="Shell.Collection">Gyűjtemény</system:String>
+    <system:String x:Key="Shell.Encoding">Kódolás</system:String>
 
     <system:String x:Key="Shell.Settings">Beállítások elemre</system:String>
 

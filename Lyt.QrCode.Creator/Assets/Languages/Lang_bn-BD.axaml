@@ -13,7 +13,7 @@
 
     <system:String x:Key="Shell.Play">খেলা</system:String>
 
-    <system:String x:Key="Shell.Collection">সংগ্রহ</system:String>
+    <system:String x:Key="Shell.Encoding">এনকোডিং</system:String>
 
     <system:String x:Key="Shell.Settings">সেটিংস</system:String>
 

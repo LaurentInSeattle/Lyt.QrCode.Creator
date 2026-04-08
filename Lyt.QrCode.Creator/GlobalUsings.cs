@@ -102,3 +102,4 @@ global using Lyt.QrCode.Creator.Workflow.Encoding;
 global using Lyt.QrCode.Creator.Workflow.Language;
 // global using Lyt.QrCode.Creator.Workflow.Shared;
 // global using Lyt.QrCode.Creator.Utilities;
+

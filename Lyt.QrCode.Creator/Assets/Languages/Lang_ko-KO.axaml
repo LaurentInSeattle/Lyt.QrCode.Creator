@@ -13,7 +13,7 @@
 
     <system:String x:Key="Shell.Play">놀다</system:String>
 
-    <system:String x:Key="Shell.Collection">수집</system:String>
+    <system:String x:Key="Shell.Encoding">부호화</system:String>
 
     <system:String x:Key="Shell.Settings">설정</system:String>
 

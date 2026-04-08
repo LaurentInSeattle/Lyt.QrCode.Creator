@@ -13,7 +13,7 @@
 
     <system:String x:Key="Shell.Play">грати</system:String>
 
-    <system:String x:Key="Shell.Collection">Колекція</system:String>
+    <system:String x:Key="Shell.Encoding">Кодування</system:String>
 
     <system:String x:Key="Shell.Settings">Налаштування</system:String>
 
