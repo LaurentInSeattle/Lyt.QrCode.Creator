@@ -48,6 +48,33 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Workflow\Encoding\ContentForms\WifiView.axaml.cs">
+      <DependentUpon>WifiView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Workflow\Encoding\ContentForms\VCardView.axaml.cs">
+      <DependentUpon>VCardView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Workflow\Encoding\ContentForms\UrlView.axaml.cs">
+      <DependentUpon>UrlView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Workflow\Encoding\ContentForms\TextMessageView.axaml.cs">
+      <DependentUpon>TextMessageView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Workflow\Encoding\ContentForms\PhoneNumberView.axaml.cs">
+      <DependentUpon>PhoneNumberView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Workflow\Encoding\ContentForms\MeCardView.axaml.cs">
+      <DependentUpon>MeCardView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Workflow\Encoding\ContentForms\MailView.axaml.cs">
+      <DependentUpon>MailView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Workflow\Encoding\ContentForms\GeoLocationView.axaml.cs">
+      <DependentUpon>GeoLocationView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Workflow\Encoding\ContentForms\CalendarEventView.axaml.cs">
+      <DependentUpon>CalendarEventView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Workflow\Encoding\EncodingView.axaml.cs">
       <DependentUpon>EncodingView.axaml</DependentUpon>
     </Compile>
