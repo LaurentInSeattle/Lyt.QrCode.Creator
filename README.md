@@ -1,4 +1,5 @@
 # Lyt.QrCode.Creator
+
 Avalonia Application to create QR Codes 
 
-# Just started ~ Nothing works 
+# Just started ~ Nothing works just yet... 

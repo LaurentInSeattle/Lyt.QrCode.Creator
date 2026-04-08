@@ -90,6 +90,9 @@ global using Lyt.Utilities.Randomizing;
 
 //global using Lyt.ImageProcessing.Algorithms.ContrastEqualization;
 
+global using Lyt.QrCode.API;
+global using Lyt.QrCode.Content;
+
 global using Lyt.QrCode.Creator.Model;
 //global using Lyt.QrCode.Creator.Model.Infrastucture;
 //global using Lyt.QrCode.Creator.Model.Messaging;
