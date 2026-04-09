@@ -103,6 +103,7 @@ global using Lyt.QrCode.Creator.Messaging;
 global using Lyt.QrCode.Creator.Shell;
 global using Lyt.QrCode.Creator.Workflow.Encoding;
 global using Lyt.QrCode.Creator.Workflow.Encoding.ContentForms;
+global using Lyt.QrCode.Creator.Workflow.Encoding.DesignForms;
 global using Lyt.QrCode.Creator.Workflow.Language;
 // global using Lyt.QrCode.Creator.Workflow.Shared;
 // global using Lyt.QrCode.Creator.Utilities;

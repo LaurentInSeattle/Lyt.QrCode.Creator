@@ -10,6 +10,8 @@
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 
 	xmlns:shared="using:Lyt.QrCode.Creator.Controls"
+	xmlns:content="clr-namespace:Lyt.QrCode.Creator.Workflow.Encoding.ContentForms"
+	xmlns:design="clr-namespace:Lyt.QrCode.Creator.Workflow.Encoding.DesignForms"
 
 	Background="Transparent"
 	>
@@ -43,11 +45,10 @@
 					Text="{DynamicResource Settings.Services.Subtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
-						<Grid
-							Background="Transparent"
-							Width="400" Height="400"
-							>
-						</Grid>
+						<vm:ContentView 
+							x:Name="ContentView"
+							DataContext="{Binding ContentViewModel}"
+							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
@@ -55,10 +56,10 @@
 					Text="{DynamicResource Settings.Quota.Subtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
-						<Grid
-							Width="400" Height="300"
-							>
-						</Grid>
+						<design:FrameView
+							x:Name="FrameView"
+							DataContext="{Binding FrameViewModel}"
+							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
@@ -66,23 +67,10 @@
 					Text="{DynamicResource Settings.Os.Subtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
-						<Grid
-							Width="600" Height="150"
-							VerticalAlignment="Top"
-							>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="*" />
-								<ColumnDefinition Width="20" />
-								<ColumnDefinition Width="130" />
-							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="0" />
-								<RowDefinition Height="0" />
-								<RowDefinition Height="50" />
-								<RowDefinition Height="50" />
-								<RowDefinition Height="50" />
-							</Grid.RowDefinitions>
-						</Grid>
+						<design:LogoView
+							x:Name="LogoView"
+							DataContext="{Binding LogoViewModel}"
+							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
@@ -90,10 +78,10 @@
 					Text="{DynamicResource Settings.ReminderSubtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
-						<Grid
-							Width="460" Height="200"
-							>
-						</Grid>
+						<design:ImageView
+							x:Name="ImageView"
+							DataContext="{Binding ImageViewModel}"
+							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
@@ -101,10 +89,10 @@
 					Text="{DynamicResource Settings.ReminderSubtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
-						<Grid
-							Width="460" Height="200"
-							>
-						</Grid>
+						<design:ColorsView
+							x:Name="ColorsView"
+							DataContext="{Binding ColorsViewModel}"
+							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
@@ -112,10 +100,10 @@
 					Text="{DynamicResource Settings.ReminderSubtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
-						<Grid
-							Width="460" Height="200"
-							>
-						</Grid>
+						<design:ShapesView
+							x:Name="ShapesView"
+							DataContext="{Binding ShapesViewModel}"
+							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
@@ -123,10 +111,10 @@
 					Text="{DynamicResource Settings.ReminderSubtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
-						<Grid
-							Width="460" Height="200"
-							>
-						</Grid>
+						<design:SizeFormatView
+							x:Name="SizeFormatView"
+							DataContext="{Binding SizeFormatViewModel}"
+							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 			</WrapPanel>
