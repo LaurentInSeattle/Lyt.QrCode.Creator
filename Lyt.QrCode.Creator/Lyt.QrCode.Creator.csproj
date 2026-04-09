@@ -49,6 +49,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Workflow\Encoding\QrCodeView.axaml.cs">
+      <DependentUpon>QrCodeView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Workflow\Encoding\ContentForms\WifiView.axaml.cs">
       <DependentUpon>WifiView.axaml</DependentUpon>
     </Compile>
@@ -79,6 +82,10 @@
     <Compile Update="Workflow\Encoding\EncodingView.axaml.cs">
       <DependentUpon>EncodingView.axaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Workflow\Encoding\DesignForms\" />
   </ItemGroup>
 
 </Project>

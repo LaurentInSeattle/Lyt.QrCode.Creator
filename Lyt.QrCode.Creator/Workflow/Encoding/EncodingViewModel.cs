@@ -1,12 +1,19 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding;
 
+// See https://www.qr-code-generator.com/ 
+
+
 public sealed partial class EncodingViewModel : ViewModel<EncodingView>
 {
-    // private readonly JigsawModel JigsawModel;
+    [ObservableProperty]
+    public partial QrCodeViewModel QrCodeViewModel { get; set; }
 
-    public EncodingViewModel() // JigsawModel paletteDesignerModel)
+    private readonly QrCodeCreatorModel qrCodeCreatorModel;
+
+    public EncodingViewModel(QrCodeCreatorModel qrCodeCreatorModel) 
     {
-        // this.JigsawModel = paletteDesignerModel;
+        this.qrCodeCreatorModel = qrCodeCreatorModel;
+        this.QrCodeViewModel = new QrCodeViewModel(qrCodeCreatorModel);
     }
 
     public override void Activate(object? activationParameters)

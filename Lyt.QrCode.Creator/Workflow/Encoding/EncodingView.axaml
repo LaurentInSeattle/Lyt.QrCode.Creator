@@ -9,29 +9,137 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 
-	xmlns:panzoom="using:Lyt.Avalonia.Controls.PanZoom"
-	xmlns:interactions="using:Lyt.Avalonia.Mvvm.Behaviors"
+	xmlns:shared="using:Lyt.QrCode.Creator.Controls"
 
 	Background="Transparent"
 	>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="10" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="10" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="10" />
+			<ColumnDefinition Width="*" />  
+			<ColumnDefinition Width="10" />
+			<ColumnDefinition Width="400" />
+			<ColumnDefinition Width="10" />
 		</Grid.ColumnDefinitions>
-		<TextBlock
-			Grid.Column="0" Grid.Row="0" 
-			Margin="0"
-			Text="Encoding."
-			Theme="{StaticResource H1}"
-			TextAlignment="Center"
+
+		<ScrollViewer
+			Grid.Row="1" Grid.Column="1"
+			Margin="2"
+			Background="Transparent"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			ScrollViewer.VerticalScrollBarVisibility="Auto"
+			>
+			<WrapPanel
+				Background="Transparent"
+				>
+				<shared:ContainerControl
+					Title="Content"
+					Text="{DynamicResource Settings.Services.Subtitle}"
+					>
+					<shared:ContainerControl.ContainerControlContent>
+						<Grid
+							Background="Transparent"
+							Width="400" Height="400"
+							>
+						</Grid>
+					</shared:ContainerControl.ContainerControlContent>
+				</shared:ContainerControl>
+				<shared:ContainerControl
+					Title="Frame"
+					Text="{DynamicResource Settings.Quota.Subtitle}"
+					>
+					<shared:ContainerControl.ContainerControlContent>
+						<Grid
+							Width="400" Height="300"
+							>
+						</Grid>
+					</shared:ContainerControl.ContainerControlContent>
+				</shared:ContainerControl>
+				<shared:ContainerControl
+					Title="Center Logo"		
+					Text="{DynamicResource Settings.Os.Subtitle}"
+					>
+					<shared:ContainerControl.ContainerControlContent>
+						<Grid
+							Width="600" Height="150"
+							VerticalAlignment="Top"
+							>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="20" />
+								<ColumnDefinition Width="130" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="0" />
+								<RowDefinition Height="0" />
+								<RowDefinition Height="50" />
+								<RowDefinition Height="50" />
+								<RowDefinition Height="50" />
+							</Grid.RowDefinitions>
+						</Grid>
+					</shared:ContainerControl.ContainerControlContent>
+				</shared:ContainerControl>
+				<shared:ContainerControl
+					Title="Background Image"
+					Text="{DynamicResource Settings.ReminderSubtitle}"
+					>
+					<shared:ContainerControl.ContainerControlContent>
+						<Grid
+							Width="460" Height="200"
+							>
+						</Grid>
+					</shared:ContainerControl.ContainerControlContent>
+				</shared:ContainerControl>
+				<shared:ContainerControl
+					Title="Colours"
+					Text="{DynamicResource Settings.ReminderSubtitle}"
+					>
+					<shared:ContainerControl.ContainerControlContent>
+						<Grid
+							Width="460" Height="200"
+							>
+						</Grid>
+					</shared:ContainerControl.ContainerControlContent>
+				</shared:ContainerControl>
+				<shared:ContainerControl
+					Title="Shapes"
+					Text="{DynamicResource Settings.ReminderSubtitle}"
+					>
+					<shared:ContainerControl.ContainerControlContent>
+						<Grid
+							Width="460" Height="200"
+							>
+						</Grid>
+					</shared:ContainerControl.ContainerControlContent>
+				</shared:ContainerControl>
+				<shared:ContainerControl
+					Title="Image Size and Format"
+					Text="{DynamicResource Settings.ReminderSubtitle}"
+					>
+					<shared:ContainerControl.ContainerControlContent>
+						<Grid
+							Width="460" Height="200"
+							>
+						</Grid>
+					</shared:ContainerControl.ContainerControlContent>
+				</shared:ContainerControl>
+			</WrapPanel>
+		</ScrollViewer>
+		<vm:QrCodeView
+			x:Name="QrCodeView"
+			DataContext="{Binding QrCodeViewModel}"
+			Grid.Row="1" Grid.Column="3"
+			Margin="2"
+			Background="Transparent"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
+		<!--
+		-->
 	</Grid>
 </UserControl>
