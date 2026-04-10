@@ -6,6 +6,7 @@
     <Project Path="../Lyt.Avalonia/Lyt.Avalonia.Mvvm/Lyt.Avalonia.Mvvm.csproj" />
   </Folder>
   <Folder Name="/Framework/">
+    <Project Path="../Lyt.Framework/Lyt.CodeGenerators/Lyt.CodeGenerators.csproj" />
     <Project Path="../Lyt.Framework/Lyt.FileSystem/Lyt.FileSystem.csproj" />
     <Project Path="../Lyt.Framework/Lyt.Framework.Interfaces/Lyt.Framework.Interfaces.csproj" />
     <Project Path="../Lyt.Framework/Lyt.Model/Lyt.Model.csproj" />
