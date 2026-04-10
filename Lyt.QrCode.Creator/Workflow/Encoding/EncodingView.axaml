@@ -15,22 +15,44 @@
 
 	Background="Transparent"
 	>
+
+	<UserControl.Styles>
+		<Style Selector="GridSplitter.wide">
+			<Setter Property="ClipToBounds" Value="False"/>
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Border 
+						Width="16" 
+						Background="Transparent" IsHitTestVisible="True">
+						<Border BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								CornerRadius="{TemplateBinding CornerRadius}"
+								Background="{TemplateBinding Background}"
+								HorizontalAlignment="Center"
+								Width="2"/>
+					</Border>
+				</ControlTemplate>
+			</Setter>
+		</Style>
+	</UserControl.Styles>
+
 	<Grid> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="10" />
+			<RowDefinition Height="*" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="10" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="10" />
-			<ColumnDefinition Width="*" />  
-			<ColumnDefinition Width="10" />
-			<ColumnDefinition Width="400" />
+			<ColumnDefinition Width="*" MinWidth="400"/>  
+			<ColumnDefinition Width="16" /> 
+			<ColumnDefinition Width="500" MinWidth="400"/>
 			<ColumnDefinition Width="10" />
 		</Grid.ColumnDefinitions>
 
 		<ScrollViewer
-			Grid.Row="1" Grid.Column="1"
+			Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
 			Margin="2"
 			Background="Transparent"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
@@ -119,15 +141,48 @@
 				</shared:ContainerControl>
 			</WrapPanel>
 		</ScrollViewer>
-		<vm:QrCodeView
-			x:Name="QrCodeView"
-			DataContext="{Binding QrCodeViewModel}"
-			Grid.Row="1" Grid.Column="3"
-			Margin="2"
-			Background="Transparent"
-			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+		<GridSplitter
+			Classes="wide"
+			Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" 
+			MinWidth="2" 
+			Width="16" 
+			ResizeDirection="Columns"
+			ResizeBehavior="PreviousAndNext"
+			DragIncrement="2"
+			ShowsPreview="False"
+			Background="{StaticResource OrangePeel_1_100}" 
+			Opacity="0.55"
 			/>
-		<!--
-		-->
+
+		<shared:ContainerControl
+			Title="QR Code"
+			Text="{DynamicResource Settings.ReminderSubtitle}"
+			Grid.Row="1" Grid.Column="3"
+			>
+			<shared:ContainerControl.ContainerControlContent>
+				<vm:QrCodeView
+					x:Name="QrCodeView"
+					DataContext="{Binding QrCodeViewModel}"
+					Margin="2"
+					Background="Transparent"
+					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+					/>
+			</shared:ContainerControl.ContainerControlContent>
+		</shared:ContainerControl>
+		<shared:ContainerControl
+			Title="Test Image"
+			Text="{DynamicResource Settings.ReminderSubtitle}"
+			Grid.Row="2" Grid.Column="3"
+			>
+			<shared:ContainerControl.ContainerControlContent>
+				<vm:TestImageView
+					x:Name="TestImageView"
+					DataContext="{Binding TestImageViewModel}"
+					Margin="2"
+					Background="Transparent"
+					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+					/>
+			</shared:ContainerControl.ContainerControlContent>
+		</shared:ContainerControl>
 	</Grid>
 </UserControl>

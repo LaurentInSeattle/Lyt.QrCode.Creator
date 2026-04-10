@@ -70,6 +70,9 @@
     <Compile Update="Workflow\Encoding\ContentView.axaml.cs">
       <DependentUpon>ContentView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Workflow\Encoding\TestImageView.axaml.cs">
+      <DependentUpon>TestImageView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

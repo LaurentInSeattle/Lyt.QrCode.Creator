@@ -11,6 +11,9 @@ public sealed partial class EncodingViewModel : ViewModel<EncodingView>
     public partial QrCodeViewModel QrCodeViewModel { get; set; }
 
     [ObservableProperty]
+    public partial TestImageViewModel TestImageViewModel { get; set; }
+    
+    [ObservableProperty]
     public partial ContentViewModel ContentViewModel { get; set; }
 
     [ObservableProperty]
@@ -35,6 +38,7 @@ public sealed partial class EncodingViewModel : ViewModel<EncodingView>
     {
         this.qrCodeCreatorModel = qrCodeCreatorModel;
         this.QrCodeViewModel = new (qrCodeCreatorModel);
+        this.TestImageViewModel = new(qrCodeCreatorModel);
         this.ContentViewModel = new(qrCodeCreatorModel);
         this.FrameViewModel = new(qrCodeCreatorModel);
         this.LogoViewModel = new(qrCodeCreatorModel);

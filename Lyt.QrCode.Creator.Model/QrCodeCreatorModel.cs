@@ -7,7 +7,7 @@ using static Lyt.Persistence.FileManagerModel;
 public sealed partial class QrCodeCreatorModel : ModelBase
 {
     public const string DefaultLanguage = "fr-FR";
-    private const string JigsawModelFilename = "JigsawData";
+    private const string JigsawModelFilename = "QrCodeCreatorData";
 
     private static readonly QrCodeCreatorModel DefaultData =
         new()
