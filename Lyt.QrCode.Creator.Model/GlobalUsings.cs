@@ -32,6 +32,8 @@ global using Lyt.QrCode.Creator.Model;
 global using Lyt.QrCode.Creator.Model.Messaging;
 global using Lyt.QrCode.Creator.Model.Utilities;
 
+global using FluentValidation;
+
 global using Lyt.QrCode;
 global using Lyt.QrCode.API;
 global using Lyt.QrCode.Content;
