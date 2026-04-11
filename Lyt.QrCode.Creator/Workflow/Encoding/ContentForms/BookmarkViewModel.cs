@@ -1,17 +1,13 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding.ContentForms;
 
-public sealed partial class BookmarkViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<BookmarkView>
+public sealed partial class BookmarkViewModel(QrCodeCreatorModel qrCodeCreatorModel) : 
+    FormViewModel<BookmarkView>(qrCodeCreatorModel)
 {
-    private readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
-
     [ObservableProperty]
     public partial string Url { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string Title { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string ValidationMessage { get; set; } = string.Empty;
 
     partial void OnTitleChanged(string value)
     {
@@ -37,5 +33,4 @@ public sealed partial class BookmarkViewModel(QrCodeCreatorModel qrCodeCreatorMo
             Debug.WriteLine($"Exception thrown: {ex}");
         }
     }
-
 }

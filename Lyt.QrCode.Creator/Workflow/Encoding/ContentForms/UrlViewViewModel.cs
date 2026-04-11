@@ -1,27 +1,32 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding.ContentForms;
 
-public sealed partial class UrlViewModel : ViewModel<UrlView>
+public sealed partial class UrlViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<UrlView>
 {
-    private readonly QrCodeCreatorModel qrCodeCreatorModel;
-
-    public UrlViewModel(QrCodeCreatorModel qrCodeCreatorModel)
-    {
-        this.qrCodeCreatorModel = qrCodeCreatorModel;
-    }
+    private readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
 
     [ObservableProperty]
-    public partial string Url { get; set; }
+    public partial string Url { get; set; } = string.Empty;
 
-    public UrlViewModel() => this.Url = string.Empty;
+    [ObservableProperty]
+    public partial string ValidationMessage { get; set; } = string.Empty;
 
-    [RelayCommand]
-    public void Create()
+    partial void OnUrlChanged(string value)
     {
-        var content = new QrUrl(this.Url);
-        var result = Qr.EncodeToModules(content);
-        if (result.Success)
+        // Debug.WriteLine($"URL changed: {value}");
+    }
+
+    private void Submit()
+    {
+        try
         {
-            var modules = result.Result;
+            var content = new QrUrl(this.Url);
+            if (!this.qrCodeCreatorModel.SetContent(content))
+            {
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Exception thrown: {ex}");
         }
     }
 }
