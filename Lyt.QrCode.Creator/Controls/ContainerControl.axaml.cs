@@ -2,9 +2,30 @@ namespace Lyt.QrCode.Creator.Controls;
 
 public partial class ContainerControl : UserControl
 {
-    private bool isCollapsed; 
+    private bool isCollapsed;
 
-    public ContainerControl() => this.InitializeComponent();
+    public ContainerControl()
+    {
+        this.InitializeComponent();
+        this.ToggleCollapse();
+    }
+
+    public void ToggleCollapse()
+    {
+        var rows = this.rootGrid.RowDefinitions;
+        var contentRow = rows[2];
+        this.isCollapsed = !this.isCollapsed;
+        if (this.isCollapsed)
+        {
+            contentRow.Height = new GridLength(0);
+            this.glyphButton.GlyphSource = "chevron_down";
+        }
+        else
+        {
+            contentRow.Height = GridLength.Auto;
+            this.glyphButton.GlyphSource = "chevron_up";
+        }
+    }
 
     public static readonly StyledProperty<object?> ContainerControlContentProperty =
         AvaloniaProperty.Register<ContainerControl, object?>(nameof(ContainerControlContent), null);
@@ -119,20 +140,5 @@ public partial class ContainerControl : UserControl
         return newForeground;
     }
 
-    private void OnClick(object sender, RoutedEventArgs rea)
-    {
-        var rows = this.rootGrid.RowDefinitions;
-        var contentRow = rows[2];
-        this.isCollapsed = !this.isCollapsed;
-        if (this.isCollapsed)
-        {
-            contentRow.Height = new GridLength(0);
-            this.glyphButton.GlyphSource = "chevron_down";
-        }
-        else
-        {
-            contentRow.Height = GridLength.Auto;
-            this.glyphButton.GlyphSource = "chevron_up";
-        }
-    }
+    private void OnClick(object sender, RoutedEventArgs rea) => this.ToggleCollapse();
 }

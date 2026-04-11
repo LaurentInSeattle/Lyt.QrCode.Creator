@@ -63,6 +63,7 @@
 				Background="Transparent"
 				>
 				<shared:ContainerControl
+					x:Name="ContentContainer"
 					Title="Content"
 					Text="Select the type of content to use for your QR code, then populate the corresponding form."
 					>
