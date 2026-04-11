@@ -19,8 +19,18 @@ public sealed partial class QrCodeCreatorModel : ModelBase
 
     private bool ApiAction(Func<bool> action)
     {
-        this.IsUpdatePending = true;
+        if (!this.timeoutTimer.IsRunning)
+        {
+            this.timeoutTimer.Start();
+        }
+
         this.timeoutTimer.ResetTimeout();
-        return action();
+        bool success = action();
+        if (success)
+        {
+            this.IsUpdatePending = true;
+        }
+
+        return success;
     }
 }

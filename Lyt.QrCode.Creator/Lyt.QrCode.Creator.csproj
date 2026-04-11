@@ -49,31 +49,4 @@
     <ProjectReference Include="..\Lyt.QrCode.Creator.Model\Lyt.QrCode.Creator.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Workflow\Encoding\DesignForms\SizeFormatView.axaml.cs">
-      <DependentUpon>SizeFormatView.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Workflow\Encoding\DesignForms\ImageView.axaml.cs">
-      <DependentUpon>ImageView.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Workflow\Encoding\DesignForms\ShapesView.axaml.cs">
-      <DependentUpon>ShapesView.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Workflow\Encoding\DesignForms\ColorsView.axaml.cs">
-      <DependentUpon>ColorsView.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Workflow\Encoding\DesignForms\LogoView.axaml.cs">
-      <DependentUpon>LogoView.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Workflow\Encoding\DesignForms\FrameView.axaml.cs">
-      <DependentUpon>FrameView.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Workflow\Encoding\ContentView.axaml.cs">
-      <DependentUpon>ContentView.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Workflow\Encoding\TestImageView.axaml.cs">
-      <DependentUpon>TestImageView.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
 </Project>

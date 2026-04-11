@@ -88,15 +88,17 @@ global using Lyt.Utilities.Randomizing;
 
 #endregion Framework 
 
+global using Lyt.Validation;
+
 //global using Lyt.ImageProcessing.Algorithms.ContrastEqualization;
 
 global using Lyt.QrCode.API;
 global using Lyt.QrCode.Content;
 
 global using Lyt.QrCode.Creator.Model;
-//global using Lyt.QrCode.Creator.Model.Infrastucture;
-//global using Lyt.QrCode.Creator.Model.Messaging;
-//global using Lyt.QrCode.Creator.Model.Utilities;
+global using Lyt.QrCode.Creator.Model.Validation;
+global using Lyt.QrCode.Creator.Model.Messaging;
+global using Lyt.QrCode.Creator.Model.Utilities;
 
 //global using Lyt.QrCode.Creator.Interfaces;
 global using Lyt.QrCode.Creator.Messaging;
@@ -106,6 +108,7 @@ global using Lyt.QrCode.Creator.Workflow.Encoding.ContentForms;
 global using Lyt.QrCode.Creator.Workflow.Encoding.DesignForms;
 global using Lyt.QrCode.Creator.Workflow.Language;
 global using Lyt.QrCode.Creator.Workflow.Shared;
+
 
 // global using Lyt.QrCode.Creator.Utilities;
 

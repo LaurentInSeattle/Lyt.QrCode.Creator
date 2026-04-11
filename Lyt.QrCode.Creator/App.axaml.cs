@@ -29,6 +29,7 @@ public partial class App : ApplicationBase
         [
             // Services 
             App.LoggerService,
+            Service<IFocuser, Focuser>(),
             Service<IAnimationService, AnimationService>(),
             Service<ILocalizer, LocalizerModel>(),
             Service<IDialogService, DialogService >(),
