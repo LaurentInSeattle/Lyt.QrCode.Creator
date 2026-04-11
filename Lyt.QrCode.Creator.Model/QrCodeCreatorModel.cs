@@ -1,6 +1,7 @@
 ﻿namespace Lyt.QrCode.Creator.Model;
 
 using Lyt.Framework.Interfaces.Profiling;
+using Lyt.QrCode.Creator.Model.Utilities;
 
 using static Lyt.Persistence.FileManagerModel;
 
@@ -20,6 +21,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     private readonly ILocalizer localizer;
     private readonly IProfiler profiler; 
     private readonly FileId modelFileId;
+    private readonly TimeoutTimer timeoutTimer;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
@@ -43,6 +45,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
         this.localizer = localizer;
         this.profiler = profiler;
         this.modelFileId = new FileId(Area.User, Kind.Json, QrCodeCreatorModel.JigsawModelFilename);
+        this.timeoutTimer = new TimeoutTimer(this.OnModelUpdate, timeoutMilliseconds: 250);
         this.ShouldAutoSave = true;
     }
 
@@ -74,10 +77,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             // Copy all properties with attribute [JsonRequired]
             base.CopyJSonRequiredProperties<QrCodeCreatorModel>(model);
 
-            // Load the saved games and their thumbnails
-            this.profiler.StartTiming();  
-            Task.Run(this.LoadSavedGames);
-            this.profiler.EndTiming("JigsawModel.LoadSavedGames");
+            new ModelLoadedMessage().Publish();
             return Task.CompletedTask;
         }
         catch (Exception ex)
@@ -86,39 +86,6 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             this.Logger.Fatal(msg);
             throw new Exception("", ex);
         }
-    }
-
-    private void LoadSavedGames()
-    {
-        //void LoadSavedGame(string file, int _)
-        //{
-        //    try
-        //    {
-        //        // load game from disk and deserialize 
-        //        var fileId = new FileId(Area.User, Kind.Json, file);
-        //        Game game = this.fileManager.Load<Game>(fileId);
-
-        //        // load game image thumbnail 
-        //        var fileIdThumbnail = new FileId(Area.User, Kind.Binary, game.ThumbnailName);
-        //        byte[] thumbnailBytes = this.fileManager.Load<byte[]>(fileIdThumbnail);
-        //        lock (this.SavedGames)
-        //        {
-        //            this.SavedGames.Add(game.Name, game);
-        //            this.ThumbnailCache.Add(game.Name, thumbnailBytes);
-        //        }
-
-        //        Debug.WriteLine("Game and thumbnail loaded" + game.Name);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine("Game Load, Exception thrown: " + ex);
-        //    }
-        //}
-
-        //var files = this.fileManager.Enumerate(Area.User, Kind.Json, "Game_");
-        //Parallelize.ForEach(files, LoadSavedGame);
-
-        // new ModelLoadedMessage().Publish();
     }
 
     public override Task Save()
@@ -171,5 +138,16 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     {
         this.IsFirstRun = false;
         this.Save();
+    }
+
+    private void OnModelUpdate()
+    {
+        if (!this.IsUpdatePending)
+        {
+            return;
+        }
+
+        this.IsUpdatePending = false; 
+        new ModelChangedMessage().Publish();
     }
 }

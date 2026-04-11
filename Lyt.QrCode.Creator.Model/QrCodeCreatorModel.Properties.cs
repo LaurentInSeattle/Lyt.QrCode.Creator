@@ -18,6 +18,9 @@ public sealed partial class QrCodeCreatorModel : ModelBase
 
     #region Not serialized - No model changed event
 
+    [JsonIgnore]
+    public bool IsUpdatePending { get; set; } = false;
+
     // Content
 
     [JsonIgnore]

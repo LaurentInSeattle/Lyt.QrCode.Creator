@@ -1,12 +1,26 @@
 ﻿namespace Lyt.QrCode.Creator.Model;
 
-using static Lyt.Persistence.FileManagerModel;
-
 public sealed partial class QrCodeCreatorModel : ModelBase
 {
-    public bool IsDirty { get; private set; }
+    public bool SetContent(QrContent qrContent) =>
+        this.ApiAction(() =>
+        {
+            var result = Qr.EncodeToModules(qrContent);
+            if (result.Success)
+            {
+                this.QrCodeContentType = qrContent.GetType();
+                this.QrCodeContent = qrContent;
+                this.Modules = result.Result;
+                return true;
+            }
 
-    public bool IsActive { get; private set; }
+            return false;
+        });
 
-    public void GameIsActive(bool isActive = true) => this.IsActive = isActive;
+    private bool ApiAction(Func<bool> action)
+    {
+        this.IsUpdatePending = true;
+        this.timeoutTimer.ResetTimeout();
+        return action();
+    }
 }

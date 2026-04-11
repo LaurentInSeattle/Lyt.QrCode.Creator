@@ -2,14 +2,17 @@
 
 public sealed partial class BookmarkViewModel : ViewModel<BookmarkView>
 {
+    private readonly QrCodeCreatorModel qrCodeCreatorModel;
+
     [ObservableProperty]
     public partial string Url { get; set; } 
 
     [ObservableProperty]
     public partial string Title { get; set; }
 
-    public BookmarkViewModel()
+    public BookmarkViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     {
+        this.qrCodeCreatorModel = qrCodeCreatorModel;
         this.Url = string.Empty;
         this.Title = string.Empty;
     }
@@ -18,10 +21,8 @@ public sealed partial class BookmarkViewModel : ViewModel<BookmarkView>
     public void Create()
     {
         var content = new QrBookmark(this.Url, this.Title);
-        var result = Qr.EncodeToModules(content);
-        if (result.Success)
+        if (!this.qrCodeCreatorModel.SetContent(content))
         {
-            var modules = result.Result; 
         } 
     }
 }

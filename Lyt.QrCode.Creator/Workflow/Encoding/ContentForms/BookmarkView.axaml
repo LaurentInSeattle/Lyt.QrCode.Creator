@@ -24,7 +24,7 @@
 			Grid.Column="0" Grid.Row="0" 
 			Margin="0"
 			Text="Bookmark"
-			Theme="{StaticResource H1}"
+			Theme="{StaticResource H3}"
 			TextAlignment="Center"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>

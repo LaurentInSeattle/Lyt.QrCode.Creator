@@ -64,7 +64,7 @@
 				>
 				<shared:ContainerControl
 					Title="Content"
-					Text="{DynamicResource Settings.Services.Subtitle}"
+					Text="Select the type of content to use for your QR code, then populate the corresponding form."
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<vm:ContentView 

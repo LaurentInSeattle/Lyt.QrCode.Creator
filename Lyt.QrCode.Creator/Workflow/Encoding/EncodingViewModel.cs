@@ -3,48 +3,34 @@
 // See https://www.qr-code-generator.com/ 
 
 
-public sealed partial class EncodingViewModel : ViewModel<EncodingView>
+public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<EncodingView>
 {
-    private readonly QrCodeCreatorModel qrCodeCreatorModel;
+    private readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
 
     [ObservableProperty]
-    public partial QrCodeViewModel QrCodeViewModel { get; set; }
+    public partial QrCodeViewModel QrCodeViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
-    public partial TestImageViewModel TestImageViewModel { get; set; }
-    
-    [ObservableProperty]
-    public partial ContentViewModel ContentViewModel { get; set; }
+    public partial TestImageViewModel TestImageViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
-    public partial FrameViewModel FrameViewModel { get; set; }
+    public partial ContentViewModel ContentViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
-    public partial LogoViewModel LogoViewModel { get; set; }
+    public partial FrameViewModel FrameViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
-    public partial ImageViewModel ImageViewModel { get; set; }
+    public partial LogoViewModel LogoViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
-    public partial ColorsViewModel ColorsViewModel { get; set; }
+    public partial ImageViewModel ImageViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
-    public partial ShapesViewModel ShapesViewModel { get; set; }
+    public partial ColorsViewModel ColorsViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
-    public partial SizeFormatViewModel SizeFormatViewModel { get; set; }
+    public partial ShapesViewModel ShapesViewModel { get; set; } = new(qrCodeCreatorModel);
 
-    public EncodingViewModel(QrCodeCreatorModel qrCodeCreatorModel) 
-    {
-        this.qrCodeCreatorModel = qrCodeCreatorModel;
-        this.QrCodeViewModel = new (qrCodeCreatorModel);
-        this.TestImageViewModel = new(qrCodeCreatorModel);
-        this.ContentViewModel = new(qrCodeCreatorModel);
-        this.FrameViewModel = new(qrCodeCreatorModel);
-        this.LogoViewModel = new(qrCodeCreatorModel);
-        this.ImageViewModel = new(qrCodeCreatorModel);
-        this.ColorsViewModel = new(qrCodeCreatorModel);
-        this.ShapesViewModel = new(qrCodeCreatorModel);
-        this.SizeFormatViewModel = new(qrCodeCreatorModel);
-    }
+    [ObservableProperty]
+    public partial SizeFormatViewModel SizeFormatViewModel { get; set; } = new(qrCodeCreatorModel);
 }

@@ -2,6 +2,13 @@
 
 public sealed partial class UrlViewModel : ViewModel<UrlView>
 {
+    private readonly QrCodeCreatorModel qrCodeCreatorModel;
+
+    public UrlViewModel(QrCodeCreatorModel qrCodeCreatorModel)
+    {
+        this.qrCodeCreatorModel = qrCodeCreatorModel;
+    }
+
     [ObservableProperty]
     public partial string Url { get; set; }
 
