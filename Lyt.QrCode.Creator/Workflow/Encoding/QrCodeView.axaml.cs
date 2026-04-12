@@ -49,8 +49,8 @@ public partial class QrCodeView : View
                 var rect = new Rectangle
                 {
                     Fill = modules[i, j] ? Brushes.Black : Brushes.White,
-                    RadiusX = 2, 
-                    RadiusY = 2, 
+                    RadiusX = 8, 
+                    RadiusY = 8, 
                     Stroke = Brushes.Transparent,
                     StrokeThickness = 0,
                 };

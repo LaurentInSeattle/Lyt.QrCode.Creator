@@ -160,7 +160,7 @@
 			<shared:ContainerControl
 				x:Name="QrCodeContainer"
 				Title="QR Code"
-				Text="{DynamicResource Settings.ReminderSubtitle}"
+				Text="Download your generated QR Code here!"
 				>
 				<shared:ContainerControl.ContainerControlContent>
 					<vm:QrCodeView
@@ -174,7 +174,7 @@
 			</shared:ContainerControl>
 			<shared:ContainerControl
 				Title="Test Image"
-				Text="{DynamicResource Settings.ReminderSubtitle}"
+				Text="Test how reliably your QR code can be scanned in various lighting conditions."
 				>
 				<shared:ContainerControl.ContainerControlContent>
 					<vm:TestImageView

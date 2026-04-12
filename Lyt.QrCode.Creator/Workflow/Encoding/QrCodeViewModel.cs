@@ -17,10 +17,16 @@ public sealed partial class QrCodeViewModel : ViewModel<QrCodeView> , IRecipient
         this.HasData = false ;
     }
 
+    [RelayCommand]
+    public void OnSave()
+    {
+        // TODO : Implement save functionality
+    }
+
     public void Receive(ModelChangedMessage message)
         => Dispatch.OnUiThread(() => this.ReceiveOnUiThread(message));
 
-    public void ReceiveOnUiThread(ModelChangedMessage _)
+    private void ReceiveOnUiThread(ModelChangedMessage _)
     {
         Debug.WriteLine("Model changed message received in QrCodeViewModel");
         if (this.qrCodeCreatorModel.Modules.Length == 0)

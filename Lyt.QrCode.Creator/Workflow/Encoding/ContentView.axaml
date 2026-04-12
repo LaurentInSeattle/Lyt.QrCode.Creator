@@ -18,11 +18,19 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
+		<content:UrlView
+			Margin="0"
+			Grid.Column="0" Grid.Row="0" 
+			DataContext="{Binding UrlViewModel}"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			/>
+		<!-- Add more content forms here as needed 
 		<content:BookmarkView
 			Margin="0"
 			Grid.Column="0" Grid.Row="0" 
 			DataContext="{Binding BookmarkViewModel}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
+		-->
 	</Grid>
 </UserControl>

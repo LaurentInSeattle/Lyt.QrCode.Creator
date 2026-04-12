@@ -8,12 +8,20 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	>
-	<Grid> 
+	<Grid		
+		>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="80" />
+		</Grid.RowDefinitions>
 		<Grid
 			x:Name="FrameGrid"
+			Grid.Row="0"
 			IsVisible="{Binding HasData}"
-			ShowGridLines="True"
+			ShowGridLines="False"
 			> 
 			<Grid.RowDefinitions>
 				<RowDefinition Height="44" />
@@ -44,11 +52,27 @@
 		</Grid>
 		<TextBlock
 			IsVisible="{Binding !HasData}"
-			Margin="0"
+			Margin="0 20 0 20"
 			Text="- No Data Yet -"
 			Theme="{StaticResource Alert}"
 			TextAlignment="Center"
 			VerticalAlignment="Center" HorizontalAlignment="Stretch"
 			/>
+		<glyphs:GlyphButton
+			Style="{StaticResource ViewIconButton}"
+			IsDisabled="{Binding !HasData}"
+			HorizontalAlignment="Center" VerticalAlignment="Center"
+			Grid.Row="1"
+			Width="400" Height="52"
+			Margin="0 4 0 4"
+			FontSize="30"
+			GlyphAngle="90"
+			GlyphSource="next"
+			ButtonBackground="BorderlessRectangle"
+			GlyphStrokeThickness="0"
+			Text="Save QR Code Image"
+			Command="{Binding OnSave}"
+			/>
+			
 	</Grid>
 </UserControl>

@@ -25,7 +25,7 @@
 			Text="Web Page Link"
 			Theme="{StaticResource H3}"
 			TextAlignment="Center"
-			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			VerticalAlignment="Center" HorizontalAlignment="Stretch"
 			/>
 		<TextBox
 			x:Name="UrlTextBox"
