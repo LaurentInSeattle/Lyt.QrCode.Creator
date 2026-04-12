@@ -47,7 +47,7 @@
 			<ColumnDefinition Width="10" />
 			<ColumnDefinition Width="*" MinWidth="400"/>  
 			<ColumnDefinition Width="16" /> 
-			<ColumnDefinition Width="500" MinWidth="400"/>
+			<ColumnDefinition Width="840" MinWidth="400"/>
 			<ColumnDefinition Width="10" />
 		</Grid.ColumnDefinitions>
 
@@ -154,36 +154,38 @@
 			Background="{StaticResource OrangePeel_1_100}" 
 			Opacity="0.55"
 			/>
-
-		<shared:ContainerControl
-			Title="QR Code"
-			Text="{DynamicResource Settings.ReminderSubtitle}"
-			Grid.Row="1" Grid.Column="3"
-			>
-			<shared:ContainerControl.ContainerControlContent>
-				<vm:QrCodeView
-					x:Name="QrCodeView"
-					DataContext="{Binding QrCodeViewModel}"
-					Margin="2"
-					Background="Transparent"
-					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-					/>
-			</shared:ContainerControl.ContainerControlContent>
-		</shared:ContainerControl>
-		<shared:ContainerControl
-			Title="Test Image"
-			Text="{DynamicResource Settings.ReminderSubtitle}"
-			Grid.Row="2" Grid.Column="3"
-			>
-			<shared:ContainerControl.ContainerControlContent>
-				<vm:TestImageView
-					x:Name="TestImageView"
-					DataContext="{Binding TestImageViewModel}"
-					Margin="2"
-					Background="Transparent"
-					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-					/>
-			</shared:ContainerControl.ContainerControlContent>
-		</shared:ContainerControl>
+		<StackPanel
+			Grid.Row="1" Grid.RowSpan="2" Grid.Column="3"
+			>			
+			<shared:ContainerControl
+				x:Name="QrCodeContainer"
+				Title="QR Code"
+				Text="{DynamicResource Settings.ReminderSubtitle}"
+				>
+				<shared:ContainerControl.ContainerControlContent>
+					<vm:QrCodeView
+						x:Name="QrCodeView"
+						DataContext="{Binding QrCodeViewModel}"
+						Margin="2"
+						Background="Transparent"
+						VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+						/>
+				</shared:ContainerControl.ContainerControlContent>
+			</shared:ContainerControl>
+			<shared:ContainerControl
+				Title="Test Image"
+				Text="{DynamicResource Settings.ReminderSubtitle}"
+				>
+				<shared:ContainerControl.ContainerControlContent>
+					<vm:TestImageView
+						x:Name="TestImageView"
+						DataContext="{Binding TestImageViewModel}"
+						Margin="2"
+						Background="Transparent"
+						VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+						/>
+				</shared:ContainerControl.ContainerControlContent>
+			</shared:ContainerControl>
+		</StackPanel>
 	</Grid>
 </UserControl>

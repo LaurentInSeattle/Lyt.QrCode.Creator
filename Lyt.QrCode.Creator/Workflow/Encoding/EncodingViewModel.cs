@@ -38,5 +38,6 @@ public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
     {
         base.Activate(activationParameters);
         this.View.ContentContainer.ToggleCollapse();
-    } 
+        this.View.QrCodeContainer.ToggleCollapse();
+    }
 }
