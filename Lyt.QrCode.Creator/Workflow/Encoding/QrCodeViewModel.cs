@@ -48,7 +48,7 @@ public sealed partial class QrCodeViewModel :
             toaster.Show(
                 success ? "Success" : "Error",
                 message, 
-                success ? 10 : 30, 
+                success ? 10_000 : 30_000, 
                 success ? InformationLevel.Success : InformationLevel.Error);
         } 
     }
