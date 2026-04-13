@@ -1,20 +1,14 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding.ContentForms;
 
 public sealed partial class BookmarkViewModel(QrCodeCreatorModel qrCodeCreatorModel) :
-    FormViewModel<BookmarkView>(qrCodeCreatorModel)
+    FormViewModel<BookmarkView, BookmarkViewModel.Bookmark>(qrCodeCreatorModel, BookmarkValidator)
 {
     public sealed record class Bookmark(string Title = "", string Url = "")
     {
         public Bookmark() : this(string.Empty, string.Empty) { }
     }
 
-    [ObservableProperty]
-    public partial string Url { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string Title { get; set; } = string.Empty;
-
-    private readonly FormValidator<Bookmark> bookmarkValidator =
+    private static readonly FormValidator<Bookmark> BookmarkValidator =
         new(
             new(
                 FormValidPropertyName: "FormIsValid",
@@ -22,40 +16,23 @@ public sealed partial class BookmarkViewModel(QrCodeCreatorModel qrCodeCreatorMo
                 FocusFieldName: "TitleTextBox",
                 FieldValidators: [Validators.TitleValidator, Validators.UrlValidator]));
 
-    public override void OnViewLoaded()
-    {
-        base.OnViewLoaded();
+    [ObservableProperty]
+    public partial string Url { get; set; } = string.Empty;
 
-        // Need to clear the form when the view gets loaded so that the focus will be set 
-        this.bookmarkValidator.Clear(this);
-    }
+    [ObservableProperty]
+    public partial string Title { get; set; } = string.Empty;
 
-    partial void OnTitleChanged(string value) => this.Submit();
+    partial void OnTitleChanged(string value) => this.SubmitBookmark();
 
-    partial void OnUrlChanged(string value) => this.Submit();
+    partial void OnUrlChanged(string value) => this.SubmitBookmark();
 
-    private void Submit()
-    {
-        try
-        {
-            if (!this.bookmarkValidator.Validate(this).IsValid)
-            {
-                return;
-            }
-
-            if (this.bookmarkValidator.HasValue)
-            {
-                var bookmark = this.bookmarkValidator.Value;
-                var content = new QrBookmark(bookmark.Url, bookmark.Title);
-                if (!this.qrCodeCreatorModel.SetContent(content))
-                {
-                    Debug.WriteLine("Failed to set content");
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Exception thrown: {ex}");
-        }
-    }
+    private void SubmitBookmark()
+        => this.Submit(value =>
+         {
+             var content = new QrBookmark(value.Url, value.Title);
+             if (!this.qrCodeCreatorModel.SetContent(content))
+             {
+                 Debug.WriteLine("Failed to set content");
+             }
+         });
 }

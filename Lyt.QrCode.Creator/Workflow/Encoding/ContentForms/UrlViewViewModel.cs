@@ -1,7 +1,7 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding.ContentForms;
 
 public sealed partial class UrlViewModel(QrCodeCreatorModel qrCodeCreatorModel) : 
-    FormViewModel<UrlView>(qrCodeCreatorModel)
+    FormViewModel<UrlView, UrlViewModel.WebUrl>(qrCodeCreatorModel, WebUrlValidator)
 {
     public sealed record class WebUrl(string Url = "")
     {
@@ -11,7 +11,7 @@ public sealed partial class UrlViewModel(QrCodeCreatorModel qrCodeCreatorModel) 
     [ObservableProperty]
     public partial string Url { get; set; } = string.Empty;
 
-    private readonly FormValidator<WebUrl> webUrlValidator =
+    private static readonly FormValidator<WebUrl> WebUrlValidator =
         new(
             new(
                 FormValidPropertyName: "FormIsValid",
@@ -19,38 +19,13 @@ public sealed partial class UrlViewModel(QrCodeCreatorModel qrCodeCreatorModel) 
                 FocusFieldName: "UrlTextBox",
                 FieldValidators: [Validators.UrlValidator]));
 
-    public override void OnViewLoaded()
-    {
-        base.OnViewLoaded();
-
-        // Need to clear the form when the view gets loaded so that the focus will be set 
-        this.webUrlValidator.Clear(this);
-    }
-
-    partial void OnUrlChanged(string value) => this.Submit();
-
-    private void Submit()
-    {
-        try
-        {
-            if (!this.webUrlValidator.Validate(this).IsValid)
+    partial void OnUrlChanged(string value) 
+        => base.Submit( value =>
             {
-                return;
-            }
-
-            if (this.webUrlValidator.HasValue)
-            {
-                var webUrl = this.webUrlValidator.Value;
-                var content = new QrUrl(webUrl.Url);
+                var content = new QrUrl(value.Url);
                 if (!this.qrCodeCreatorModel.SetContent(content))
                 {
                     Debug.WriteLine("Failed to set content");
                 }
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Exception thrown: {ex}");
-        }
-    }
+            });
 }

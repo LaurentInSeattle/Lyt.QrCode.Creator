@@ -106,7 +106,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     // Size and Format 
 
     [JsonIgnore]
-    public int Scale { get; set; } = 16;
+    public int Scale { get; set; } = 12;
 
     [JsonIgnore]
     public OutputFormat OutputFormat { get; set; } = OutputFormat.Png;
