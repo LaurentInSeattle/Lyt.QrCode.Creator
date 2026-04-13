@@ -1,6 +1,8 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding;
 
-public sealed partial class QrCodeViewModel : ViewModel<QrCodeView> , IRecipient<ModelChangedMessage>
+public sealed partial class QrCodeViewModel : 
+    ViewModel<QrCodeView> , 
+    IRecipient<ModelChangedMessage>
 {
     private readonly QrCodeCreatorModel qrCodeCreatorModel;
 
@@ -20,7 +22,35 @@ public sealed partial class QrCodeViewModel : ViewModel<QrCodeView> , IRecipient
     [RelayCommand]
     public void OnSave()
     {
-        // TODO : Implement save functionality
+        if (!this.HasData)
+        {
+            return ;
+        }
+
+        bool success = false;
+        string message = string.Empty;
+        try
+        {
+            // Save to desktop or documents depending on model settings
+            string filePath = this.qrCodeCreatorModel.OutputFilePath();
+            this.View.FrameGrid.SaveAsImage(filePath);
+            message = $"QR code image saved to {filePath}";
+            success = true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Exception thrown when saving QR code image: {ex.Message}");
+            message = $"Failed to save QR code image: {ex.Message}";
+        }
+        finally
+        {
+            var toaster = App.GetRequiredService<IToaster>();
+            toaster.Show(
+                success ? "Success" : "Error",
+                message, 
+                success ? 10 : 30, 
+                success ? InformationLevel.Success : InformationLevel.Error);
+        } 
     }
 
     public void Receive(ModelChangedMessage message)

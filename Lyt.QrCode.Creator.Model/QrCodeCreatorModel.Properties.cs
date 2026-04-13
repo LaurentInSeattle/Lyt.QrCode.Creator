@@ -109,7 +109,21 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public int Scale { get; set; } = 12;
 
     [JsonIgnore]
+    public OutputLocation OutputLocation { get; set; } = OutputLocation.Desktop;
+
+    [JsonIgnore]
     public OutputFormat OutputFormat { get; set; } = OutputFormat.Png;
+
+    [JsonIgnore]
+    public string OutputFileName { get; set; } = "QR-Code";
+
+    public string OutputFilePath()
+    {
+        string rootPath = this.OutputLocation.FolderPath();
+        string fileName = this.OutputFileName;
+        string extension = this.OutputFormat.FileExtension();
+        return Path.Combine(rootPath, $"{fileName}.{extension}");
+    }
 
     #endregion Not serialized - No model changed event
 
