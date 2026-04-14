@@ -4,6 +4,8 @@
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
     >
 
+    <system:Double x:Key="TextControlPlaceholderOpacity">0.75</system:Double>
+
     <system:Double x:Key="Title.FontSize">32</system:Double>
     <system:Double x:Key="H1.FontSize">28</system:Double>
     <system:Double x:Key="H2.FontSize">24</system:Double>

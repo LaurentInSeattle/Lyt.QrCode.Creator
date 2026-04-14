@@ -15,7 +15,7 @@
 			<RowDefinition Height="60" />
 			<RowDefinition Height="40" />
 			<RowDefinition Height="20" />
-			<RowDefinition Height="56" />
+			<RowDefinition Height="40" />
 			<RowDefinition Height="20" />
 			<RowDefinition Height="56" />
 		</Grid.RowDefinitions>
@@ -35,7 +35,7 @@
 			Grid.Row="1"
 			VerticalContentAlignment="Center" 
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-			PlaceholderText="Latitude"
+			PlaceholderText="Latitude (degrees: from -90 to +90)"
 			MaxLength="40"
 			Text="{Binding Latitude}"
 			Margin="40 0 20 0"
@@ -45,7 +45,7 @@
 			Grid.Row="3"
 			VerticalContentAlignment="Center" 
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-			PlaceholderText="Longitude"
+			PlaceholderText="Longitude (degrees: from -180 to +180)"
 			MaxLength="40"
 			Text="{Binding Longitude}"
 			Margin="40 0 20 0"

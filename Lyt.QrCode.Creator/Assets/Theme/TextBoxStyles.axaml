@@ -19,8 +19,13 @@
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+        <Setter Property="PlaceholderForeground" Value="{StaticResource LightAqua_0_120}" /> 
     </Style>
 
+    <Style Selector="TextBox /template/ TextBlock#PART_Placeholder">
+        <Setter Property="FontStyle" Value="Italic" />
+    </Style>
+    
     <Style Selector="TextBox /template/ Border#PART_BorderElement">
         <Setter Property="BorderBrush" Value="{StaticResource PastelOrchid_0_040}"/>
         <Setter Property="Background" Value="Transparent"/>

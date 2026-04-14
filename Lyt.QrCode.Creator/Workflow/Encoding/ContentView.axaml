@@ -19,23 +19,20 @@
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
-		<content:UrlView
-			Margin="0"
-			Grid.Column="0" Grid.Row="0" 
-			DataContext="{Binding UrlViewModel}"
-			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-			/>
-
-		<!-- MUST implement data conversions in Form validators
 		<content:GeoLocationView
 			Margin="0"
 			Grid.Column="0" Grid.Row="0" 
 			DataContext="{Binding GeoLocationViewModel}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
-		-->
 
 		<!-- Add more content forms here as needed 
+		<content:UrlView
+			Margin="0"
+			Grid.Column="0" Grid.Row="0" 
+			DataContext="{Binding UrlViewModel}"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			/>
 		<content:BookmarkView
 			Margin="0"
 			Grid.Column="0" Grid.Row="0" 
