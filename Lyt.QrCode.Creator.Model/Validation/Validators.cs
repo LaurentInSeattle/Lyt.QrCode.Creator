@@ -2,15 +2,6 @@
 
 public static class Validators
 {
-    public static readonly FieldValidatorParameters<string> TitleValidatorParameters =
-        new(
-            Validator: new Validators.BasicString(),
-            SourcePropertyName: "Title",
-            MessagePropertyName: "ValidationMessage");
-
-    public static readonly FieldValidator<string> TitleValidator =
-        new(TitleValidatorParameters);
-
     public class BasicString : AbstractValidator<string>
     {
         public BasicString()
@@ -21,6 +12,15 @@ public static class Validators
                 .MaximumLength(80).WithMessage("Too long.");
         }
     }
+
+    public static readonly FieldValidatorParameters<string> TitleValidatorParameters =
+        new(
+            Validator: new Validators.BasicString(),
+            SourcePropertyName: "Title",
+            MessagePropertyName: "ValidationMessage");
+
+    public static readonly FieldValidator<string> TitleValidator =
+        new(TitleValidatorParameters);
 
     public static readonly FieldValidatorParameters<string> UrlValidatorParameters =
         new(
@@ -44,15 +44,69 @@ public static class Validators
         }
     }
 
-    public class Email : AbstractValidator<string>
+    public class LatitudeString : AbstractValidator<string>
     {
-        public Email()
+        public LatitudeString()
         {
             this.RuleFor(x => x)
-                .NotEmpty().WithMessage("Your email cannot be empty")
-                .EmailAddress().WithMessage("This email is invalid or malformed.");
+                .NotEmpty().WithMessage("Latitude field cannot be empty.")
+                .MinimumLength(1).WithMessage("Too short.")
+                .MaximumLength(40).WithMessage("Too long.")
+                .Must(x =>
+                    double.TryParse(x, out double value) &&
+                    !double.IsNaN(value) &&
+                    double.IsFinite(value)).WithMessage("Latitude must be a valid number.")
+                .Must(x => 
+                    double.TryParse(x, out double value) &&
+                    value >= -90.0 && value <= 90.0).WithMessage("Latitude must be between -90.0 and 90.0 degrees.");
         }
     }
+
+    public static readonly FieldValidatorParameters<string> LatitudeValidatorParameters =
+        new(
+            Validator: new Validators.LatitudeString(),
+            SourcePropertyName: "Latitude",
+            MessagePropertyName: "ValidationMessage");
+
+    public static readonly FieldValidator<string> Latitude =
+        new(LatitudeValidatorParameters);
+
+    public class LongitudeString : AbstractValidator<string>
+    {
+        public LongitudeString()
+        {
+            this.RuleFor(x => x)
+                .NotEmpty().WithMessage("Longitude field cannot be empty.")
+                .MinimumLength(1).WithMessage("Too short.")
+                .MaximumLength(40).WithMessage("Too long.")
+                .Must(x =>
+                    double.TryParse(x, out double value) &&
+                    !double.IsNaN(value) &&
+                    double.IsFinite(value)).WithMessage("Longitude must be a valid number.")
+                .Must(x =>
+                    double.TryParse(x, out double value) &&
+                    value >= -180.0 && value <= 180.0).WithMessage("Longitude must be between -180.0 and 180.0 degrees");
+        }
+    }
+
+    public static readonly FieldValidatorParameters<string> LongitudeValidatorParameters =
+        new(
+            Validator: new Validators.LongitudeString(),
+            SourcePropertyName: "Longitude",
+            MessagePropertyName: "ValidationMessage");
+
+    public static readonly FieldValidator<string> Longitude =
+        new(LongitudeValidatorParameters);
+
+    //public class Email : AbstractValidator<string>
+    //{
+    //    public Email()
+    //    {
+    //        this.RuleFor(x => x)
+    //            .NotEmpty().WithMessage("Your email cannot be empty")
+    //            .EmailAddress().WithMessage("This email is invalid or malformed.");
+    //    }
+    //}
 
     //public class Password : AbstractValidator<string>
     //{
