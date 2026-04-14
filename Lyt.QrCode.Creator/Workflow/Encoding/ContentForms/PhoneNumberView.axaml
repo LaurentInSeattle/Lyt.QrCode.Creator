@@ -12,21 +12,40 @@
 	<Grid> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="60" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="40" />
+			<RowDefinition Height="20" />
+			<RowDefinition Height="56" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="600" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Grid.Column="0" Grid.Row="0" 
+			Grid.Column="0" Grid.Row="0"	
 			Margin="0"
 			Text="Phone Number"
-			Theme="{StaticResource H1}"
+			Theme="{StaticResource H3}"
 			TextAlignment="Center"
+			VerticalAlignment="Center" HorizontalAlignment="Stretch"
+			/>
+		<TextBox
+			x:Name="PhoneNumberTextBox"
+			Grid.Row="1"
+			VerticalContentAlignment="Center" 
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Enter a valid phone number."
+			MaxLength="40"
+			Text="{Binding PhoneNumber}"
+			Margin="40 0 20 0"
+			/>
+		<TextBlock
+			Grid.Row="3"
+			Text="{Binding ValidationMessage}"
+			HorizontalAlignment="Center" VerticalAlignment="Center"
+			FontSize="{StaticResource SmallTextFontSize}"
+			FontWeight="Normal"
+			Foreground="{StaticResource PastelOrchid_1_080}"
+			TextWrapping="Wrap"
+			Margin="40 0 20 0"
 			/>
 	</Grid>
 </UserControl>

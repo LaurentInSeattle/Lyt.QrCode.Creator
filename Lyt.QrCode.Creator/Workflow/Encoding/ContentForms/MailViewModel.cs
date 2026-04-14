@@ -1,11 +1,33 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding.ContentForms;
 
-public sealed partial class MailViewModel : ViewModel<MailView>
+public sealed partial class MailViewModel(QrCodeCreatorModel qrCodeCreatorModel) :
+    FormViewModel<MailView, MailViewModel.Mail>(qrCodeCreatorModel, MailValidator)
 {
-    private readonly QrCodeCreatorModel qrCodeCreatorModel;
-
-    public MailViewModel(QrCodeCreatorModel qrCodeCreatorModel)
+    public sealed record class Mail(string EmailAddress = "")
     {
-        this.qrCodeCreatorModel = qrCodeCreatorModel;
+        public Mail() : this(string.Empty) { }
     }
+
+    private static readonly FormValidator<Mail> MailValidator =
+        new(
+            new(
+                FormValidPropertyName: "FormIsValid",
+                MessagePropertyName: "ValidationMessage",
+                FocusFieldName: "EmailAddress",
+                FieldValidators: [Validators.EmailAddress]));
+
+    [ObservableProperty]
+    public partial string EmailAddress { get; set; } = string.Empty;
+
+    partial void OnEmailAddressChanged(string value) => this.SubmitEmailAddress();
+
+    private void SubmitEmailAddress()
+        => this.Submit(value =>
+        {
+            var content = new QrMail(value.EmailAddress);
+            if (!this.qrCodeCreatorModel.SetContent(content))
+            {
+                Debug.WriteLine("Failed to set content");
+            }
+        });
 }

@@ -19,14 +19,27 @@
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
+		<content:PhoneNumberView
+			Margin="0"
+			Grid.Column="0" Grid.Row="0"	
+			DataContext="{Binding PhoneNumberViewModel}"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			/>
+
+		<!-- Add more content forms here as needed 
+		<content:MailView
+			Margin="0"
+			Grid.Column="0" Grid.Row="0"	
+			DataContext="{Binding MailViewModel}"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			/>
+
 		<content:GeoLocationView
 			Margin="0"
 			Grid.Column="0" Grid.Row="0" 
 			DataContext="{Binding GeoLocationViewModel}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
-
-		<!-- Add more content forms here as needed 
 		<content:UrlView
 			Margin="0"
 			Grid.Column="0" Grid.Row="0" 

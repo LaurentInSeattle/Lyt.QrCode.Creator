@@ -98,15 +98,49 @@ public static class Validators
     public static readonly FieldValidator<string> Longitude =
         new(LongitudeValidatorParameters);
 
-    //public class Email : AbstractValidator<string>
-    //{
-    //    public Email()
-    //    {
-    //        this.RuleFor(x => x)
-    //            .NotEmpty().WithMessage("Your email cannot be empty")
-    //            .EmailAddress().WithMessage("This email is invalid or malformed.");
-    //    }
-    //}
+    public class Email : AbstractValidator<string>
+    {
+        public Email()
+        {
+            this.RuleFor(x => x)
+                .NotEmpty().WithMessage("This email address cannot be empty")
+                .EmailAddress().WithMessage("This email address is invalid or malformed.");
+        }
+    }
+
+    public static readonly FieldValidator<string> EmailAddress =
+        new(new(
+            Validator: new Validators.Email(),
+            SourcePropertyName: "EmailAddress",
+            MessagePropertyName: "ValidationMessage"));
+
+    public static string CleanPhoneNumber(string x)
+    {
+        string y = x.Replace("(", string.Empty);
+        y = y.Replace(")", string.Empty);
+        y = y.Replace("-", string.Empty);
+        y = y.Replace(" ", string.Empty);
+        return y.Trim();
+    }
+
+    public class Phone : AbstractValidator<string>
+    {
+        public Phone()
+        {
+
+            this.RuleFor(x => CleanPhoneNumber(x))
+                .NotEmpty().WithMessage("This phone number cannot be empty")
+                .MinimumLength(4).WithMessage("Too short.")
+                .MaximumLength(40).WithMessage("Too long.")
+                .Matches( @"^\+?[1-9][0-9]{7,14}$") .WithMessage("This phone number is invalid or malformed.");
+        }
+    }
+
+    public static readonly FieldValidator<string> PhoneNumber =
+        new(new(
+            Validator: new Validators.Phone(),
+            SourcePropertyName: "PhoneNumber",
+            MessagePropertyName: "ValidationMessage"));
 
     //public class Password : AbstractValidator<string>
     //{
@@ -118,15 +152,6 @@ public static class Validators
     //            .MaximumLength(20).WithMessage("Your password length must not exceed 20.")
     //            .Matches(@"[a-z]+").WithMessage("Your password must contain at least one lowercase letter.")
     //            .Matches(@"[0-9]+").WithMessage("Your password must contain at least one number.");
-    //    }
-    //}
-
-    //public class CredentialsMatchingPasswords : AbstractValidator<Credentials>
-    //{
-    //    public CredentialsMatchingPasswords()
-    //    {
-    //        this.RuleFor(x => x.Password)
-    //            .Equal(x => x.PasswordAgain).WithMessage("Passwords must be identical.");
     //    }
     //}
 }
