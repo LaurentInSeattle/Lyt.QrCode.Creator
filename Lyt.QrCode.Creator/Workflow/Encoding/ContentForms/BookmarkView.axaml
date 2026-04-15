@@ -24,10 +24,6 @@
 		<TextBlock
 			Grid.Column="0" Grid.Row="0" 
 			Text="Note: Bookmarks are not supported on Apple iPhones (iOS)"
-			Theme="{StaticResource Medium}"
-			Margin="40 0 20 0"
-			TextAlignment="Left"
-			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 		<TextBox
 			x:Name="TitleTextBox"

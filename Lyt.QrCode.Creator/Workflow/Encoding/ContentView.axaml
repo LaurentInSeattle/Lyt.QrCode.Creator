@@ -27,7 +27,7 @@
 			x:Name="ContentComboBox"
 			ItemsSource="{Binding SupportedContent}"
 			SelectedIndex="{Binding SelectedContentIndex}"
-			Width="480" Height="60" MaxDropDownHeight="480"
+			Width="420" Height="52" MaxDropDownHeight="480"
 			>
 			<ComboBox.ItemsPanel>
 				<ItemsPanelTemplate>
@@ -40,6 +40,14 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>		
+
+		<content:WifiView
+			x:Name="WifiView"
+			Grid.Row="1" 
+			Margin="0"
+			DataContext="{Binding WifiViewModel}"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			/>
 
 		<content:PhoneNumberView
 			x:Name="PhoneNumberView"

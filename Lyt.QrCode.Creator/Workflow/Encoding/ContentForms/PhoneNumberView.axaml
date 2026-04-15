@@ -11,7 +11,7 @@
 	>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="0" />
+			<RowDefinition Height="40" />
 			<RowDefinition Height="40" />
 			<RowDefinition Height="20" />
 			<RowDefinition Height="56" />
@@ -21,11 +21,11 @@
 		</Grid.ColumnDefinitions>
 		<TextBlock
 			Grid.Column="0" Grid.Row="0"	
-			Margin="0"
-			Text="Phone Number"
-			Theme="{StaticResource H3}"
-			TextAlignment="Center"
-			VerticalAlignment="Center" HorizontalAlignment="Stretch"
+			Text="No need to type spaces and symbols such as + ) - (, etc."
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 		<TextBox
 			x:Name="PhoneNumberTextBox"

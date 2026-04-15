@@ -2,6 +2,8 @@
 
 public static class Validators
 {
+    public class AlwaysValid<T> : AbstractValidator<T> { }
+
     public class BasicString : AbstractValidator<string>
     {
         public BasicString()
@@ -142,16 +144,16 @@ public static class Validators
             SourcePropertyName: "PhoneNumber",
             MessagePropertyName: "ValidationMessage"));
 
-    //public class Password : AbstractValidator<string>
-    //{
-    //    public Password()
-    //    {
-    //        this.RuleFor(x => x)
-    //            .NotEmpty().WithMessage("Your password cannot be empty")
-    //            .MinimumLength(10).WithMessage("Your password length must be at least 10.")
-    //            .MaximumLength(20).WithMessage("Your password length must not exceed 20.")
-    //            .Matches(@"[a-z]+").WithMessage("Your password must contain at least one lowercase letter.")
-    //            .Matches(@"[0-9]+").WithMessage("Your password must contain at least one number.");
-    //    }
-    //}
+    public class Password : AbstractValidator<string>
+    {
+        public Password()
+        {
+            this.RuleFor(x => x)
+                .NotEmpty().WithMessage("Your password cannot be empty")
+                .MinimumLength(10).WithMessage("Your password length must be at least 10.")
+                .MaximumLength(20).WithMessage("Your password length must not exceed 20.")
+                .Matches(@"[a-z]+").WithMessage("Your password must contain at least one lowercase letter.")
+                .Matches(@"[0-9]+").WithMessage("Your password must contain at least one number.");
+        }
+    }
 }

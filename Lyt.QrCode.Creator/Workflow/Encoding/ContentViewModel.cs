@@ -51,7 +51,8 @@ public sealed partial class ContentViewModel(QrCodeCreatorModel qrCodeCreatorMod
             this.isInitializing = true; 
             this.SupportedContent = 
                 [
-                    new(this.View.UrlView, "Web Page (URL)", "preview_link") ,
+                    new(this.View.UrlView, "Web Page Link (URL)", "preview_link") ,
+                    new(this.View.WifiView, "Wi-Fi Configuration", "wifi_1") ,
                     new(this.View.MailView, "Email Address", "mail_read") ,
                     new(this.View.GeoLocationView, "Geo Location", "location") ,
                     new(this.View.PhoneNumberView, "Phone Number", "phone") ,
@@ -61,7 +62,6 @@ public sealed partial class ContentViewModel(QrCodeCreatorModel qrCodeCreatorMod
                     //new ContentInfoViewModel(this.View.MeCardView, "MeCard", "MeCard.png") ,
                     //new ContentInfoViewModel(this.View.TextMessageView, "Text Message", "TextMessage.png") ,
                     //new ContentInfoViewModel(this.View.VCardView, "VCard", "VCard.png") ,
-                    //new ContentInfoViewModel(this.View.WifiView, "Wi-Fi", "Wifi.png") ,
                 ];
             foreach(var content in this.SupportedContent)
             {
