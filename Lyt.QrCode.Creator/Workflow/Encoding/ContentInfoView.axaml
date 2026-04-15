@@ -1,0 +1,38 @@
+<UserControl 
+	x:Class="Lyt.QrCode.Creator.Workflow.Encoding.ContentInfoView"
+	xmlns:vm="clr-namespace:Lyt.QrCode.Creator.Workflow.Encoding"
+	x:DataType="vm:ContentInfoViewModel" 
+	
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
+	>
+	<Grid
+		Height="52"
+		>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="380" />
+			<ColumnDefinition Width="60" />
+		</Grid.ColumnDefinitions>
+		<TextBlock
+			Grid.Column="0"
+			Margin="4"
+			Text="{Binding Name}"
+			Theme="{StaticResource Data}"
+			FontSize ="{StaticResource H3.FontSize}"
+			FontStyle="Normal"
+			Foreground="{StaticResource Secondary.TextColor}"
+			/>
+		<glyphs:SvgIcon 
+			Grid.Column="1"
+			Width="44" Height="44"
+			StrokeThickness="0.10"
+			Source="{Binding IconName}"
+			Foreground="{StaticResource Secondary.TextColor}"
+			/>
+	</Grid>
+</UserControl>

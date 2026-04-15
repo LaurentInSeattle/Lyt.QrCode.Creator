@@ -65,7 +65,7 @@
 				<shared:ContainerControl
 					x:Name="ContentContainer"
 					Title="Content"
-					Text="Select the type of content to use for your QR code, then populate the corresponding form."
+					Text="Select the type of content to include in your QR code, then populate the corresponding form."
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<vm:ContentView 

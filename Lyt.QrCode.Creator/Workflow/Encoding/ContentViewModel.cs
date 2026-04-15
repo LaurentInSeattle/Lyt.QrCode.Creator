@@ -3,6 +3,14 @@
 public sealed partial class ContentViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<ContentView>
 {
     private readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
+    private View? currentSelectedView ;
+    private bool isInitializing;
+
+    [ObservableProperty]
+    public partial List<ContentInfoViewModel> SupportedContent { get; set; } = [];
+
+    [ObservableProperty]
+    public partial int SelectedContentIndex { get; set; }
 
     [ObservableProperty]
     public partial BookmarkViewModel BookmarkViewModel { get; set; } = new(qrCodeCreatorModel);
@@ -33,4 +41,56 @@ public sealed partial class ContentViewModel(QrCodeCreatorModel qrCodeCreatorMod
 
     [ObservableProperty]
     public partial WifiViewModel WifiViewModel { get; set; } = new(qrCodeCreatorModel);
+
+    public override void OnViewLoaded() 
+    {
+        base.OnViewLoaded(); 
+
+        if( this.SupportedContent.Count == 0)
+        {
+            this.isInitializing = true; 
+            this.SupportedContent = 
+                [
+                    new(this.View.UrlView, "Web Page (URL)", "preview_link") ,
+                    new(this.View.MailView, "Email Address", "mail_read") ,
+                    new(this.View.GeoLocationView, "Geo Location", "location") ,
+                    new(this.View.PhoneNumberView, "Phone Number", "phone") ,
+                    new(this.View.BookmarkView, "Web Page Bookmark", "bookmark") ,
+
+                    //new ContentInfoViewModel(this.View.CalendarEventView, "Calendar Event", "CalendarEvent.png") ,
+                    //new ContentInfoViewModel(this.View.MeCardView, "MeCard", "MeCard.png") ,
+                    //new ContentInfoViewModel(this.View.TextMessageView, "Text Message", "TextMessage.png") ,
+                    //new ContentInfoViewModel(this.View.VCardView, "VCard", "VCard.png") ,
+                    //new ContentInfoViewModel(this.View.WifiView, "Wi-Fi", "Wifi.png") ,
+                ];
+            foreach(var content in this.SupportedContent)
+            {
+                content.TargetView.IsVisible = false; 
+            }
+
+            this.isInitializing = false;
+
+            // Force property changed so that we show something at first init 
+            this.SelectedContentIndex = 1;
+            this.SelectedContentIndex = 0;
+        }
+    }
+
+    partial void OnSelectedContentIndexChanged(int value)
+    {
+        // Do not change content when initializing 
+        if (this.isInitializing)
+        {
+            return;
+        }
+
+        if(this.currentSelectedView is not null)
+        {
+            this.currentSelectedView.IsVisible = false; 
+        }
+
+        var selectedView = this.SupportedContent[value].TargetView;
+        selectedView.IsVisible = true;
+        this.currentSelectedView = selectedView; 
+    }
 }

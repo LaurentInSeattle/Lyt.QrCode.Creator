@@ -49,4 +49,10 @@
     <ProjectReference Include="..\Lyt.QrCode.Creator.Model\Lyt.QrCode.Creator.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Workflow\Encoding\ContentInfoView.axaml.cs">
+      <DependentUpon>ContentInfoView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

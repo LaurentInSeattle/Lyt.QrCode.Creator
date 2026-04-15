@@ -24,11 +24,11 @@
 		</Grid.ColumnDefinitions>
 		<TextBlock
 			Grid.Column="0" Grid.Row="0" 
-			Margin="0"
-			Text="Geo Location"
-			Theme="{StaticResource H3}"
-			TextAlignment="Center"
-			VerticalAlignment="Center" HorizontalAlignment="Stretch"
+			Text="Share location or provide directions."
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 		<TextBox
 			x:Name="LatitudeTextBox"

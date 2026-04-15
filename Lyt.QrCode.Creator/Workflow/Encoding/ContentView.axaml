@@ -13,45 +13,72 @@
 	>
 	<Grid> 
 		<Grid.RowDefinitions>
+			<RowDefinition Height="84" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
+		<ComboBox
+			Grid.Row="0" 
+			Margin="40 0 20 0"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			x:Name="ContentComboBox"
+			ItemsSource="{Binding SupportedContent}"
+			SelectedIndex="{Binding SelectedContentIndex}"
+			Width="480" Height="60" MaxDropDownHeight="480"
+			>
+			<ComboBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Vertical"/>
+				</ItemsPanelTemplate>
+			</ComboBox.ItemsPanel>
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<vm:ContentInfoView />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>		
+
 		<content:PhoneNumberView
+			x:Name="PhoneNumberView"
+			Grid.Row="1" 
 			Margin="0"
-			Grid.Column="0" Grid.Row="0"	
 			DataContext="{Binding PhoneNumberViewModel}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
 
-		<!-- Add more content forms here as needed 
 		<content:MailView
+			x:Name="MailView"
 			Margin="0"
-			Grid.Column="0" Grid.Row="0"	
+			Grid.Row="1" 
 			DataContext="{Binding MailViewModel}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
 
 		<content:GeoLocationView
+			x:Name="GeoLocationView"
 			Margin="0"
-			Grid.Column="0" Grid.Row="0" 
+			Grid.Row="1" 
 			DataContext="{Binding GeoLocationViewModel}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
 		<content:UrlView
+			x:Name="UrlView"
 			Margin="0"
-			Grid.Column="0" Grid.Row="0" 
+			Grid.Row="1" 
 			DataContext="{Binding UrlViewModel}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
 		<content:BookmarkView
+			x:Name="BookmarkView"
 			Margin="0"
-			Grid.Column="0" Grid.Row="0" 
+			Grid.Row="1" 
 			DataContext="{Binding BookmarkViewModel}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
+		<!-- Add more content forms here as needed 
 		-->
 	</Grid>
 </UserControl>
