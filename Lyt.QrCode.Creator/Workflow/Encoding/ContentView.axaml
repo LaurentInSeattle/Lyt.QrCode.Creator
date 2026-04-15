@@ -43,6 +43,7 @@
 
 		<content:WifiView
 			x:Name="WifiView"
+			IsVisible="False"
 			Grid.Row="1" 
 			Margin="0"
 			DataContext="{Binding WifiViewModel}"
@@ -51,6 +52,7 @@
 
 		<content:PhoneNumberView
 			x:Name="PhoneNumberView"
+			IsVisible="False"
 			Grid.Row="1" 
 			Margin="0"
 			DataContext="{Binding PhoneNumberViewModel}"
@@ -59,6 +61,7 @@
 
 		<content:MailView
 			x:Name="MailView"
+			IsVisible="False"
 			Margin="0"
 			Grid.Row="1" 
 			DataContext="{Binding MailViewModel}"
@@ -67,6 +70,7 @@
 
 		<content:GeoLocationView
 			x:Name="GeoLocationView"
+			IsVisible="False"
 			Margin="0"
 			Grid.Row="1" 
 			DataContext="{Binding GeoLocationViewModel}"
@@ -74,6 +78,7 @@
 			/>
 		<content:UrlView
 			x:Name="UrlView"
+			IsVisible="False"
 			Margin="0"
 			Grid.Row="1" 
 			DataContext="{Binding UrlViewModel}"
@@ -81,6 +86,7 @@
 			/>
 		<content:BookmarkView
 			x:Name="BookmarkView"
+			IsVisible="False"
 			Margin="0"
 			Grid.Row="1" 
 			DataContext="{Binding BookmarkViewModel}"

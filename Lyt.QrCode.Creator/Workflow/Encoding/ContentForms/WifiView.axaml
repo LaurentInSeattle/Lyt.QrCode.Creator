@@ -8,13 +8,25 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:glyphs="using:Lyt.Avalonia.Controls.Glyphs"	
+	xmlns:toggle="using:Lyt.Avalonia.Controls.Toggle"	
+	xmlns:convertLib="clr-namespace:Lyt.Avalonia.Mvvm.Converters;assembly=Lyt.Avalonia.Mvvm"    
 	>
+	<UserControl.Resources>
+			<convertLib:EnumBooleanConverter x:Key="enumBooleanConverter" />
+	</UserControl.Resources>
 	<Grid> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40" />
 			<RowDefinition Height="40" />
 			<RowDefinition Height="20" />
 			<RowDefinition Height="40" />
+			<RowDefinition Height="20" />
+			<RowDefinition Height="40" />
+			<RowDefinition Height="20" />
+			<RowDefinition Height="40" />
+			<RowDefinition Height="90" />
 			<RowDefinition Height="20" />
 			<RowDefinition Height="56" />
 		</Grid.RowDefinitions>
@@ -49,8 +61,69 @@
 			Text="{Binding Password}"
 			Margin="40 0 20 0"
 			/>
+
+		<toggle:ToggleSwitch
+			Grid.Row="5" 
+			Style="{StaticResource StandardToggleSwitch}"
+			TrueText="Hidden Network"
+			FalseText="Visible to All"
+			Margin="40 0 0 0"
+			Height="36" Width="420"
+			Orientation="Horizontal"
+			HorizontalAlignment="Left" VerticalAlignment="Center"
+			Value="{Binding IsHiddenNetwork}"
+			/>
 		<TextBlock
-			Grid.Row="3"
+			Grid.Row="6"
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			Text="Authentication Mode"
+			/>
+		<Grid
+			Margin="40 0 20 0"
+			Grid.Row="7"
+			>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40" />
+				<RowDefinition Height="40" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<RadioButton
+				Grid.Column="0" Grid.Row="0"
+				Content="WPA 2"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				GroupName="AuthenticationGroup"
+				IsChecked="{Binding Path=Mode, Converter={StaticResource enumBooleanConverter}, ConverterParameter=WPA2}"
+				/>
+			<RadioButton
+				Grid.Column="1" Grid.Row="0"
+				Content="WPA"
+				GroupName="AuthenticationGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=Mode, Converter={StaticResource enumBooleanConverter}, ConverterParameter=WPA}"
+				/>
+			<RadioButton
+				Grid.Column="0" Grid.Row="1"
+				Content="Wep"
+				GroupName="AuthenticationGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=Mode, Converter={StaticResource enumBooleanConverter}, ConverterParameter=WEP}"
+				/>
+			<RadioButton
+				Grid.Column="1" Grid.Row="1"
+				Content="None"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				GroupName="AuthenticationGroup"
+				IsChecked="{Binding Path=Mode, Converter={StaticResource enumBooleanConverter}, ConverterParameter=None}"
+				/>
+		</Grid>
+		<TextBlock
+			Grid.Row="8"
 			Text="{Binding ValidationMessage}"
 			HorizontalAlignment="Center" VerticalAlignment="Center"
 			FontSize="{StaticResource SmallTextFontSize}"
