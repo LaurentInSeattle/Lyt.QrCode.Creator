@@ -15,23 +15,12 @@ public static class Validators
         }
     }
 
-    public static readonly FieldValidatorParameters<string> TitleValidatorParameters =
-        new(
-            Validator: new Validators.BasicString(),
-            SourcePropertyName: "Title",
-            MessagePropertyName: "ValidationMessage");
-
     public static readonly FieldValidator<string> TitleValidator =
-        new(TitleValidatorParameters);
+        new(new(Validator: new Validators.BasicString(), SourcePropertyName: "Title"));
 
-    public static readonly FieldValidatorParameters<string> UrlValidatorParameters =
-        new(
-            Validator: new Validators.Url(),
-            SourcePropertyName: "Url",
-            MessagePropertyName: "ValidationMessage");
 
     public static readonly FieldValidator<string> UrlValidator =
-        new(UrlValidatorParameters);
+        new(new(Validator: new Validators.Url(), SourcePropertyName: "Url"));
 
     public class Url : AbstractValidator<string>
     {
@@ -64,14 +53,8 @@ public static class Validators
         }
     }
 
-    public static readonly FieldValidatorParameters<string> LatitudeValidatorParameters =
-        new(
-            Validator: new Validators.LatitudeString(),
-            SourcePropertyName: "Latitude",
-            MessagePropertyName: "ValidationMessage");
-
     public static readonly FieldValidator<string> Latitude =
-        new(LatitudeValidatorParameters);
+        new(new(Validator: new Validators.LatitudeString(), SourcePropertyName: "Latitude"));
 
     public class LongitudeString : AbstractValidator<string>
     {
@@ -91,14 +74,8 @@ public static class Validators
         }
     }
 
-    public static readonly FieldValidatorParameters<string> LongitudeValidatorParameters =
-        new(
-            Validator: new Validators.LongitudeString(),
-            SourcePropertyName: "Longitude",
-            MessagePropertyName: "ValidationMessage");
-
     public static readonly FieldValidator<string> Longitude =
-        new(LongitudeValidatorParameters);
+        new(new(Validator: new Validators.LongitudeString(), SourcePropertyName: "Longitude"));
 
     public class Email : AbstractValidator<string>
     {
@@ -111,10 +88,7 @@ public static class Validators
     }
 
     public static readonly FieldValidator<string> EmailAddress =
-        new(new(
-            Validator: new Validators.Email(),
-            SourcePropertyName: "EmailAddress",
-            MessagePropertyName: "ValidationMessage"));
+        new(new(Validator: new Validators.Email(), SourcePropertyName: "EmailAddress"));
 
     public static string CleanPhoneNumber(string x)
     {
@@ -129,31 +103,14 @@ public static class Validators
     {
         public Phone()
         {
-
             this.RuleFor(x => CleanPhoneNumber(x))
                 .NotEmpty().WithMessage("This phone number cannot be empty")
-                .MinimumLength(4).WithMessage("Too short.")
-                .MaximumLength(40).WithMessage("Too long.")
+                .MinimumLength(4).WithMessage("This phone number is too short.")
+                .MaximumLength(20).WithMessage("This phone number is too long.")
                 .Matches( @"^\+?[1-9][0-9]{7,14}$") .WithMessage("This phone number is invalid or malformed.");
         }
     }
 
     public static readonly FieldValidator<string> PhoneNumber =
-        new(new(
-            Validator: new Validators.Phone(),
-            SourcePropertyName: "PhoneNumber",
-            MessagePropertyName: "ValidationMessage"));
-
-    public class Password : AbstractValidator<string>
-    {
-        public Password()
-        {
-            this.RuleFor(x => x)
-                .NotEmpty().WithMessage("Your password cannot be empty")
-                .MinimumLength(10).WithMessage("Your password length must be at least 10.")
-                .MaximumLength(20).WithMessage("Your password length must not exceed 20.")
-                .Matches(@"[a-z]+").WithMessage("Your password must contain at least one lowercase letter.")
-                .Matches(@"[0-9]+").WithMessage("Your password must contain at least one number.");
-        }
-    }
+        new(new( Validator: new Validators.Phone(), SourcePropertyName: "PhoneNumber"));
 }

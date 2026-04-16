@@ -74,16 +74,16 @@
 			Value="{Binding IsHiddenNetwork}"
 			/>
 		<TextBlock
-			Grid.Row="6"
+			Grid.Row="7"
 			Theme="{StaticResource Medium}"
 			Margin="40 0 20 0"
 			TextAlignment="Left"
 			VerticalAlignment="Center" HorizontalAlignment="Left"
-			Text="Authentication Mode"
+			Text="Authentication Mode:"
 			/>
 		<Grid
-			Margin="40 0 20 0"
-			Grid.Row="7"
+			Margin="60 0 20 0"
+			Grid.Row="8"
 			>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="40" />
@@ -123,13 +123,9 @@
 				/>
 		</Grid>
 		<TextBlock
-			Grid.Row="8"
+			Grid.Row="9"
 			Text="{Binding ValidationMessage}"
-			HorizontalAlignment="Center" VerticalAlignment="Center"
-			FontSize="{StaticResource SmallTextFontSize}"
-			FontWeight="Normal"
-			Foreground="{StaticResource PastelOrchid_1_080}"
-			TextWrapping="Wrap"
+			Theme="{StaticResource ValidationError}"
 			Margin="40 0 20 0"
 			/>
 	</Grid>

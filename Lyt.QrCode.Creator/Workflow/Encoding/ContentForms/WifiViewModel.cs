@@ -11,43 +11,56 @@ public sealed partial class WifiViewModel(QrCodeCreatorModel qrCodeCreatorModel)
         public Wifi() : this(string.Empty, string.Empty) { }
     }
 
-    public static readonly FieldValidator<string> SsIdValidator =
-        new(new(
-            Validator: new Validators.BasicString(),
-            SourcePropertyName: "SsId",
-            MessagePropertyName: "ValidationMessage"));
+    public class SsIdStringValidator : AbstractValidator<string>
+    {
+        public SsIdStringValidator()
+        {
+            this.RuleFor(x => x)
+                .NotEmpty().WithMessage("The network name (SSID) cannot be empty.")
+                .MinimumLength(4).WithMessage("The network name is too short.")
+                .MaximumLength(40).WithMessage("The network name is too long.");
+        }
+    }
 
-    public static readonly FieldValidator<string> WifiPasswordValidator =
-        new(new(
-            Validator: new Validators.AlwaysValid<string>(),
-            SourcePropertyName: "Password",
-            MessagePropertyName: "ValidationMessage"));
+    private static readonly FieldValidator<string> SsIdValidator =
+        new(new(Validator: new SsIdStringValidator(), SourcePropertyName: "SsId"));
 
-    public static readonly FieldValidator<QrWifi.AuthenticationMode> ModeValidator =
-        new(new(
-            Validator: new Validators.AlwaysValid<QrWifi.AuthenticationMode>(),
-            SourcePropertyName: "Mode",
-            MessagePropertyName: "ValidationMessage"));
+    private static readonly FieldValidator<string> PasswordValidator =
+        new(new(Validator: new Validators.AlwaysValid<string>(), SourcePropertyName: "Password"));
 
-    public static readonly FieldValidator<bool> IsHiddenNetworkValidator =
-        new(new(
-            Validator: new Validators.AlwaysValid<bool>(),
-            SourcePropertyName: "IsHiddenNetwork",
-            MessagePropertyName: "ValidationMessage"));
+    private static readonly FieldValidator<QrWifi.AuthenticationMode> ModeValidator =
+        new(new(Validator: new Validators.AlwaysValid<QrWifi.AuthenticationMode>(), SourcePropertyName: "Mode"));
+
+    private static readonly FieldValidator<bool> IsHiddenNetworkValidator =
+        new(new(Validator: new Validators.AlwaysValid<bool>(), SourcePropertyName: "IsHiddenNetwork"));
 
     private static readonly FormValidator<Wifi> WifiValidator =
         new(
             new(
-                FormValidPropertyName: "FormIsValid",
-                MessagePropertyName: "ValidationMessage",
                 FocusFieldName: "SsIdTextBox",
-                FieldValidators: 
+                FormValidator: new WifiPasswordValidator(),
+                FieldValidators:
                 [
-                    SsIdValidator, 
-                    WifiPasswordValidator,
+                    SsIdValidator,
+                    PasswordValidator,
                     ModeValidator,
                     IsHiddenNetworkValidator,
                 ]));
+
+    public class WifiPasswordValidator : AbstractValidator<Wifi>
+    {
+        public WifiPasswordValidator()
+        {
+            this.When(x => x.Mode != QrWifi.AuthenticationMode.None,
+                () =>
+                {
+                    this.RuleFor(x => x.Password)
+                        .NotEmpty().WithMessage("The password cannot be empty when using any authentication mode.")
+                        .MinimumLength(8).WithMessage("The password length must be at least 8.")
+                        .MaximumLength(40).WithMessage("The password length must not exceed 40.");
+                });
+        }
+    }
 
     [ObservableProperty]
     public partial string SsId { get; set; } = string.Empty;

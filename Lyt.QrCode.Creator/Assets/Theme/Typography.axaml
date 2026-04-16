@@ -20,6 +20,7 @@
     <SolidColorBrush x:Key="Ternary.TextColor" Color="{StaticResource FreshGreen_0_080_Color}" />
     <SolidColorBrush x:Key="Alert.TextColor" Color="{StaticResource PastelOrchid_2_100_Color}" />
     <SolidColorBrush x:Key="Data.TextColor" Color="{StaticResource LightAqua_0_080_Color}" />
+    <SolidColorBrush x:Key="ValidationError.TextColor" Color="{StaticResource OrangePeel_1_100_Color}" />
 
     <ControlTheme x:Key="TextBlockBase" TargetType="TextBlock" >
         <Setter Property="FontStyle" Value="Normal" />
@@ -81,5 +82,14 @@
         <Setter Property="Foreground" Value="{StaticResource Alert.TextColor}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="TextAlignment" Value="Left" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="ValidationError" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="FontSize" Value="{StaticResource Large.FontSize}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="{StaticResource ValidationError.TextColor}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="TextWrapping" Value="Wrap" />
     </ControlTheme>
 </ResourceDictionary>

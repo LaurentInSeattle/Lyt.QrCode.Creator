@@ -88,6 +88,7 @@ global using Lyt.Utilities.Randomizing;
 
 #endregion Framework 
 
+global using FluentValidation;
 global using Lyt.Validation;
 
 //global using Lyt.ImageProcessing.Algorithms.ContrastEqualization;

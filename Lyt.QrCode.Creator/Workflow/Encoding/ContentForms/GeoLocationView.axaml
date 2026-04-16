@@ -53,11 +53,7 @@
 		<TextBlock
 			Grid.Row="5"
 			Text="{Binding ValidationMessage}"
-			HorizontalAlignment="Center" VerticalAlignment="Center"
-			FontSize="{StaticResource SmallTextFontSize}"
-			FontWeight="Normal"
-			Foreground="{StaticResource PastelOrchid_1_080}"
-			TextWrapping="Wrap"
+			Theme="{StaticResource ValidationError}"
 			Margin="40 0 20 0"
 			/>
 	</Grid>

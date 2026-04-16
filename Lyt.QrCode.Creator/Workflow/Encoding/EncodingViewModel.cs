@@ -34,9 +34,9 @@ public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
     [ObservableProperty]
     public partial SizeFormatViewModel SizeFormatViewModel { get; set; } = new(qrCodeCreatorModel);
 
-    public override void Activate(object? activationParameters)
+    public override void OnViewLoaded() 
     {
-        base.Activate(activationParameters);
+        base.OnViewLoaded();
         this.View.ContentContainer.ToggleCollapse();
         this.View.QrCodeContainer.ToggleCollapse();
     }
