@@ -35,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaXaml Remove="Assets\Theme\RadioButtonStyles.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Lyt.Avalonia\Lyt.Avalonia.Controls\Lyt.Avalonia.Controls.csproj" />
     <ProjectReference Include="..\..\Lyt.Avalonia\Lyt.Avalonia.Interfaces\Lyt.Avalonia.Interfaces.csproj" />
     <ProjectReference Include="..\..\Lyt.Avalonia\Lyt.Avalonia.Localizer\Lyt.Avalonia.Localizer.csproj" />
@@ -47,6 +51,12 @@
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Utilities\Lyt.Utilities.csproj" />
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Validation\Lyt.Validation.csproj" />
     <ProjectReference Include="..\Lyt.QrCode.Creator.Model\Lyt.QrCode.Creator.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\Theme\RadioButtonStyles.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
   </ItemGroup>
 
   <ItemGroup>

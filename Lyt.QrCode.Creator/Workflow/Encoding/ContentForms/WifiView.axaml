@@ -109,14 +109,14 @@
 				/>
 			<RadioButton
 				Grid.Column="0" Grid.Row="1"
-				Content="Wep"
+				Content="WEP"
 				GroupName="AuthenticationGroup"
 				VerticalAlignment="Center" HorizontalAlignment="Left"
 				IsChecked="{Binding Path=Mode, Converter={StaticResource enumBooleanConverter}, ConverterParameter=WEP}"
 				/>
 			<RadioButton
 				Grid.Column="1" Grid.Row="1"
-				Content="None"
+				Content="None (Security Risk)"
 				VerticalAlignment="Center" HorizontalAlignment="Left"
 				GroupName="AuthenticationGroup"
 				IsChecked="{Binding Path=Mode, Converter={StaticResource enumBooleanConverter}, ConverterParameter=None}"
