@@ -16,12 +16,11 @@ public static class Validators
     }
 
     public static readonly FieldValidator<string> TitleValidator =
-        new(new(Validator: new Validators.BasicString(), SourcePropertyName: "Title"));
+        new(validator: new Validators.BasicString(), sourcePropertyName: "Title");
 
 
     public static readonly FieldValidator<string> UrlValidator =
-        new(new(Validator: new Validators.Url(), SourcePropertyName: "Url"));
-
+        new(validator: new Validators.Url(), sourcePropertyName: "Url");
     public class Url : AbstractValidator<string>
     {
         public Url()
@@ -54,7 +53,7 @@ public static class Validators
     }
 
     public static readonly FieldValidator<string> Latitude =
-        new(new(Validator: new Validators.LatitudeString(), SourcePropertyName: "Latitude"));
+        new(validator: new Validators.LatitudeString(), sourcePropertyName: "Latitude");
 
     public class LongitudeString : AbstractValidator<string>
     {
@@ -75,7 +74,7 @@ public static class Validators
     }
 
     public static readonly FieldValidator<string> Longitude =
-        new(new(Validator: new Validators.LongitudeString(), SourcePropertyName: "Longitude"));
+        new(validator: new Validators.LongitudeString(), sourcePropertyName: "Longitude");
 
     public class Email : AbstractValidator<string>
     {
@@ -88,7 +87,7 @@ public static class Validators
     }
 
     public static readonly FieldValidator<string> EmailAddress =
-        new(new(Validator: new Validators.Email(), SourcePropertyName: "EmailAddress"));
+        new(validator: new Validators.Email(), sourcePropertyName: "EmailAddress");
 
     public static string CleanPhoneNumber(string x)
     {
@@ -112,5 +111,5 @@ public static class Validators
     }
 
     public static readonly FieldValidator<string> PhoneNumber =
-        new(new( Validator: new Validators.Phone(), SourcePropertyName: "PhoneNumber"));
+        new(validator: new Validators.Phone(), sourcePropertyName: "PhoneNumber");
 }

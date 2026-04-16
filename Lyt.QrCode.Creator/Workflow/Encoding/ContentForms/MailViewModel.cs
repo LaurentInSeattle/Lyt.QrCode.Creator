@@ -9,12 +9,7 @@ public sealed partial class MailViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     }
 
     private static readonly FormValidator<Mail> MailValidator =
-        new(
-            new(
-                FormValidPropertyName: "FormIsValid",
-                MessagePropertyName: "ValidationMessage",
-                FocusFieldName: "EmailAddress",
-                FieldValidators: [Validators.EmailAddress]));
+        new(focusFieldName: "EmailAddress", fieldValidators: [Validators.EmailAddress]);
 
     [ObservableProperty]
     public partial string EmailAddress { get; set; } = string.Empty;

@@ -9,12 +9,7 @@ public sealed partial class GeoLocationViewModel(QrCodeCreatorModel qrCodeCreato
     }
 
     private static readonly FormValidator<GeoLocation> GeoLocationValidator =
-        new(
-            new(
-                FormValidPropertyName: "FormIsValid",
-                MessagePropertyName: "ValidationMessage",
-                FocusFieldName: "Latitude",
-                FieldValidators: [Validators.Latitude, Validators.Longitude]));
+        new( focusFieldName: "Latitude", fieldValidators: [Validators.Latitude, Validators.Longitude]);
 
     [ObservableProperty]
     public partial string Latitude { get; set; } = string.Empty;

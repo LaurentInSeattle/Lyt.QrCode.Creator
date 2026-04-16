@@ -9,13 +9,9 @@ public sealed partial class BookmarkViewModel(QrCodeCreatorModel qrCodeCreatorMo
     }
 
     private static readonly FormValidator<Bookmark> BookmarkValidator =
-        new(
-            new(
-                FormValidPropertyName: "FormIsValid",
-                MessagePropertyName: "ValidationMessage",
-                FocusFieldName: "TitleTextBox",
-                FieldValidators: [Validators.TitleValidator, Validators.UrlValidator]));
-
+        new( focusFieldName: "TitleTextBox",
+             fieldValidators: [Validators.TitleValidator, Validators.UrlValidator]);
+    
     [ObservableProperty]
     public partial string Url { get; set; } = string.Empty;
 

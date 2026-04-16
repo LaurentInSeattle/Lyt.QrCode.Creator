@@ -12,12 +12,7 @@ public sealed partial class UrlViewModel(QrCodeCreatorModel qrCodeCreatorModel) 
     public partial string Url { get; set; } = string.Empty;
 
     private static readonly FormValidator<WebUrl> WebUrlValidator =
-        new(
-            new(
-                FormValidPropertyName: "FormIsValid",
-                MessagePropertyName: "ValidationMessage",
-                FocusFieldName: "UrlTextBox",
-                FieldValidators: [Validators.UrlValidator]));
+        new(focusFieldName: "UrlTextBox", fieldValidators: [Validators.UrlValidator]);
 
     partial void OnUrlChanged(string value) 
         => base.Submit( value =>

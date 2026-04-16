@@ -9,12 +9,7 @@ public sealed partial class PhoneNumberViewModel(QrCodeCreatorModel qrCodeCreato
     }
 
     private static readonly FormValidator<Phone> PhoneNumberValidator =
-        new(
-            new(
-                FormValidPropertyName: "FormIsValid",
-                MessagePropertyName: "ValidationMessage",
-                FocusFieldName: "PhoneNumber",
-                FieldValidators: [Validators.PhoneNumber]));
+        new(focusFieldName: "PhoneNumber", fieldValidators: [Validators.PhoneNumber]);
 
     [ObservableProperty]
     public partial string PhoneNumber { get; set; } = string.Empty;

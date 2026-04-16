@@ -23,29 +23,27 @@ public sealed partial class WifiViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     }
 
     private static readonly FieldValidator<string> SsIdValidator =
-        new(new(Validator: new SsIdStringValidator(), SourcePropertyName: "SsId"));
+        new(validator: new SsIdStringValidator(), sourcePropertyName: "SsId");
 
     private static readonly FieldValidator<string> PasswordValidator =
-        new(new(Validator: new Validators.AlwaysValid<string>(), SourcePropertyName: "Password"));
+        new(validator: new Validators.AlwaysValid<string>(), sourcePropertyName: "Password");
 
     private static readonly FieldValidator<QrWifi.AuthenticationMode> ModeValidator =
-        new(new(Validator: new Validators.AlwaysValid<QrWifi.AuthenticationMode>(), SourcePropertyName: "Mode"));
+        new(validator: new Validators.AlwaysValid<QrWifi.AuthenticationMode>(), sourcePropertyName: "Mode");
 
     private static readonly FieldValidator<bool> IsHiddenNetworkValidator =
-        new(new(Validator: new Validators.AlwaysValid<bool>(), SourcePropertyName: "IsHiddenNetwork"));
+        new(validator: new Validators.AlwaysValid<bool>(), sourcePropertyName: "IsHiddenNetwork");
 
     private static readonly FormValidator<Wifi> WifiValidator =
-        new(
-            new(
-                FocusFieldName: "SsIdTextBox",
-                FormValidator: new WifiPasswordValidator(),
-                FieldValidators:
-                [
-                    SsIdValidator,
-                    PasswordValidator,
-                    ModeValidator,
-                    IsHiddenNetworkValidator,
-                ]));
+        new(focusFieldName: "SsIdTextBox",
+            formValidator: new WifiPasswordValidator(),
+            fieldValidators:
+            [
+                SsIdValidator,
+                PasswordValidator,
+                ModeValidator,
+                IsHiddenNetworkValidator,
+            ]);
 
     public class WifiPasswordValidator : AbstractValidator<Wifi>
     {
