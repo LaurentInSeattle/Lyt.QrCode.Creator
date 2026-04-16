@@ -8,25 +8,119 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+	
+	xmlns:convertLib="clr-namespace:Lyt.Avalonia.Mvvm.Converters;assembly=Lyt.Avalonia.Mvvm"    
 	>
-	<Grid> 
+	<UserControl.Resources>
+		<convertLib:EnumBooleanConverter x:Key="enumBooleanConverter" />
+	</UserControl.Resources>
+	<Grid
+		ShowGridLines="False"
+		> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="40" />
+			<RowDefinition Height="40" /> <!-- phone -->
+			<RowDefinition Height="20" />
+			<RowDefinition Height="40" /> <!-- msg -->
+			<RowDefinition Height="20" />
+			<RowDefinition Height="40" /> <!-- prompt -->
+			<RowDefinition Height="130"/> <!-- grid --> 
+			<RowDefinition Height="20" />
+			<RowDefinition Height="56" /> <!-- error -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="600" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Grid.Column="0" Grid.Row="0" 
-			Margin="0"
-			Text="Text Message"
-			Theme="{StaticResource H1}"
-			TextAlignment="Center"
+			Grid.Column="0" Grid.Row="0"	
+			Text="No need to type spaces and symbols such as + ) - (, etc."
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<TextBox
+			x:Name="PhoneNumberTextBox"
+			Grid.Row="1"
+			VerticalContentAlignment="Center" 
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Enter a valid phone number."
+			MaxLength="40"
+			Text="{Binding PhoneNumber}"
+			Margin="40 0 20 0"
+			/>
+		<TextBox
+			x:Name="MessageTextBox"
+			Grid.Row="3"
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Enter the message text."
+			MaxLength="40"
+			Text="{Binding Message}"
+			Margin="40 0 20 0"
+			/>
+		<TextBlock
+			Grid.Row="5"
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			Text="Select a messaging protocol:"
+			/>
+		<Grid
+			Margin="60 0 20 0"
+			Grid.Row="6"
+			>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40" />
+				<RowDefinition Height="40" />
+				<RowDefinition Height="40" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<RadioButton
+				Grid.Column="0" Grid.Row="0"
+				Content="SMS (Regular)"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				GroupName="ProtocolGroup"
+				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Sms}"
+				/>
+			<RadioButton
+				Grid.Column="1" Grid.Row="0"
+				Content="SMS (Apple iOS)"
+				GroupName="ProtocolGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=SmsIos}"
+				/>
+			<RadioButton
+				Grid.Column="0" Grid.Row="1"
+				Content="What's App (Web)"
+				GroupName="ProtocolGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=WhatsApp}"
+				/>
+			<RadioButton
+				Grid.Column="0" Grid.Row="2"
+				Content="MMS"
+				GroupName="ProtocolGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Mms}"
+				/>
+			<RadioButton
+				Grid.Column="1" Grid.Row="2"
+				Content="MMS to (Rare)"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				GroupName="ProtocolGroup"
+				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=MmsTo}"
+				/>
+		</Grid>
+		<TextBlock
+			Grid.Row="8"
+			Text="{Binding ValidationMessage}"
+			Theme="{StaticResource ValidationError}"
+			Margin="40 0 20 0"
 			/>
 	</Grid>
 </UserControl>

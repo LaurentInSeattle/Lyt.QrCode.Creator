@@ -56,11 +56,11 @@ public sealed partial class ContentViewModel(QrCodeCreatorModel qrCodeCreatorMod
                     new(this.View.MailView, "Email Address", "mail_read") ,
                     new(this.View.GeoLocationView, "Geo Location", "location") ,
                     new(this.View.PhoneNumberView, "Phone Number", "phone") ,
+                    new(this.View.TextMessageView, "Text Message", "chat") ,
                     new(this.View.BookmarkView, "Web Page Bookmark", "bookmark") ,
 
                     //new ContentInfoViewModel(this.View.CalendarEventView, "Calendar Event", "CalendarEvent.png") ,
                     //new ContentInfoViewModel(this.View.MeCardView, "MeCard", "MeCard.png") ,
-                    //new ContentInfoViewModel(this.View.TextMessageView, "Text Message", "TextMessage.png") ,
                     //new ContentInfoViewModel(this.View.VCardView, "VCard", "VCard.png") ,
                 ];
             foreach(var content in this.SupportedContent)
