@@ -27,7 +27,7 @@
 			x:Name="ContentComboBox"
 			ItemsSource="{Binding SupportedContent}"
 			SelectedIndex="{Binding SelectedContentIndex}"
-			Width="420" Height="52" MaxDropDownHeight="480"
+			Width="420" Height="52" MaxDropDownHeight="640"
 			>
 			<ComboBox.ItemsPanel>
 				<ItemsPanelTemplate>
@@ -97,8 +97,29 @@
 			DataContext="{Binding TextMessageViewModel}"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
-		<!-- Add more content forms here as needed 
-		Calendar , VCard, MeCard 
-		-->
+		<content:CalendarEventView
+			x:Name="CalendarEventView"
+			IsVisible="False"
+			Margin="0"
+			Grid.Row="1" 
+			DataContext="{Binding CalendarEventViewModel}"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			/>
+		<content:MeCardView
+			x:Name="MeCardView"
+			IsVisible="False"
+			Margin="0"
+			Grid.Row="1" 
+			DataContext="{Binding MeCardViewModel}"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			/>
+		<content:VCardView
+			x:Name="VCardView"
+			IsVisible="False"
+			Margin="0"
+			Grid.Row="1" 
+			DataContext="{Binding VCardViewModel}"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			/>
 	</Grid>
 </UserControl>

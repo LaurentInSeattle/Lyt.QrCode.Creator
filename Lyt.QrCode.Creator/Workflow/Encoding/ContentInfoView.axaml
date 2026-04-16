@@ -12,7 +12,7 @@
 	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	>
 	<Grid
-		Height="48"
+		Height="40"
 		>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="320" />
@@ -29,7 +29,7 @@
 			/>
 		<glyphs:SvgIcon 
 			Grid.Column="1"
-			Width="36" Height="36"
+			Width="32" Height="32"
 			StrokeThickness="0.10"
 			Source="{Binding IconName}"
 			Foreground="{StaticResource Secondary.TextColor}"

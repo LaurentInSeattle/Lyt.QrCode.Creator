@@ -3,7 +3,7 @@
 public sealed partial class ContentViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<ContentView>
 {
     private readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
-    private View? currentSelectedView ;
+    private View? currentSelectedView;
     private bool isInitializing;
 
     [ObservableProperty]
@@ -42,30 +42,29 @@ public sealed partial class ContentViewModel(QrCodeCreatorModel qrCodeCreatorMod
     [ObservableProperty]
     public partial WifiViewModel WifiViewModel { get; set; } = new(qrCodeCreatorModel);
 
-    public override void OnViewLoaded() 
+    public override void OnViewLoaded()
     {
-        base.OnViewLoaded(); 
+        base.OnViewLoaded();
 
-        if( this.SupportedContent.Count == 0)
+        if (this.SupportedContent.Count == 0)
         {
-            this.isInitializing = true; 
-            this.SupportedContent = 
+            this.isInitializing = true;
+            this.SupportedContent =
                 [
                     new(this.View.UrlView, "Web Page Link (URL)", "preview_link") ,
                     new(this.View.WifiView, "Wi-Fi Configuration", "wifi_1") ,
                     new(this.View.MailView, "Email Address", "mail_read") ,
+                    new(this.View.CalendarEventView, "iCal Calendar Event", "calendar") ,
+                    new(this.View.MeCardView, "MeCard Contact Card", "contact_card") ,
+                    new(this.View.VCardView, "VCard 4.0 Contact Card", "contact_card") ,
                     new(this.View.GeoLocationView, "Geo Location", "location") ,
                     new(this.View.PhoneNumberView, "Phone Number", "phone") ,
                     new(this.View.TextMessageView, "Text Message", "chat") ,
                     new(this.View.BookmarkView, "Web Page Bookmark", "bookmark") ,
-
-                    //new ContentInfoViewModel(this.View.CalendarEventView, "Calendar Event", "CalendarEvent.png") ,
-                    //new ContentInfoViewModel(this.View.MeCardView, "MeCard", "MeCard.png") ,
-                    //new ContentInfoViewModel(this.View.VCardView, "VCard", "VCard.png") ,
                 ];
-            foreach(var content in this.SupportedContent)
+            foreach (var content in this.SupportedContent)
             {
-                content.TargetView.IsVisible = false; 
+                content.TargetView.IsVisible = false;
             }
 
             this.isInitializing = false;
@@ -84,13 +83,13 @@ public sealed partial class ContentViewModel(QrCodeCreatorModel qrCodeCreatorMod
             return;
         }
 
-        if(this.currentSelectedView is not null)
+        if (this.currentSelectedView is not null)
         {
-            this.currentSelectedView.IsVisible = false; 
+            this.currentSelectedView.IsVisible = false;
         }
 
         var selectedView = this.SupportedContent[value].TargetView;
         selectedView.IsVisible = true;
-        this.currentSelectedView = selectedView; 
+        this.currentSelectedView = selectedView;
     }
 }

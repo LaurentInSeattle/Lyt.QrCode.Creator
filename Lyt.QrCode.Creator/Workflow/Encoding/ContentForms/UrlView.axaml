@@ -21,7 +21,7 @@
 		</Grid.ColumnDefinitions>
 		<TextBlock
 			Grid.Column="0" Grid.Row="0" 
-			Text="Note: must include the protocol: http: or https:"
+			Text="Note: You must include the web protocol: http:// or https://"
 			Theme="{StaticResource Medium}"
 			Margin="40 0 20 0"
 			TextAlignment="Left"
