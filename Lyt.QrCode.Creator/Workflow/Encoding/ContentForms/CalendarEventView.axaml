@@ -14,7 +14,7 @@
 	xmlns:convertLib="clr-namespace:Lyt.Avalonia.Mvvm.Converters;assembly=Lyt.Avalonia.Mvvm"    
 	>
 	<Grid
-		ShowGridLines="True"
+		ShowGridLines="False"
 		> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40" /> <!-- Prompt  -->
@@ -23,13 +23,12 @@
 			<RowDefinition Height="40" /> <!-- Location  3 -->
 			<RowDefinition Height="20" />
 			<RowDefinition Height="40" /> <!-- Description 5 -->	
-			<RowDefinition Height="40" />
-			<RowDefinition Height="80" /> <!-- Date | Time grid  7  -->
+			<RowDefinition Height="60" /> <!-- Prompt  -->
+			<RowDefinition Height="40" /> <!-- Date | Time grid  7  -->
 			<RowDefinition Height="20" />
-			<RowDefinition Height="40" /> <!-- All Day  9 -->
+			<RowDefinition Height="40" /> <!-- All Day  and Duration   9 -->
 			<RowDefinition Height="20" />
-			<RowDefinition Height="60" /> <!-- Duration  11  -->
-			<RowDefinition Height="56" /> <!-- Error Msg  12 -->
+			<RowDefinition Height="56" /> <!-- Error Msg  11 -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="600" />
@@ -62,7 +61,6 @@
 			Text="{Binding Location}"
 			Margin="40 0 20 0"
 			/>
-
 		<TextBox
 			x:Name="DescriptionTextBox"
 			Grid.Row="5"
@@ -80,27 +78,35 @@
 			Margin="40 0 20 0"
 			TextAlignment="Left"
 			VerticalAlignment="Center" HorizontalAlignment="Left"
-			Text="Begins at:"
+			Text="Event starts on..."
+			/>
+		<TextBlock
+			Grid.Row="6"
+			IsVisible="{Binding !IsAllDay}"
+			Theme="{StaticResource Medium}"
+			Margin="40 0 60 0"
+			TextAlignment="Center"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			Text="... and at:"
 			/>
 		<Grid
-			Margin="60 0 20 0"
+			Margin="40 0 20 0"
 			Grid.Row="7"
 			>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-				<RowDefinition Height="10" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
 			<!-- Date and time  here --> 
 			<DatePicker
-				Grid.Row="0"
-				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch" HorizontalAlignment="Left"				
 				SelectedDate="{Binding StartDate}"
+				DayFormat="ddd dd"
+				Foreground="{StaticResource LightAqua_1_100}"
 				/> 
 			<TimePicker
-				Grid.Row="2"
-				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				IsVisible="{Binding !IsAllDay}"
+				VerticalAlignment="Stretch" HorizontalAlignment="Right"
 				SelectedTime="{Binding StartTime}"
+				MinWidth="100"
+				Width="120"
+				Foreground="{StaticResource LightAqua_1_100}"
 				/> 
 		</Grid>
 		<toggle:ToggleSwitch
@@ -108,16 +114,25 @@
 			Style="{StaticResource StandardToggleSwitch}"
 			TrueText="All Day Event"
 			FalseText="Limited Duration"
-			Margin="40 0 0 0"
-			Height="36" Width="420"
+			Margin="20 0 0 0"
+			Height="36" Width="320"
 			Orientation="Horizontal"
 			HorizontalAlignment="Left" VerticalAlignment="Center"
 			Value="{Binding IsAllDay}"
 			/>
-			<!-- Duration here at row 11--> 
-
+		<!-- Duration here on same row--> 
+		<TimePicker
+			Grid.Row="9"
+			Margin="00 0 20 0"
+			IsVisible="{Binding !IsAllDay}"
+			VerticalAlignment="Stretch" HorizontalAlignment="Right"
+			SelectedTime="{Binding Duration}"
+			MinWidth="100"
+			Width="120"
+			Foreground="{StaticResource LightAqua_1_100}"
+			/> 
 		<TextBlock
-			Grid.Row="12"
+			Grid.Row="11"
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
 			Margin="40 0 20 0"
