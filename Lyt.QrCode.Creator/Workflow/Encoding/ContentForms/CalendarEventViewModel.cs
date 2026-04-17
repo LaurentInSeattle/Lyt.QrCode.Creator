@@ -28,22 +28,41 @@ public sealed partial class CalendarEventViewModel(QrCodeCreatorModel qrCodeCrea
                 .MaximumLength(60).WithMessage("The event summary is too long.");
     }
 
-    private static readonly FieldValidator<string> SummaryValidator =
-        new(validator: new SummaryStringValidator(), sourcePropertyName: "Summary");
+    public class StartDateValidator : AbstractValidator<DateTimeOffset?>
+    {
+        public StartDateValidator()
+            => this.RuleFor(x => x)
+                .NotNull().WithMessage("The event start date must be defined.")
+                .GreaterThan(DateTime.Now.Date.AddDays(-1)).WithMessage("The event start date must be today or in the future.");
+    }
+
+    public class StartTimeValidator : AbstractValidator<TimeSpan?>
+    {
+        public StartTimeValidator()
+            => this.RuleFor(x => x)
+                .NotNull().WithMessage("The event start time must be defined.");
+    }
+
+    public class DurationValidator : AbstractValidator<TimeSpan?>
+    {
+        public DurationValidator()
+            => this.RuleFor(x => x)
+                .NotNull().WithMessage("The event duration must be defined.")
+                .GreaterThan(TimeSpan.FromMinutes(1)).WithMessage("The event must last a least one minute.");
+    }
 
     private static readonly FormValidator<CalendarEvent> CalendarEventValidator =
         new(focusFieldName: "SummaryTextBox",
             fieldValidators:
             [
-                SummaryValidator,
+                new FieldValidator<string> ("Summary", new SummaryStringValidator()),
                 AlwaysValid<string>("Location"),
                 AlwaysValid<string>("Description"),
-                AlwaysValid<DateTimeOffset?>("StartDate"),
-                AlwaysValid<TimeSpan?>("StartTime"),
-                AlwaysValid<TimeSpan?>("Duration"),
+                new FieldValidator<DateTimeOffset?>("StartDate", new StartDateValidator()),
+                new FieldValidator<TimeSpan?>("StartTime", new StartTimeValidator()),
+                new FieldValidator<TimeSpan?>("Duration", new DurationValidator()),
                 AlwaysValid<bool>("IsAllDay"),
             ]);
-
 
     [ObservableProperty]
     public partial string Summary { get; set; } = string.Empty;
@@ -58,13 +77,21 @@ public sealed partial class CalendarEventViewModel(QrCodeCreatorModel qrCodeCrea
     public partial DateTimeOffset? StartDate { get; set; } = DateTime.Now;
 
     [ObservableProperty]
-    public partial TimeSpan? StartTime { get; set; } = TimeSpan.Zero;
+    public partial TimeSpan? StartTime { get; set; } = TimeSpan.FromHours(11.0);
 
     [ObservableProperty]
-    public partial TimeSpan? Duration { get; set; } = TimeSpan.Zero;
+    public partial TimeSpan? Duration { get; set; } = TimeSpan.FromHours(1.0);
 
     [ObservableProperty]
     public partial bool IsAllDay { get; set; } = false;
+
+    public override void OnViewLoaded()
+    {
+        base.OnViewLoaded();
+        this.StartDate = DateTimeOffset.Now;
+        this.StartTime = TimeSpan.FromHours(11.0);
+        this.Duration = TimeSpan.FromHours(1.0);
+    }
 
     partial void OnSummaryChanged(string value) => this.SubmitCalendarEvent();
 
@@ -83,16 +110,22 @@ public sealed partial class CalendarEventViewModel(QrCodeCreatorModel qrCodeCrea
     private void SubmitCalendarEvent()
         => this.Submit(value =>
         {
-            //var start = value.StartDate.Value.Date + value.StartTime;
-            //var end = value.IsAllDay ? start.Date.AddDays(1) : start + value.Duration;
-            //var content = new QrCalendarEvent(
-            //    value.Summary, 
-            //    start, end, value.IsAllDay, 
-            //    value.Location, value.Description, 
-            //    includeVcalendarTags:true);
-            //if (!this.qrCodeCreatorModel.SetContent(content))
-            //{
-            //    Debug.WriteLine("Failed to set content");
-            //}
+            if ( !value.StartDate.HasValue || !value.StartTime.HasValue || !value.Duration.HasValue)
+            {
+                return; 
+            }
+
+            DateTime startDate = value.StartDate.Value.Date;
+            DateTime start = startDate  + value.StartTime.Value;
+            DateTime end = value.IsAllDay ? startDate.AddDays(1) : start + value.Duration.Value;
+            var content = new QrCalendarEvent(
+                value.Summary,
+                start, end, value.IsAllDay,
+                value.Location, value.Description,
+                includeVcalendarTags: true);
+            if (!this.qrCodeCreatorModel.SetContent(content))
+            {
+                Debug.WriteLine("Failed to set content");
+            }
         });
 }

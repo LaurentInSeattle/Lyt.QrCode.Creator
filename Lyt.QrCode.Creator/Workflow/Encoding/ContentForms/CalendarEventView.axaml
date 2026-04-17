@@ -115,7 +115,7 @@
 			TrueText="All Day Event"
 			FalseText="Limited Duration"
 			Margin="20 0 0 0"
-			Height="36" Width="320"
+			Height="34" Width="320"
 			Orientation="Horizontal"
 			HorizontalAlignment="Left" VerticalAlignment="Center"
 			Value="{Binding IsAllDay}"
