@@ -14,13 +14,5 @@ public sealed partial class UrlViewModel(QrCodeCreatorModel qrCodeCreatorModel) 
     private static readonly FormValidator<WebUrl> WebUrlValidator =
         new(focusFieldName: "UrlTextBox", fieldValidators: [Validators.UrlValidator]);
 
-    partial void OnUrlChanged(string value) 
-        => base.Submit( value =>
-            {
-                var content = new QrUrl(value.Url);
-                if (!this.qrCodeCreatorModel.SetContent(content))
-                {
-                    Debug.WriteLine("Failed to set content");
-                }
-            });
+    partial void OnUrlChanged(string value) => base.Submit( value => new QrUrl(value.Url));
 }

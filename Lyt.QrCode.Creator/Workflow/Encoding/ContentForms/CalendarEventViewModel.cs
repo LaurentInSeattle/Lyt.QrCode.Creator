@@ -112,20 +112,17 @@ public sealed partial class CalendarEventViewModel(QrCodeCreatorModel qrCodeCrea
         {
             if ( !value.StartDate.HasValue || !value.StartTime.HasValue || !value.Duration.HasValue)
             {
-                return; 
+                return null ; 
             }
 
             DateTime startDate = value.StartDate.Value.Date;
             DateTime start = startDate  + value.StartTime.Value;
             DateTime end = value.IsAllDay ? startDate.AddDays(1) : start + value.Duration.Value;
-            var content = new QrCalendarEvent(
-                value.Summary,
-                start, end, value.IsAllDay,
-                value.Location, value.Description,
-                includeVcalendarTags: true);
-            if (!this.qrCodeCreatorModel.SetContent(content))
-            {
-                Debug.WriteLine("Failed to set content");
-            }
+            return 
+                new QrCalendarEvent(
+                    value.Summary,
+                    start, end, value.IsAllDay,
+                    value.Location, value.Description,
+                    includeVcalendarTags: true);
         });
 }

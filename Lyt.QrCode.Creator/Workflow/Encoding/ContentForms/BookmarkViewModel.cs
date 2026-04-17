@@ -22,13 +22,5 @@ public sealed partial class BookmarkViewModel(QrCodeCreatorModel qrCodeCreatorMo
 
     partial void OnUrlChanged(string value) => this.SubmitBookmark();
 
-    private void SubmitBookmark()
-        => this.Submit(value =>
-         {
-             var content = new QrBookmark(value.Url, value.Title);
-             if (!this.qrCodeCreatorModel.SetContent(content))
-             {
-                 Debug.WriteLine("Failed to set content");
-             }
-         });
+    private void SubmitBookmark() => this.Submit(value => new QrBookmark(value.Url, value.Title));
 }

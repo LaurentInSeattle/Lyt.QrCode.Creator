@@ -1,6 +1,6 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Shared;
 
-public partial class FormViewModel<TView, TValue> : 
+public partial class FormViewModel<TView, TValue> :
     ViewModel<TView> where TView : View, new()
     where TValue : class, new()
 {
@@ -27,24 +27,34 @@ public partial class FormViewModel<TView, TValue> :
         this.validator.Clear(this);
     }
 
-    protected void Submit(Action<TValue> submitAction)
+    protected void Submit(Func<TValue, QrContent?> submitAction)
     {
         try
         {
             if (!this.validator.Validate(this).IsValid)
             {
+                Debug.WriteLine("Submit: Failed to validate content");
                 return;
             }
 
             if (this.validator.HasValue)
             {
                 var value = this.validator.Value;
-                submitAction(value);
+                QrContent? content = submitAction(value);
+                if (content is not null)
+                {
+                    if (!this.qrCodeCreatorModel.SetContent(content))
+                    {
+                        Debug.WriteLine("Submit: Failed to set content");
+                        if (Debugger.IsAttached) { Debugger.Break(); }
+                    }
+                }
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Exception thrown: {ex}");
+            Debug.WriteLine($"Submit: Exception thrown: {ex}");
+            if (Debugger.IsAttached) { Debugger.Break(); }
         }
     }
 }

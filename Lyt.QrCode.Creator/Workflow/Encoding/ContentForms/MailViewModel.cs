@@ -16,13 +16,5 @@ public sealed partial class MailViewModel(QrCodeCreatorModel qrCodeCreatorModel)
 
     partial void OnEmailAddressChanged(string value) => this.SubmitEmailAddress();
 
-    private void SubmitEmailAddress()
-        => this.Submit(value =>
-        {
-            var content = new QrMail(value.EmailAddress);
-            if (!this.qrCodeCreatorModel.SetContent(content))
-            {
-                Debug.WriteLine("Failed to set content");
-            }
-        });
+    private void SubmitEmailAddress() => this.Submit(value => new QrMail(value.EmailAddress));
 }

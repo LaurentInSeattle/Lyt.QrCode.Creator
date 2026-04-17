@@ -52,12 +52,5 @@ public sealed partial class TextMessageViewModel(QrCodeCreatorModel qrCodeCreato
     partial void OnProtocolChanged(QrTextMessage.MessagingProtocol value) => this.SubmitTextMessage();
 
     private void SubmitTextMessage()
-        => this.Submit(value =>
-        {
-            var content = new QrTextMessage(value.PhoneNumber, value.Message, value.Protocol);
-            if (!this.qrCodeCreatorModel.SetContent(content))
-            {
-                Debug.WriteLine("Failed to set content");
-            }
-        });
+        => this.Submit(value => new QrTextMessage(value.PhoneNumber, value.Message, value.Protocol));
 }

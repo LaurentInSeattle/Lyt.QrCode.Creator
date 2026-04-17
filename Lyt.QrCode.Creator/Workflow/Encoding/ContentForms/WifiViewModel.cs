@@ -69,12 +69,5 @@ public sealed partial class WifiViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     partial void OnIsHiddenNetworkChanged(bool value) => this.SubmitWifi();
 
     private void SubmitWifi()
-        => this.Submit(value =>
-        {
-            var content = new QrWifi(value.SsId, value.Password, value.Mode, value.IsHiddenNetwork, false);
-            if (!this.qrCodeCreatorModel.SetContent(content))
-            {
-                Debug.WriteLine("Failed to set content");
-            }
-        });
+        => this.Submit(value => new QrWifi(value.SsId, value.Password, value.Mode, value.IsHiddenNetwork, false));
 }

@@ -17,12 +17,5 @@ public sealed partial class PhoneNumberViewModel(QrCodeCreatorModel qrCodeCreato
     partial void OnPhoneNumberChanged(string value) => this.SubmitPhoneNumber();
 
     private void SubmitPhoneNumber()
-        => this.Submit(value =>
-        {
-            var content = new QrPhoneNumber(Validators.CleanPhoneNumber(value.PhoneNumber));
-            if (!this.qrCodeCreatorModel.SetContent(content))
-            {
-                Debug.WriteLine("Failed to set content");
-            }
-        });
+        => this.Submit(value => new QrPhoneNumber(Validators.CleanPhoneNumber(value.PhoneNumber)));
 }

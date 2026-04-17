@@ -21,13 +21,5 @@ public sealed partial class GeoLocationViewModel(QrCodeCreatorModel qrCodeCreato
 
     partial void OnLongitudeChanged(string value) => this.SubmitGeoLocation();
 
-    private void SubmitGeoLocation()
-        => this.Submit(value =>
-        {
-            var content = new QrGeoLocation(value.Latitude, value.Longitude);
-            if (!this.qrCodeCreatorModel.SetContent(content))
-            {
-                Debug.WriteLine("Failed to set content");
-            }
-        });
+    private void SubmitGeoLocation() => this.Submit(value => new QrGeoLocation(value.Latitude, value.Longitude));
 }

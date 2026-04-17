@@ -95,6 +95,8 @@ global using Lyt.Validation;
 
 global using Lyt.QrCode.API;
 global using Lyt.QrCode.Content;
+global using Lyt.QrCode.Parser;
+
 
 global using Lyt.QrCode.Creator.Model;
 global using Lyt.QrCode.Creator.Model.Validation;
