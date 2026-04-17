@@ -2,17 +2,18 @@
 
 public static class Validators
 {
-    public class AlwaysValid<T> : AbstractValidator<T> { }
+    public static FieldValidator<T> AlwaysValid<T>(string sourcePropertyName)
+        => new(validator: new Validators.AlwaysValidValidator<T>(), sourcePropertyName: sourcePropertyName);
+
+    public class AlwaysValidValidator<T> : AbstractValidator<T> { }
 
     public class BasicString : AbstractValidator<string>
     {
         public BasicString()
-        {
-            this.RuleFor(x => x)
+            => this.RuleFor(x => x)
                 .NotEmpty().WithMessage("Cannot be empty.")
                 .MinimumLength(2).WithMessage("Too short.")
                 .MaximumLength(80).WithMessage("Too long.");
-        }
     }
 
     public static readonly FieldValidator<string> TitleValidator =
@@ -24,21 +25,19 @@ public static class Validators
     public class Url : AbstractValidator<string>
     {
         public Url()
-        {
-            this.RuleFor(x => x)
+            => this.RuleFor(x => x)
                 .NotEmpty().WithMessage("The Url cannot be empty.")
                 .MinimumLength(8).WithMessage("Too short.")
                 .MaximumLength(420).WithMessage("Too long.")
                 .Must(x => x.StartsWith("http://") || x.StartsWith("https://"))
-                    .WithMessage("The Url does not begin with a valid Web http or https protocol.");
-        }
+                .WithMessage("The Url does not begin with a valid Web http or https protocol.");
+
     }
 
     public class LatitudeString : AbstractValidator<string>
     {
         public LatitudeString()
-        {
-            this.RuleFor(x => x)
+            => this.RuleFor(x => x)
                 .NotEmpty().WithMessage("Latitude field cannot be empty.")
                 .MinimumLength(1).WithMessage("Too short.")
                 .MaximumLength(40).WithMessage("Too long.")
@@ -46,10 +45,9 @@ public static class Validators
                     double.TryParse(x, out double value) &&
                     !double.IsNaN(value) &&
                     double.IsFinite(value)).WithMessage("Latitude must be a valid number.")
-                .Must(x => 
+                .Must(x =>
                     double.TryParse(x, out double value) &&
                     value >= -90.0 && value <= 90.0).WithMessage("Latitude must be between -90.0 and 90.0 degrees.");
-        }
     }
 
     public static readonly FieldValidator<string> Latitude =
@@ -58,8 +56,7 @@ public static class Validators
     public class LongitudeString : AbstractValidator<string>
     {
         public LongitudeString()
-        {
-            this.RuleFor(x => x)
+            => this.RuleFor(x => x)
                 .NotEmpty().WithMessage("Longitude field cannot be empty.")
                 .MinimumLength(1).WithMessage("Too short.")
                 .MaximumLength(40).WithMessage("Too long.")
@@ -70,7 +67,6 @@ public static class Validators
                 .Must(x =>
                     double.TryParse(x, out double value) &&
                     value >= -180.0 && value <= 180.0).WithMessage("Longitude must be between -180.0 and 180.0 degrees");
-        }
     }
 
     public static readonly FieldValidator<string> Longitude =
@@ -79,11 +75,9 @@ public static class Validators
     public class Email : AbstractValidator<string>
     {
         public Email()
-        {
-            this.RuleFor(x => x)
+            => this.RuleFor(x => x)
                 .NotEmpty().WithMessage("This email address cannot be empty")
                 .EmailAddress().WithMessage("This email address is invalid or malformed.");
-        }
     }
 
     public static readonly FieldValidator<string> EmailAddress =
@@ -100,14 +94,12 @@ public static class Validators
 
     public class Phone : AbstractValidator<string>
     {
-        public Phone()
-        {
-            this.RuleFor(x => CleanPhoneNumber(x))
+        public Phone()        
+            => this.RuleFor(x => CleanPhoneNumber(x))
                 .NotEmpty().WithMessage("This phone number cannot be empty")
                 .MinimumLength(4).WithMessage("This phone number is too short.")
                 .MaximumLength(20).WithMessage("This phone number is too long.")
-                .Matches( @"^\+?[1-9][0-9]{7,14}$") .WithMessage("This phone number is invalid or malformed.");
-        }
+                .Matches(@"^\+?[1-9][0-9]{7,14}$").WithMessage("This phone number is invalid or malformed.");        
     }
 
     public static readonly FieldValidator<string> PhoneNumber =

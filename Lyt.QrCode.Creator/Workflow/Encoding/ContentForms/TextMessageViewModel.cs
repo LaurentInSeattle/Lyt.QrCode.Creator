@@ -1,5 +1,7 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding.ContentForms;
 
+using static Lyt.QrCode.Creator.Model.Validation.Validators;
+
 public sealed partial class TextMessageViewModel(QrCodeCreatorModel qrCodeCreatorModel) :
     FormViewModel<TextMessageView, TextMessageViewModel.TextMessage>(qrCodeCreatorModel, TextMessageValidator)
 {
@@ -25,16 +27,13 @@ public sealed partial class TextMessageViewModel(QrCodeCreatorModel qrCodeCreato
     private static readonly FieldValidator<string> MessageValidator =
         new(validator: new MessageStringValidator(), sourcePropertyName: "Message");
 
-    private static readonly FieldValidator<QrTextMessage.MessagingProtocol> ProtocolValidator =
-        new(validator: new Validators.AlwaysValid<QrTextMessage.MessagingProtocol>(), sourcePropertyName: "Protocol");
-
     private static readonly FormValidator<TextMessage> TextMessageValidator =
         new(focusFieldName: "PhoneNumber",
             fieldValidators:
             [
                 Validators.PhoneNumber,
                 MessageValidator,
-                ProtocolValidator,
+                AlwaysValid<QrTextMessage.MessagingProtocol>("Protocol"),
             ]);
 
     [ObservableProperty]

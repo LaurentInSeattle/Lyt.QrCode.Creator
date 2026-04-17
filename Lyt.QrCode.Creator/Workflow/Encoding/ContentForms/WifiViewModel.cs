@@ -1,10 +1,13 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding.ContentForms;
 
+using static Lyt.QrCode.Creator.Model.Validation.Validators;
+
 public sealed partial class WifiViewModel(QrCodeCreatorModel qrCodeCreatorModel) :
     FormViewModel<WifiView, WifiViewModel.Wifi>(qrCodeCreatorModel, WifiValidator)
 {
     public sealed record class Wifi(
-        string SsId = "", string Password = "",
+        string SsId = "", 
+        string Password = "",
         QrWifi.AuthenticationMode Mode = QrWifi.AuthenticationMode.WPA2,
         bool IsHiddenNetwork = true)
     {
@@ -25,24 +28,15 @@ public sealed partial class WifiViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     private static readonly FieldValidator<string> SsIdValidator =
         new(validator: new SsIdStringValidator(), sourcePropertyName: "SsId");
 
-    private static readonly FieldValidator<string> PasswordValidator =
-        new(validator: new Validators.AlwaysValid<string>(), sourcePropertyName: "Password");
-
-    private static readonly FieldValidator<QrWifi.AuthenticationMode> ModeValidator =
-        new(validator: new Validators.AlwaysValid<QrWifi.AuthenticationMode>(), sourcePropertyName: "Mode");
-
-    private static readonly FieldValidator<bool> IsHiddenNetworkValidator =
-        new(validator: new Validators.AlwaysValid<bool>(), sourcePropertyName: "IsHiddenNetwork");
-
     private static readonly FormValidator<Wifi> WifiValidator =
         new(focusFieldName: "SsIdTextBox",
             formValidator: new WifiPasswordValidator(),
             fieldValidators:
             [
                 SsIdValidator,
-                PasswordValidator,
-                ModeValidator,
-                IsHiddenNetworkValidator,
+                AlwaysValid<string>("Password"),
+                AlwaysValid<QrWifi.AuthenticationMode>("Mode"),
+                AlwaysValid<bool>("IsHiddenNetwork"),
             ]);
 
     public class WifiPasswordValidator : AbstractValidator<Wifi>
