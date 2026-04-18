@@ -23,7 +23,13 @@
 			IsVisible="{Binding HasData}"
 			ShowGridLines="False"
 			> 
-			<Grid.RowDefinitions>
+		  <Grid.CacheMode>
+			<BitmapCache 
+				SnapsToDevicePixels="True" 
+				EnableClearType="True" 
+				/>
+		  </Grid.CacheMode>			
+		  <Grid.RowDefinitions>
 				<RowDefinition Height="44" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="40" />

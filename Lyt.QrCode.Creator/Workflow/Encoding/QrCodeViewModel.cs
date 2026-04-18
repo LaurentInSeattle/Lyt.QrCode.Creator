@@ -58,7 +58,7 @@ public sealed partial class QrCodeViewModel :
 
     private void ReceiveOnUiThread(ModelChangedMessage _)
     {
-        Debug.WriteLine("Model changed message received in QrCodeViewModel");
+        // Debug.WriteLine("Model changed message received in QrCodeViewModel");
         if (this.qrCodeCreatorModel.Modules.Length == 0)
         {
             this.HasData = false;
