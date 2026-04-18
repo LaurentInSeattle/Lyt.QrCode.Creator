@@ -82,6 +82,7 @@
 			</Grid.ColumnDefinitions>
 			<RadioButton
 				Grid.Column="0" Grid.Row="0"
+				x:Name="MessagingProtocolButton"
 				Content="SMS (Regular)"
 				VerticalAlignment="Center" HorizontalAlignment="Left"
 				GroupName="ProtocolGroup"

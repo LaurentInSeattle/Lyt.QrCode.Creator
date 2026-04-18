@@ -8,7 +8,12 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+	
+	xmlns:convertLib="clr-namespace:Lyt.Avalonia.Mvvm.Converters;assembly=Lyt.Avalonia.Mvvm"    
 	>
+	<UserControl.Resources>
+		<convertLib:EnumBooleanConverter x:Key="enumBooleanConverter" />
+	</UserControl.Resources>
 
 	<Grid> 
 		<Grid.RowDefinitions>
@@ -17,6 +22,8 @@
 			<RowDefinition Height="20" />
 			<RowDefinition Height="40" />
 			<RowDefinition Height="20" />
+			<RowDefinition Height="40" /> <!-- prompt 5 -->
+			<RowDefinition Height="130"/> <!-- grid   6 --> 
 			<RowDefinition Height="56" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -52,6 +59,46 @@
 			/>
 		<TextBlock
 			Grid.Row="5"
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			Text="Select a location protocol:"
+			/>
+		<Grid
+			Margin="60 0 20 0"
+			Grid.Row="6"
+			>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40" />
+				<RowDefinition Height="40" />
+				<RowDefinition Height="40" />
+			</Grid.RowDefinitions>
+			<RadioButton
+				Grid.Row="0"
+				x:Name="GeoProtocolButton"
+				Content="geo: Protocol (Opens in Maps)"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				GroupName="ProtocolGroup"
+				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Geo}"
+				/>
+			<RadioButton
+				Grid.Row="1"
+				Content="Google Maps (Opens in browser)"
+				GroupName="ProtocolGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=GoogleMapsLink}"
+				/>
+			<RadioButton
+				Grid.Row="2"
+				Content="Microsoft Bing Maps (Opens in browser)"
+				GroupName="ProtocolGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=BingMapsLink}"
+				/>
+		</Grid>
+		<TextBlock
+			Grid.Row="7"
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
 			Margin="40 0 20 0"

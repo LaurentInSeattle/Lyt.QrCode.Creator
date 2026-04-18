@@ -1,5 +1,6 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding.ContentForms;
 
+using static Lyt.QrCode.Content.QrTextMessage;
 using static Lyt.QrCode.Creator.Model.Validation.Validators;
 
 public sealed partial class TextMessageViewModel(QrCodeCreatorModel qrCodeCreatorModel) :
@@ -8,7 +9,7 @@ public sealed partial class TextMessageViewModel(QrCodeCreatorModel qrCodeCreato
     public sealed record class TextMessage(
         string PhoneNumber = "",
         string Message = "",
-        QrTextMessage.MessagingProtocol Protocol = QrTextMessage.MessagingProtocol.Sms)
+        MessagingProtocol Protocol = MessagingProtocol.Sms)
     {
         public TextMessage() : this(string.Empty, string.Empty) { }
     }
@@ -43,13 +44,19 @@ public sealed partial class TextMessageViewModel(QrCodeCreatorModel qrCodeCreato
     public partial string Message { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial QrTextMessage.MessagingProtocol Protocol { get; set; } = QrTextMessage.MessagingProtocol.Sms;
+    public partial MessagingProtocol Protocol { get; set; } = MessagingProtocol.Sms;
+
+    public override void OnViewLoaded()
+    {
+        this.Protocol = MessagingProtocol.Sms;
+        this.View.MessagingProtocolButton.IsChecked = true;
+    }
 
     partial void OnPhoneNumberChanged(string value) => this.SubmitTextMessage();
 
     partial void OnMessageChanged(string value) => this.SubmitTextMessage();
 
-    partial void OnProtocolChanged(QrTextMessage.MessagingProtocol value) => this.SubmitTextMessage();
+    partial void OnProtocolChanged(MessagingProtocol value) => this.SubmitTextMessage();
 
     private void SubmitTextMessage()
         => this.Submit(value => new QrTextMessage(value.PhoneNumber, value.Message, value.Protocol));
