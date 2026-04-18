@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaXaml Remove="Assets\Theme\PickerStyles.axaml" />
     <AvaloniaXaml Remove="Assets\Theme\RadioButtonStyles.axaml" />
   </ItemGroup>
 
@@ -54,6 +55,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Update="Assets\Theme\PickerStyles.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
     <AvaloniaResource Update="Assets\Theme\RadioButtonStyles.axaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>

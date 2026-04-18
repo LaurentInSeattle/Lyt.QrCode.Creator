@@ -98,7 +98,6 @@
 				VerticalAlignment="Stretch" HorizontalAlignment="Left"				
 				SelectedDate="{Binding StartDate}"
 				DayFormat="ddd dd"
-				Foreground="{StaticResource LightAqua_1_100}"
 				/> 
 			<TimePicker
 				IsVisible="{Binding !IsAllDay}"
@@ -106,21 +105,29 @@
 				SelectedTime="{Binding StartTime}"
 				MinWidth="100"
 				Width="120"
-				Foreground="{StaticResource LightAqua_1_100}"
 				/> 
 		</Grid>
 		<toggle:ToggleSwitch
 			Grid.Row="9" 
 			Style="{StaticResource StandardToggleSwitch}"
 			TrueText="All Day Event"
-			FalseText="Limited Duration"
+			FalseText="Known Duration"
 			Margin="20 0 0 0"
-			Height="34" Width="320"
+			Height="32" Width="320"
 			Orientation="Horizontal"
 			HorizontalAlignment="Left" VerticalAlignment="Center"
 			Value="{Binding IsAllDay}"
 			/>
 		<!-- Duration here on same row--> 
+		<TextBlock
+			Grid.Row="9"
+			IsVisible="{Binding !IsAllDay}"
+			Theme="{StaticResource Medium}"
+			Margin="0 0 160 0"
+			TextAlignment="Center"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			Text="... to last:"
+			/>
 		<TimePicker
 			Grid.Row="9"
 			Margin="00 0 20 0"
@@ -129,7 +136,6 @@
 			SelectedTime="{Binding Duration}"
 			MinWidth="100"
 			Width="120"
-			Foreground="{StaticResource LightAqua_1_100}"
 			/> 
 		<TextBlock
 			Grid.Row="11"
