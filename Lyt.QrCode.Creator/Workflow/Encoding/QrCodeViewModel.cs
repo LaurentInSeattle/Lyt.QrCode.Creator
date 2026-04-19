@@ -33,7 +33,7 @@ public sealed partial class QrCodeViewModel :
         {
             // Save to desktop or documents depending on model settings
             string filePath = this.qrCodeCreatorModel.OutputFilePath();
-            this.View.FrameGrid.SaveAsImage(filePath);
+            this.View.FrameGrid.SaveAsHighQualityImage(filePath);
             message = $"QR code image saved to {filePath}";
             success = true;
         }

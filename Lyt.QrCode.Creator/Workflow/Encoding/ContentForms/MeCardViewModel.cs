@@ -6,72 +6,38 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
     FormViewModel<MeCardView, MeCardViewModel.MeCard>(qrCodeCreatorModel, MeCardValidator)
 {
     public sealed record class MeCard(
-        string FirstName,
+        string FirstName = "",
         string LastName = "",
-        string Description = "",
-        DateTimeOffset? StartDate = default,
-        TimeSpan? StartTime = default,
-        TimeSpan? Duration = default,
-        bool IsAllDay = false
-        )
+        string Title = "",
+        string Nickname = "",
+        string Note = "",
+        string Organization = "",
+        string Phone = "",
+        string MobilePhone = "",
+        string WorkPhone = "",
+        string Email = "",
+        string Website = "",
+        ContactAddressFormat Format = ContactAddressFormat.European,
+        string Street = "",
+        string PoBox = "",
+        string RoomNumber = "",
+        string HouseNumber = "",
+        string City = "",
+        string ZipCode = "",
+        string StateRegion = "",
+        string Country = "")
     {
         public MeCard() :
             this(string.Empty, string.Empty, string.Empty,
-                DateTime.Now, TimeSpan.Zero, TimeSpan.Zero, false)
+                string.Empty, string.Empty, string.Empty,
+                string.Empty, string.Empty, string.Empty,
+                string.Empty, string.Empty,
+                ContactAddressFormat.European,
+                string.Empty, string.Empty, string.Empty,
+                string.Empty, string.Empty, string.Empty,
+                string.Empty, string.Empty)
         { }
     }
-
-    /*
-    public string PoBox { get; set; } = string.Empty;
-
-    public string RoomNumber { get; set; } = string.Empty;
-
-    */ 
-
-    public class SummaryStringValidator : AbstractValidator<string>
-    {
-        public SummaryStringValidator()
-            => this.RuleFor(x => x)
-                .NotEmpty().WithMessage("The event summary cannot be empty.")
-                .MinimumLength(4).WithMessage("The event summary is too short.")
-                .MaximumLength(60).WithMessage("The event summary is too long.");
-    }
-
-    public class StartDateValidator : AbstractValidator<DateTimeOffset?>
-    {
-        public StartDateValidator()
-            => this.RuleFor(x => x)
-                .NotNull().WithMessage("The event start date must be defined.")
-                .GreaterThan(DateTime.Now.Date.AddDays(-1)).WithMessage("The event start date must be today or in the future.");
-    }
-
-    public class StartTimeValidator : AbstractValidator<TimeSpan?>
-    {
-        public StartTimeValidator()
-            => this.RuleFor(x => x)
-                .NotNull().WithMessage("The event start time must be defined.");
-    }
-
-    public class DurationValidator : AbstractValidator<TimeSpan?>
-    {
-        public DurationValidator()
-            => this.RuleFor(x => x)
-                .NotNull().WithMessage("The event duration must be defined.")
-                .GreaterThan(TimeSpan.FromMinutes(1)).WithMessage("The event must last a least one minute.");
-    }
-
-    private static readonly FormValidator<MeCard> MeCardValidator =
-        new(focusFieldName: "SummaryTextBox",
-            fieldValidators:
-            [
-                new FieldValidator<string> ("Summary", new SummaryStringValidator()),
-                AlwaysValid<string>("Location"),
-                AlwaysValid<string>("Description"),
-                new FieldValidator<DateTimeOffset?>("StartDate", new StartDateValidator()),
-                new FieldValidator<TimeSpan?>("StartTime", new StartTimeValidator()),
-                new FieldValidator<TimeSpan?>("Duration", new DurationValidator()),
-                AlwaysValid<bool>("IsAllDay"),
-            ]);
 
     [ObservableProperty]
     public partial string FirstName { get; set; } = string.Empty;
@@ -79,55 +45,137 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
     [ObservableProperty]
     public partial string LastName { get; set; } = string.Empty;
 
-    //[ObservableProperty]
-    //public partial string Description { get; set; } = string.Empty;
+    [ObservableProperty]
+    public partial ContactAddressFormat Format { get; set; } = ContactAddressFormat.European;
 
-    //[ObservableProperty]
-    //public partial DateTimeOffset? StartDate { get; set; } = DateTime.Now;
+    // All other relevant optional Card fields as properties defaulting to empty 
+    [ObservableProperty]
+    public partial string Title { get; set; } = string.Empty;
 
-    //[ObservableProperty]
-    //public partial TimeSpan? StartTime { get; set; } = TimeSpan.FromHours(11.0);
+    [ObservableProperty]
+    public partial string Nickname { get; set; } = string.Empty;
 
-    //[ObservableProperty]
-    //public partial TimeSpan? Duration { get; set; } = TimeSpan.FromHours(1.0);
+    [ObservableProperty]
+    public partial string Organization { get; set; } = string.Empty;
 
-    //[ObservableProperty]
-    //public partial bool IsAllDay { get; set; } = false;
+    [ObservableProperty]
+    public partial string Note { get; set; } = string.Empty;
 
-    public override void OnViewLoaded()
+    [ObservableProperty]
+    public partial string Phone { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string MobilePhone { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string WorkPhone { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string Email { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string Website { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string PoBox { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string RoomNumber { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string HouseNumber { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string Street { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string City { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string ZipCode { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string StateRegion { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string Country { get; set; } = string.Empty;
+
+   
+    public class FirstNameValidator : AbstractValidator<string>
     {
-        base.OnViewLoaded();
-        //this.StartDate = DateTimeOffset.Now;
-        //this.StartTime = TimeSpan.FromHours(11.0);
-        //this.Duration = TimeSpan.FromHours(1.0);
+        public FirstNameValidator()
+            => this.RuleFor(x => x)
+                .NotEmpty().WithMessage("'First Name' cannot be empty.")
+                .MinimumLength(2).WithMessage("The first name is too short.")
+                .MaximumLength(60).WithMessage("The first name is too long.");
     }
 
+    public class LastNameValidator : AbstractValidator<string>
+    {
+        public LastNameValidator()
+            => this.RuleFor(x => x)
+                .NotEmpty().WithMessage("'Last Name' cannot be empty.")
+                .MinimumLength(2).WithMessage("The last name is too short.")
+                .MaximumLength(60).WithMessage("The last name is too long.");
+    }
+
+    private static readonly FormValidator<MeCard> MeCardValidator =
+        new(focusFieldName: "FirstNameTextBox",
+            fieldValidators:
+            [
+                new FieldValidator<string> ("FirstName", new FirstNameValidator()),
+                new FieldValidator<string> ("LastName", new LastNameValidator()),
+                AlwaysValid<string>("Title"),
+                AlwaysValid<string>("Nickname"),
+            ]);
+
     partial void OnFirstNameChanged(string value) => this.SubmitMeCard();
-
     partial void OnLastNameChanged(string value) => this.SubmitMeCard();
+    partial void OnTitleChanged(string value) => this.SubmitMeCard();
+    partial void OnNicknameChanged(string value) => this.SubmitMeCard();
 
-    //partial void OnDescriptionChanged(string value) => this.SubmitMeCard();            
-    
-    //partial void OnStartDateChanged(DateTimeOffset? value) => this.SubmitMeCard();
+    partial void OnNoteChanged(string value) => this.SubmitMeCard();
+    partial void OnOrganizationChanged(string value) => this.SubmitMeCard();
+    partial void OnPhoneChanged(string value) => this.SubmitMeCard();
+    partial void OnMobilePhoneChanged(string value) => this.SubmitMeCard();
+    partial void OnWorkPhoneChanged(string value) => this.SubmitMeCard();
+    partial void OnEmailChanged(string value) => this.SubmitMeCard();
+    partial void OnWebsiteChanged(string value) => this.SubmitMeCard();
 
-    //partial void OnStartTimeChanged(TimeSpan? value) => this.SubmitMeCard();
-
-    //partial void OnDurationChanged(TimeSpan? value) => this.SubmitMeCard();
-
-    //partial void OnIsAllDayChanged(bool value) => this.SubmitMeCard();
+    partial void OnFormatChanged(ContactAddressFormat value) => this.SubmitMeCard();
+    partial void OnStreetChanged(string value) => this.SubmitMeCard();
+    partial void OnPoBoxChanged(string value) => this.SubmitMeCard();
+    partial void OnRoomNumberChanged(string value) => this.SubmitMeCard();
+    partial void OnHouseNumberChanged(string value) => this.SubmitMeCard();
+    partial void OnCityChanged(string value) => this.SubmitMeCard();
+    partial void OnZipCodeChanged(string value) => this.SubmitMeCard();
+    partial void OnStateRegionChanged(string value) => this.SubmitMeCard();
+    partial void OnCountryChanged(string value) => this.SubmitMeCard();
 
     private void SubmitMeCard()
         => this.Submit(value =>
         {
-            if (!value.StartDate.HasValue || !value.StartTime.HasValue || !value.Duration.HasValue)
-            {
-                return null;
-            }
-
             return
                 new QrMeCard(value.FirstName, value.LastName)
                 {
-
-                }; 
+                    Title = value.Title,
+                    Nickname = value.Nickname,
+                    Note = value.Note,
+                    Organization = value.Organization,
+                    Phone = value.Phone,
+                    MobilePhone = value.MobilePhone,
+                    WorkPhone = value.WorkPhone,
+                    Email = value.Email,
+                    Website = value.Website,
+                    Format = value.Format,
+                    Street = value.Street,
+                    PoBox = value.PoBox,
+                    RoomNumber = value.RoomNumber,
+                    HouseNumber = value.HouseNumber,
+                    City = value.City,
+                    ZipCode = value.ZipCode,
+                    StateRegion = value.StateRegion,
+                    Country = value.Country,
+                };
         });
 }

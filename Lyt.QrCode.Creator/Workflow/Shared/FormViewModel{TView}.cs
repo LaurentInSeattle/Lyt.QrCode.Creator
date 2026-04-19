@@ -1,17 +1,12 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Shared;
 
-public partial class FormViewModel<TView, TValue> :
+public partial class FormViewModel<TView, TValue>(
+    QrCodeCreatorModel qrCodeCreatorModel, IFormValidator<TValue> validator) :
     ViewModel<TView> where TView : View, new()
     where TValue : class, new()
 {
-    protected readonly QrCodeCreatorModel qrCodeCreatorModel;
-    protected readonly IFormValidator<TValue> validator;
-
-    public FormViewModel(QrCodeCreatorModel qrCodeCreatorModel, IFormValidator<TValue> validator)
-    {
-        this.qrCodeCreatorModel = qrCodeCreatorModel;
-        this.validator = validator;
-    }
+    protected readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
+    protected readonly IFormValidator<TValue> validator = validator;
 
     [ObservableProperty]
     public partial string ValidationMessage { get; set; } = string.Empty;

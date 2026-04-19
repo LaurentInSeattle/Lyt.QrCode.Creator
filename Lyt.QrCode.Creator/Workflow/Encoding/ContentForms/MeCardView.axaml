@@ -11,22 +11,70 @@
 	>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="40" />
+			<RowDefinition Height="40" /> <!-- First Last -->
+			<RowDefinition Height="20" />
+			<RowDefinition Height="40" /> <!-- Title Nickname -->
+			<RowDefinition Height="20" />
+			<RowDefinition Height="56" /> <!-- Message  -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="300" />
+			<ColumnDefinition Width="300" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Grid.Column="0" Grid.Row="0" 
-			Margin="0"
-			Text="Me Card"
-			Theme="{StaticResource H1}"
-			TextAlignment="Center"
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" 
+			Text="NTT DoCoMo Japanese compact contact card format."
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<TextBox
+			x:Name="FirstNameTextBox"
+			Grid.Column="0" Grid.Row="1"
+			VerticalContentAlignment="Center" 
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="First Name, required"
+			MaxLength="40"
+			Text="{Binding FirstName}"
+			Margin="40 0 4 0"
+			/>
+		<TextBox
+			x:Name="LastNameTextBox"
+			Grid.Column="1" Grid.Row="1"
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Last Name, required"
+			MaxLength="40"
+			Text="{Binding LastName}"
+			Margin="4 0 0 0"
+			/>
+		<TextBox
+			x:Name="TitleTextBox"
+			Grid.Column="0" Grid.Row="3"
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Title, optional"
+			MaxLength="40"
+			Text="{Binding Title}"
+			Margin="40 0 4 0"
+			/>
+		<TextBox
+			x:Name="NicknameTextBox"
+			Grid.Column="1" Grid.Row="3"
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Nickname, optional"
+			MaxLength="40"
+			Text="{Binding Nickname}"
+			Margin="4 0 0 0"
+			/>
+		<TextBlock
+			Grid.Row="5"
+			Text="{Binding ValidationMessage}"
+			Theme="{StaticResource ValidationError}"
+			Margin="40 0 0 0"
 			/>
 	</Grid>
 </UserControl>

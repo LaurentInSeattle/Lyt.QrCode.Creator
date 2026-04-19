@@ -6,7 +6,7 @@ public static class ImagingUtilities
     /// <summary> Saves the specified visual as an image to the given file path. </summary>
     /// <param name="visual">The visual to save as an image.</param>
     /// <param name="filePath">The file path where the image will be saved.</param>
-    public static void SaveAsImage(this Visual visual, string filePath)
+    public static void SaveAsHighQualityImage(this Visual visual, string filePath)
     {
         int scaling = 4;
         int width = (int)visual.Bounds.Width;
