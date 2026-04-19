@@ -127,6 +127,7 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
                 new FieldValidator<string> ("LastName", new LastNameValidator()),
                 AlwaysValid<string>("Title"),
                 AlwaysValid<string>("Nickname"),
+                new FieldValidator<string> (allowEmpty:true, validator: new Phone(), sourcePropertyName: "Phone"),
             ]);
 
     partial void OnFirstNameChanged(string value) => this.SubmitMeCard();

@@ -7,6 +7,21 @@ public static class Validators
 
     public class AlwaysValidValidator<T> : AbstractValidator<T> { }
 
+    //public static FieldValidator<TValidator> Optional<TValidator>(string sourcePropertyName)
+    //    where TValidator : AbstractValidator<string>, new()
+    //    => new(validator: new Validators.OptionalValidator<TValidator>(), sourcePropertyName: sourcePropertyName);
+
+    //public class  OptionalValidator<TValidator> : AbstractValidator<string> 
+    //    where TValidator : AbstractValidator<string>, new()
+    //{
+    //    public OptionalValidator()
+    //    {
+    //        this.When(x => string.IsNullOrEmpty(x), () => { });
+
+    //        this.When(x => !string.IsNullOrEmpty(x), () => { new TValidator(); });
+    //    }
+    //}
+
     public class BasicString : AbstractValidator<string>
     {
         public BasicString()
@@ -104,4 +119,7 @@ public static class Validators
 
     public static readonly FieldValidator<string> PhoneNumber =
         new(validator: new Validators.Phone(), sourcePropertyName: "PhoneNumber");
+
+    public static readonly FieldValidator<string> OptionalPhoneNumber =
+        new(allowEmpty:true, validator: new Validators.Phone(), sourcePropertyName: "PhoneNumber");
 }

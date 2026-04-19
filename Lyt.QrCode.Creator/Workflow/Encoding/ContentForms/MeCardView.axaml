@@ -12,11 +12,13 @@
 	<Grid> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40" />
-			<RowDefinition Height="40" /> <!-- First Last -->
+			<RowDefinition Height="40" /> <!-- First Last - 1 -->
 			<RowDefinition Height="20" />
-			<RowDefinition Height="40" /> <!-- Title Nickname -->
+			<RowDefinition Height="40" /> <!-- Title Nickname - 3-->
 			<RowDefinition Height="20" />
-			<RowDefinition Height="56" /> <!-- Message  -->
+			<RowDefinition Height="40" /> <!-- Prompt -  5 -->
+			<RowDefinition Height="40" /> <!-- Primary Phone 6 -->
+			<RowDefinition Height="56" /> <!-- Message  7 -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="300" />
@@ -71,7 +73,25 @@
 			Margin="4 0 0 0"
 			/>
 		<TextBlock
-			Grid.Row="5"
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5"	
+			Text="Phone numbers: No need to type spaces and symbols such as + ) - (, etc."
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<TextBox
+			x:Name="PhoneTextBox"
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"	
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Enter a valid primary phone number."
+			MaxLength="40"
+			Text="{Binding Phone}"
+			Margin="40 0 20 0"
+			/>
+		<TextBlock
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7"
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
 			Margin="40 0 0 0"
