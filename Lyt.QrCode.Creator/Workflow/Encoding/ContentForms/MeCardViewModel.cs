@@ -133,6 +133,7 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
                 new FieldValidator<string> ("Email", allowEmpty:true, validator: new Email() ),
                 AlwaysValid<string>("Organization"),
                 new FieldValidator<string> ("Website", allowEmpty:true, validator: new Url() ),
+                AlwaysValid<string>("Note"),
             ]);
 
     partial void OnFirstNameChanged(string value) => this.SubmitMeCard();
@@ -140,13 +141,13 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
     partial void OnTitleChanged(string value) => this.SubmitMeCard();
     partial void OnNicknameChanged(string value) => this.SubmitMeCard();
 
-    partial void OnNoteChanged(string value) => this.SubmitMeCard();
     partial void OnOrganizationChanged(string value) => this.SubmitMeCard();
     partial void OnPrimaryPhoneChanged(string value) => this.SubmitMeCard();
     partial void OnMobilePhoneChanged(string value) => this.SubmitMeCard();
     partial void OnWorkPhoneChanged(string value) => this.SubmitMeCard();
     partial void OnEmailChanged(string value) => this.SubmitMeCard();
     partial void OnWebsiteChanged(string value) => this.SubmitMeCard();
+    partial void OnNoteChanged(string value) => this.SubmitMeCard();
 
     partial void OnFormatChanged(ContactAddressFormat value) => this.SubmitMeCard();
     partial void OnStreetChanged(string value) => this.SubmitMeCard();

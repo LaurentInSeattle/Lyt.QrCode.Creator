@@ -45,7 +45,7 @@
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="10" />
-			<ColumnDefinition Width="*" MinWidth="600"/>  
+			<ColumnDefinition Width="*" MinWidth="800"/>  
 			<ColumnDefinition Width="16" /> 
 			<ColumnDefinition Width="840" MinWidth="400"/>
 			<ColumnDefinition Width="10" />
@@ -160,7 +160,7 @@
 			<shared:ContainerControl
 				x:Name="QrCodeContainer"
 				Title="QR Code"
-				Text="Download your generated QR Code here!"
+				Text="Save or download your generated QR Code here!"
 				>
 				<shared:ContainerControl.ContainerControlContent>
 					<vm:QrCodeView
@@ -174,7 +174,7 @@
 			</shared:ContainerControl>
 			<shared:ContainerControl
 				Title="Test Image"
-				Text="Test how reliably your QR code can be scanned in various lighting conditions."
+				Text="Test how reliably your QR code can be scanned in various simulated lighting conditions."
 				>
 				<shared:ContainerControl.ContainerControlContent>
 					<vm:TestImageView

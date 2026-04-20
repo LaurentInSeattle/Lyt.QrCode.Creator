@@ -15,16 +15,18 @@
 			<RowDefinition Height="40" /> <!-- First Last - 1 -->
 			<RowDefinition Height="20" />
 			<RowDefinition Height="40" /> <!-- Title Nickname - 3-->
-			<RowDefinition Height="20" />
+			<RowDefinition Height="10" />
 			<RowDefinition Height="40" /> <!-- Prompt -  5 -->
 			<RowDefinition Height="40" /> <!-- Grid Phones 6 -->
-			<RowDefinition Height="20" />
+			<RowDefinition Height="10" />
 			<RowDefinition Height="40" /> <!-- Email Org - 8 -->
 			<RowDefinition Height="20" />
 			<RowDefinition Height="40" /> <!-- Web prompt - 10 -->
 			<RowDefinition Height="40" /> <!-- URL  - 11 -->
+			<RowDefinition Height="20" />
+			<RowDefinition Height="40" /> <!-- Notes - 13 -->
 			<RowDefinition Height="10" />
-			<RowDefinition Height="56" /> <!-- Message  13 -->
+			<RowDefinition Height="56" /> <!-- Message  15 -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="400" />
@@ -163,8 +165,18 @@
 			Text="{Binding Website}"
 			Margin="40 0 0 0"
 			/>
+		<TextBox
+			x:Name="NoteTextBox"
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="13" 
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Optional note, description, quote, etc..."
+			MaxLength="420"
+			Text="{Binding Note}"
+			Margin="40 0 0 0"
+			/>
 		<TextBlock
-			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="13"
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="15"
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
 			Margin="40 0 0 0"
