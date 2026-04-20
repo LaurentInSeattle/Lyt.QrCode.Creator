@@ -47,10 +47,9 @@ public sealed partial class TextMessageViewModel(QrCodeCreatorModel qrCodeCreato
     public partial MessagingProtocol Protocol { get; set; } = MessagingProtocol.Sms;
 
     public override void OnViewLoaded()
-    {
-        this.Protocol = MessagingProtocol.Sms;
-        this.View.MessagingProtocolButton.IsChecked = true;
-    }
+        => Schedule.OnUiThread(100, this.ForceRadioButton, DispatcherPriority.ApplicationIdle);
+
+    private void ForceRadioButton() => this.View.MessagingProtocolButton.IsChecked = true;
 
     partial void OnPhoneNumberChanged(string value) => this.SubmitTextMessage();
 

@@ -17,13 +17,18 @@
 			<RowDefinition Height="40" /> <!-- Title Nickname - 3-->
 			<RowDefinition Height="20" />
 			<RowDefinition Height="40" /> <!-- Prompt -  5 -->
-			<RowDefinition Height="40" /> <!-- GRid Phones 6 -->
+			<RowDefinition Height="40" /> <!-- Grid Phones 6 -->
 			<RowDefinition Height="20" />
-			<RowDefinition Height="56" /> <!-- Message  8 -->
+			<RowDefinition Height="40" /> <!-- Email Org - 8 -->
+			<RowDefinition Height="20" />
+			<RowDefinition Height="40" /> <!-- Web prompt - 10 -->
+			<RowDefinition Height="40" /> <!-- URL  - 11 -->
+			<RowDefinition Height="10" />
+			<RowDefinition Height="56" /> <!-- Message  13 -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="300" />
-			<ColumnDefinition Width="300" />
+			<ColumnDefinition Width="400" />
+			<ColumnDefinition Width="400" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
 			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" 
@@ -75,7 +80,7 @@
 			/>
 		<TextBlock
 			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5"	
-			Text="Phone numbers: No need to type spaces and symbols such as + ) - (, etc."
+			Text="All optional phone numbers: No need to type spaces and symbols such as + ) - (, etc."
 			Theme="{StaticResource Medium}"
 			Margin="40 0 20 0"
 			TextAlignment="Left"
@@ -120,8 +125,46 @@
 				Text="{Binding WorkPhone}"	
 				/>
 		</Grid>
+		<TextBox
+			x:Name="EmailTextBox"
+			Grid.Column="0" Grid.Row="8"	
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Email Address, optional"
+			MaxLength="40"
+			Text="{Binding Email}"
+			Margin="40 0 4 0"
+			/>
+		<TextBox
+			x:Name="OrganizationTextBox"
+			Grid.Column="1" Grid.Row="8"	
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Your organization, optional"
+			MaxLength="40"
+			Text="{Binding Organization}"
+			Margin="4 0 0 0"
+			/>
 		<TextBlock
-			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="8"
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="10" 
+			Text="Website: You must include the web protocol: http:// or https:// (Optional)"
+			Theme="{StaticResource Medium}"
+			Margin="40 0 0 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<TextBox
+			x:Name="UrlTextBox"
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="11" 
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Web Page Address (URL)"
+			MaxLength="420"
+			Text="{Binding Website}"
+			Margin="40 0 0 0"
+			/>
+		<TextBlock
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="13"
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
 			Margin="40 0 0 0"

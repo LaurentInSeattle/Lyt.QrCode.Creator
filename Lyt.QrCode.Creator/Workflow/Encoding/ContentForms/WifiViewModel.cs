@@ -60,6 +60,11 @@ public sealed partial class WifiViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     [ObservableProperty]
     public partial bool IsHiddenNetwork { get; set; } = true;
 
+    public override void OnViewLoaded()
+        => Schedule.OnUiThread(100, this.ForceRadioButton, DispatcherPriority.ApplicationIdle);
+
+    private void ForceRadioButton() => this.View.WPA2RadioButton.IsChecked = true;
+
     partial void OnSsIdChanged(string value) => this.SubmitWifi();
 
     partial void OnPasswordChanged(string value) => this.SubmitWifi();

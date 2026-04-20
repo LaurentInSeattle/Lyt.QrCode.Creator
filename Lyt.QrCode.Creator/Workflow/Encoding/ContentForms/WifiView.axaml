@@ -94,6 +94,7 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<RadioButton
+				x:Name="WPA2RadioButton"
 				Grid.Column="0" Grid.Row="0"
 				Content="WPA 2 (Most secure)"
 				VerticalAlignment="Center" HorizontalAlignment="Left"

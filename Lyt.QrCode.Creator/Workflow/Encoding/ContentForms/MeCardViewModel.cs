@@ -130,6 +130,9 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
                 new FieldValidator<string> ("PrimaryPhone", allowEmpty:true, validator: new Phone() ),
                 new FieldValidator<string> ("MobilePhone", allowEmpty:true, validator: new Phone() ),
                 new FieldValidator<string> ("WorkPhone", allowEmpty:true, validator: new Phone() ),
+                new FieldValidator<string> ("Email", allowEmpty:true, validator: new Email() ),
+                AlwaysValid<string>("Organization"),
+                new FieldValidator<string> ("Website", allowEmpty:true, validator: new Url() ),
             ]);
 
     partial void OnFirstNameChanged(string value) => this.SubmitMeCard();
