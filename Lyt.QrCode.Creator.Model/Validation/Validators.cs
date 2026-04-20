@@ -3,7 +3,7 @@
 public static class Validators
 {
     public static FieldValidator<T> AlwaysValid<T>(string sourcePropertyName)
-        => new(validator: new Validators.AlwaysValidValidator<T>(), sourcePropertyName: sourcePropertyName);
+        => new(sourcePropertyName, allowEmpty:true, validator: new AlwaysValidValidator<T>());
 
     public class AlwaysValidValidator<T> : AbstractValidator<T> { }
 
@@ -31,12 +31,10 @@ public static class Validators
                 .MaximumLength(80).WithMessage("Too long.");
     }
 
-    public static readonly FieldValidator<string> TitleValidator =
-        new(validator: new Validators.BasicString(), sourcePropertyName: "Title");
+    public static readonly FieldValidator<string> TitleValidator = new("Title", validator: new BasicString());
 
+    public static readonly FieldValidator<string> UrlValidator = new("Url", validator: new Url());
 
-    public static readonly FieldValidator<string> UrlValidator =
-        new(validator: new Validators.Url(), sourcePropertyName: "Url");
     public class Url : AbstractValidator<string>
     {
         public Url()
@@ -65,8 +63,7 @@ public static class Validators
                     value >= -90.0 && value <= 90.0).WithMessage("Latitude must be between -90.0 and 90.0 degrees.");
     }
 
-    public static readonly FieldValidator<string> Latitude =
-        new(validator: new Validators.LatitudeString(), sourcePropertyName: "Latitude");
+    public static readonly FieldValidator<string> Latitude = new("Latitude", validator: new LatitudeString());
 
     public class LongitudeString : AbstractValidator<string>
     {
@@ -84,8 +81,7 @@ public static class Validators
                     value >= -180.0 && value <= 180.0).WithMessage("Longitude must be between -180.0 and 180.0 degrees");
     }
 
-    public static readonly FieldValidator<string> Longitude =
-        new(validator: new Validators.LongitudeString(), sourcePropertyName: "Longitude");
+    public static readonly FieldValidator<string> Longitude = new("Longitude", validator: new LongitudeString());
 
     public class Email : AbstractValidator<string>
     {
@@ -95,8 +91,7 @@ public static class Validators
                 .EmailAddress().WithMessage("This email address is invalid or malformed.");
     }
 
-    public static readonly FieldValidator<string> EmailAddress =
-        new(validator: new Validators.Email(), sourcePropertyName: "EmailAddress");
+    public static readonly FieldValidator<string> EmailAddress = new("EmailAddress", validator: new Email());
 
     public static string CleanPhoneNumber(string x)
     {
@@ -117,9 +112,9 @@ public static class Validators
                 .Matches(@"^\+?[1-9][0-9]{7,14}$").WithMessage("This phone number is invalid or malformed.");        
     }
 
-    public static readonly FieldValidator<string> PhoneNumber =
-        new(validator: new Validators.Phone(), sourcePropertyName: "PhoneNumber");
+    public static readonly FieldValidator<string> PhoneNumber = 
+        new("PhoneNumber", validator: new Phone());
 
-    public static readonly FieldValidator<string> OptionalPhoneNumber =
-        new(allowEmpty:true, validator: new Validators.Phone(), sourcePropertyName: "PhoneNumber");
+    public static readonly FieldValidator<string> OptionalPhoneNumber = 
+        new("PhoneNumber", allowEmpty:true, validator: new Phone());
 }

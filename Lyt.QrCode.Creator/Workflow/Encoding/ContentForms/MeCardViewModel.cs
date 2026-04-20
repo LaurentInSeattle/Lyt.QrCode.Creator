@@ -12,7 +12,7 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
         string Nickname = "",
         string Note = "",
         string Organization = "",
-        string Phone = "",
+        string PrimaryPhone = "",
         string MobilePhone = "",
         string WorkPhone = "",
         string Email = "",
@@ -62,7 +62,7 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
     public partial string Note { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string Phone { get; set; } = string.Empty;
+    public partial string PrimaryPhone { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string MobilePhone { get; set; } = string.Empty;
@@ -127,7 +127,9 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
                 new FieldValidator<string> ("LastName", new LastNameValidator()),
                 AlwaysValid<string>("Title"),
                 AlwaysValid<string>("Nickname"),
-                new FieldValidator<string> (allowEmpty:true, validator: new Phone(), sourcePropertyName: "Phone"),
+                new FieldValidator<string> ("PrimaryPhone", allowEmpty:true, validator: new Phone() ),
+                new FieldValidator<string> ("MobilePhone", allowEmpty:true, validator: new Phone() ),
+                new FieldValidator<string> ("WorkPhone", allowEmpty:true, validator: new Phone() ),
             ]);
 
     partial void OnFirstNameChanged(string value) => this.SubmitMeCard();
@@ -137,7 +139,7 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
 
     partial void OnNoteChanged(string value) => this.SubmitMeCard();
     partial void OnOrganizationChanged(string value) => this.SubmitMeCard();
-    partial void OnPhoneChanged(string value) => this.SubmitMeCard();
+    partial void OnPrimaryPhoneChanged(string value) => this.SubmitMeCard();
     partial void OnMobilePhoneChanged(string value) => this.SubmitMeCard();
     partial void OnWorkPhoneChanged(string value) => this.SubmitMeCard();
     partial void OnEmailChanged(string value) => this.SubmitMeCard();
@@ -163,7 +165,7 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
                     Nickname = value.Nickname,
                     Note = value.Note,
                     Organization = value.Organization,
-                    Phone = value.Phone,
+                    Phone = value.PrimaryPhone,
                     MobilePhone = value.MobilePhone,
                     WorkPhone = value.WorkPhone,
                     Email = value.Email,
