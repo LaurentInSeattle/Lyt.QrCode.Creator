@@ -25,8 +25,11 @@
 			<RowDefinition Height="40" /> <!-- URL  - 11 -->
 			<RowDefinition Height="20" />
 			<RowDefinition Height="40" /> <!-- Notes - 13 -->
+			<RowDefinition Height="20" />
+			<RowDefinition Height="40" /> <!-- Address prompt - 15 -->
+			<RowDefinition Height="Auto" /> <!-- Grid Address  16 -->
 			<RowDefinition Height="10" />
-			<RowDefinition Height="56" /> <!-- Message  15 -->
+			<RowDefinition Height="56" /> <!-- Message  18 -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="400" />
@@ -176,7 +179,106 @@
 			Margin="40 0 0 0"
 			/>
 		<TextBlock
-			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="15"
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="15"	
+			Text="All optional address fields, free format, can be alphanumeric, eg. 'Apt #123'."
+			Theme="{StaticResource Medium}"
+			Margin="40 0 0 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<Grid
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="16"	
+			Margin="40 0 0 0"
+			>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="20" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="12"/>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="12"/>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="12"/>
+				<RowDefinition Height="40"/>
+			</Grid.RowDefinitions>
+			<TextBox
+				x:Name="HouseNumberTextBox"
+				Grid.Column="0" Grid.Row="0" 
+				VerticalContentAlignment="Center" 
+				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				PlaceholderText="House Number"
+				MaxLength="40"
+				Text="{Binding HouseNumber}"	
+				/>
+			<TextBox
+				x:Name="StreetNameTextBox"
+				Grid.Column="2" Grid.Row="0" 
+				VerticalContentAlignment="Center" 
+				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				PlaceholderText="Street Name"
+				MaxLength="40"
+				Text="{Binding Street}"	
+				/>
+			<TextBox
+				x:Name="RoomNumberTextBox"
+				Grid.Column="0" Grid.Row="2" 
+				VerticalContentAlignment="Center" 
+				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				PlaceholderText="Room or Apt. Number"
+				MaxLength="40"
+				Text="{Binding RoomNumber}"	
+				/>
+			<TextBox
+				x:Name="PoBoxTextBox"
+				Grid.Column="2" Grid.Row="2" 
+				VerticalContentAlignment="Center" 
+				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				PlaceholderText="PO Box"
+				MaxLength="40"
+				Text="{Binding PoBox}"	
+				/>
+			<TextBox
+				x:Name="CityTextBox"
+				Grid.Column="0" Grid.Row="4" 
+				VerticalContentAlignment="Center" 
+				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				PlaceholderText="City"
+				MaxLength="40"
+				Text="{Binding City}"	
+				/>
+			<TextBox
+				x:Name="ZipTextBox"
+				Grid.Column="2" Grid.Row="4" 
+				VerticalContentAlignment="Center" 
+				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				PlaceholderText="Zip / Postal Code / Postcode / PIN Code"
+				MaxLength="40"
+				Text="{Binding ZipCode}"	
+				/>
+			<TextBox
+				x:Name="StateTextBox"
+				Grid.Column="0" Grid.Row="6" 
+				VerticalContentAlignment="Center" 
+				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				PlaceholderText="State or Region"
+				MaxLength="40"
+				Text="{Binding StateRegion}"	
+				/>
+			<TextBox
+				x:Name="CountryTextBox"
+				Grid.Column="2" Grid.Row="6" 
+				VerticalContentAlignment="Center" 
+				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				PlaceholderText="Country"
+				MaxLength="40"
+				Text="{Binding Country}"	
+				/>
+		</Grid>
+		<TextBlock
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="18"
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
 			Margin="40 0 0 0"

@@ -46,7 +46,7 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
     public partial string LastName { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial ContactAddressFormat Format { get; set; } = ContactAddressFormat.European;
+    public partial ContactAddressFormat Format { get; set; } = ContactAddressFormat.NorthAmerica;
 
     // All other relevant optional Card fields as properties defaulting to empty 
     [ObservableProperty]
@@ -134,6 +134,19 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
                 AlwaysValid<string>("Organization"),
                 new FieldValidator<string> ("Website", allowEmpty:true, validator: new Url() ),
                 AlwaysValid<string>("Note"),
+
+                // Address fields: We need those so that data is going to be copied in the 
+                // final validated object, but we don't want to validate them as they are optional
+                // and have no specific format.
+                AlwaysValid<string>("Street"),
+                AlwaysValid<string>("PoBox"),
+                AlwaysValid<string>("RoomNumber"),
+                AlwaysValid<string>("HouseNumber"),
+                AlwaysValid<string>("City"),
+                AlwaysValid<string>("ZipCode"),
+                AlwaysValid<string>("StateRegion"),
+                AlwaysValid<string>("Country"),
+                AlwaysValid<ContactAddressFormat>("Format")
             ]);
 
     partial void OnFirstNameChanged(string value) => this.SubmitMeCard();
@@ -150,6 +163,7 @@ public sealed partial class MeCardViewModel(QrCodeCreatorModel qrCodeCreatorMode
     partial void OnNoteChanged(string value) => this.SubmitMeCard();
 
     partial void OnFormatChanged(ContactAddressFormat value) => this.SubmitMeCard();
+
     partial void OnStreetChanged(string value) => this.SubmitMeCard();
     partial void OnPoBoxChanged(string value) => this.SubmitMeCard();
     partial void OnRoomNumberChanged(string value) => this.SubmitMeCard();
