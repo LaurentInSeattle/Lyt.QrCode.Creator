@@ -55,7 +55,7 @@ public sealed partial class ContentViewModel(QrCodeCreatorModel qrCodeCreatorMod
                     new(this.View.WifiView, "Wi-Fi Configuration", "wifi_1") ,
                     new(this.View.MailView, "Email Address", "mail_read") ,
                     new(this.View.CalendarEventView, "iCal Calendar Event", "calendar") ,
-                    new(this.View.MeCardView, "MeCard Contact Card", "contact_card") ,
+                    new(this.View.MeCardView, "NTT MeCard Contact Card", "contact_card") ,
                     new(this.View.VCardView, "VCard 4.0 Contact Card", "contact_card") ,
                     new(this.View.GeoLocationView, "Geo Location", "location") ,
                     new(this.View.PhoneNumberView, "Phone Number", "phone") ,
