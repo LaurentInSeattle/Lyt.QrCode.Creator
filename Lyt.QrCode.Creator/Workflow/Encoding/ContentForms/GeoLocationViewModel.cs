@@ -9,7 +9,7 @@ public sealed partial class GeoLocationViewModel(QrCodeCreatorModel qrCodeCreato
     public sealed record class GeoLocation(
         double Latitude = 0.0, double Longitude = 0.0, GeoProtocol Protocol = GeoProtocol.Geo)
     {
-        public GeoLocation() : this(0.0, 0.0) { }
+        public GeoLocation() : this(0.0, 0.0, GeoProtocol.Geo) { }
     }
 
     private static readonly FormValidator<GeoLocation> GeoLocationValidator =
@@ -25,10 +25,10 @@ public sealed partial class GeoLocationViewModel(QrCodeCreatorModel qrCodeCreato
     [ObservableProperty]
     public partial GeoProtocol Protocol { get; set; } = GeoProtocol.Geo;
 
-    public override void OnViewLoaded() 
-        => Schedule.OnUiThread(140, this.ForceRadioButton, DispatcherPriority.ApplicationIdle); 
+    public override void OnViewLoaded()
+        => Schedule.OnUiThread(140, this.ForceRadioButton, DispatcherPriority.ApplicationIdle);
 
-    private void ForceRadioButton() => this.View.GeoProtocolButton.IsChecked = true; 
+    private void ForceRadioButton() => this.View.GeoProtocolButton.IsChecked = true;
 
     partial void OnLatitudeChanged(string value) => this.SubmitGeoLocation();
 

@@ -23,6 +23,8 @@ public partial class VCardViewModel(QrCodeCreatorModel qrCodeCreatorModel) :
         AddressKind Kind = AddressKind.Home,
         string Street = "",
         string HouseNumber = "",
+        string RoomNumber = "",
+        string PoBox = "",
         string City = "",
         string ZipCode = "",
         string StateRegion = "",
@@ -35,8 +37,9 @@ public partial class VCardViewModel(QrCodeCreatorModel qrCodeCreatorModel) :
                 string.Empty, string.Empty,
                 ContactAddressFormat.European,
                 AddressKind.Home,
-                string.Empty, 
-                string.Empty, string.Empty, string.Empty,
+                string.Empty, string.Empty,
+                string.Empty, string.Empty,
+                string.Empty, string.Empty,
                 string.Empty, string.Empty)
         { }
     }
@@ -85,6 +88,12 @@ public partial class VCardViewModel(QrCodeCreatorModel qrCodeCreatorModel) :
 
     [ObservableProperty]
     public partial string Website { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string PoBox { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string RoomNumber { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string HouseNumber { get; set; } = string.Empty;
@@ -143,6 +152,8 @@ public partial class VCardViewModel(QrCodeCreatorModel qrCodeCreatorModel) :
                 // Address fields: We need those so that data is going to be copied in the 
                 // final validated object, but we don't want to validate them as they are optional
                 // and have no specific format.
+                AlwaysValid<string>("PoBox"),
+                AlwaysValid<string>("RoomNumber"),
                 AlwaysValid<string>("Street"),
                 AlwaysValid<string>("HouseNumber"),
                 AlwaysValid<string>("City"),
@@ -200,6 +211,8 @@ public partial class VCardViewModel(QrCodeCreatorModel qrCodeCreatorModel) :
                     Website = value.Website,
                     Kind = value.Kind,
                     Format = value.Format,
+                    PoBox = value.PoBox,
+                    RoomNumber = value.RoomNumber,
                     Street = value.Street,
                     HouseNumber = value.HouseNumber,
                     City = value.City,

@@ -70,9 +70,10 @@
 			Grid.Row="6"
 			>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="40" />
-				<RowDefinition Height="40" />
-				<RowDefinition Height="40" />
+				<RowDefinition Height="36" />
+				<RowDefinition Height="36" />
+				<RowDefinition Height="36" />
+				<RowDefinition Height="36" />
 			</Grid.RowDefinitions>
 			<RadioButton
 				Grid.Row="0"
@@ -95,6 +96,13 @@
 				GroupName="ProtocolGroup"
 				VerticalAlignment="Center" HorizontalAlignment="Left"
 				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=BingMapsLink}"
+				/>
+			<RadioButton
+				Grid.Row="3"
+				Content="US Weather Forecast (Opens in browser)"
+				GroupName="ProtocolGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=UsWeatherLink}"
 				/>
 		</Grid>
 		<TextBlock

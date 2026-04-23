@@ -7,7 +7,10 @@ public sealed partial class QrCodeViewModel :
     private readonly QrCodeCreatorModel qrCodeCreatorModel;
 
     [ObservableProperty]
-    public partial bool HasData { get; set; } 
+    public partial bool HasData { get; set; }
+
+    [ObservableProperty]
+    public partial string EncodedString { get; set; }
 
     public QrCodeViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     {
@@ -62,6 +65,7 @@ public sealed partial class QrCodeViewModel :
         if (this.qrCodeCreatorModel.Modules.Length == 0)
         {
             this.HasData = false;
+            return;
         }
 
         this.HasData = true;
@@ -69,5 +73,6 @@ public sealed partial class QrCodeViewModel :
             this.qrCodeCreatorModel.Modules,
             this.qrCodeCreatorModel.Scale, 
             this.qrCodeCreatorModel.BorderSize);
+        this.EncodedString = this.qrCodeCreatorModel.QrCodeContent.QrString;
     }
 }

@@ -27,7 +27,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public Type QrCodeContentType { get; set; } = typeof(string);
 
     [JsonIgnore]
-    public object QrCodeContent { get; set; } = string.Empty;
+    public QrContent QrCodeContent { get; set; } = new();
 
     [JsonIgnore]
     public bool[,] Modules { get; set; } = new bool[0, 0];

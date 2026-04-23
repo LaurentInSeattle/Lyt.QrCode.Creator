@@ -221,6 +221,8 @@
 				<RowDefinition Height="40"/>
 				<RowDefinition Height="12"/>
 				<RowDefinition Height="40"/>
+				<RowDefinition Height="12"/>
+				<RowDefinition Height="40"/>
 			</Grid.RowDefinitions>
 			<TextBox
 				x:Name="HouseNumberTextBox"
@@ -241,8 +243,26 @@
 				Text="{Binding Street}"	
 				/>
 			<TextBox
-				x:Name="CityTextBox"
+				x:Name="RoomNumberTextBox"
 				Grid.Column="0" Grid.Row="2" 
+				VerticalContentAlignment="Center" 
+				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				PlaceholderText="Room or Apt. Number"
+				MaxLength="40"
+				Text="{Binding RoomNumber}"	
+				/>
+			<TextBox
+				x:Name="PoBoxTextBox"
+				Grid.Column="2" Grid.Row="2" 
+				VerticalContentAlignment="Center" 
+				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+				PlaceholderText="PO Box"
+				MaxLength="40"
+				Text="{Binding PoBox}"	
+				/>
+			<TextBox
+				x:Name="CityTextBox"
+				Grid.Column="0" Grid.Row="4" 
 				VerticalContentAlignment="Center" 
 				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 				PlaceholderText="City"
@@ -251,7 +271,7 @@
 				/>
 			<TextBox
 				x:Name="ZipTextBox"
-				Grid.Column="2" Grid.Row="2" 
+				Grid.Column="2" Grid.Row="4" 
 				VerticalContentAlignment="Center" 
 				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 				PlaceholderText="Zip / Postal Code / Postcode / PIN Code"
@@ -260,7 +280,7 @@
 				/>
 			<TextBox
 				x:Name="StateTextBox"
-				Grid.Column="0" Grid.Row="4" 
+				Grid.Column="0" Grid.Row="6" 
 				VerticalContentAlignment="Center" 
 				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 				PlaceholderText="State or Region"
@@ -269,7 +289,7 @@
 				/>
 			<TextBox
 				x:Name="CountryTextBox"
-				Grid.Column="2" Grid.Row="4" 
+				Grid.Column="2" Grid.Row="6" 
 				VerticalContentAlignment="Center" 
 				VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 				PlaceholderText="Country"
@@ -277,7 +297,7 @@
 				Text="{Binding Country}"	
 				/>
 			<Grid
-				Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="6" 
+				Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="8" 
 				>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />

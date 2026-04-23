@@ -16,6 +16,8 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="80" />
+			<RowDefinition Height="8" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid
 			x:Name="FrameGrid"
@@ -79,6 +81,16 @@
 			Text="Save QR Code Image"
 			Command="{Binding OnSave}"
 			/>
-			
+		<TextBlock
+			IsVisible="{Binding HasData}"
+			Grid.Row="3"
+			Margin="12"
+			MaxWidth="800"
+			Text="{Binding EncodedString}"
+			Theme="{StaticResource Medium}"
+			TextWrapping="Wrap"
+			TextAlignment="Left"
+			VerticalAlignment="Top" HorizontalAlignment="Left"
+			/>
 	</Grid>
 </UserControl>
