@@ -34,13 +34,13 @@ public sealed partial class QrCodeCreatorModel : ModelBase
 
     // Frame 
 
-    [JsonIgnore]
-    public int FrameSize { get; set; } = 2;
-
     // LATER 
     //[JsonIgnore]
     //[AutoNotifyProperty(2)]
     //public partial int FrameSize { get; set; }
+
+    [JsonIgnore]
+    public int FrameSize { get; set; } = 2;
 
     [JsonIgnore]
     public uint FrameColor { get; set; } = ColorBlack;
@@ -106,7 +106,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     // Size and Format 
 
     [JsonIgnore]
-    public int Scale { get; set; } = 12;
+    public int Scale { get; set; } = 16;
 
     [JsonIgnore]
     public OutputLocation OutputLocation { get; set; } = OutputLocation.Desktop;

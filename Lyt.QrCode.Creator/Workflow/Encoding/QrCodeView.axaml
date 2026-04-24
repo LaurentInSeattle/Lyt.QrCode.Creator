@@ -42,7 +42,7 @@
 				<ColumnDefinition Width="40" />
 			</Grid.ColumnDefinitions>
 			<TextBlock
-				Grid.Column="1" Grid.Row="0" 
+				Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
 				Margin="0"
 				Text="Scan Me!"
 				Theme="{StaticResource H1}"
@@ -50,7 +50,7 @@
 				VerticalAlignment="Center" HorizontalAlignment="Stretch"
 				/>
 			<TextBlock
-				Grid.Column="1" Grid.Row="3" 
+				Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" 
 				Margin="0"
 				Text="to open this link in your browser..."
 				Theme="{StaticResource H3}"

@@ -7,6 +7,8 @@
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
+        
         <StyleInclude Source="/Assets/Icons/Icons.axaml" />
         <StyleInclude Source="/Assets/Palette/DeepBluePalette.axaml" />
         <StyleInclude Source="/Assets/Theme/TextBoxStyles.axaml" />
@@ -14,10 +16,6 @@
         <StyleInclude Source="/Assets/Theme/Sliders.axaml"/>
         <StyleInclude Source="/Assets/Theme/RadioButtonStyles.axaml"/>
         <StyleInclude Source="/Assets/Theme/PickerStyles.axaml"/>
-        <!--
-        <StyleInclude Source="avares://TextoCopier/Assets/Theme/ListBoxStyles.axaml" />
-        <StyleInclude Source="avares://TextoCopier/Assets/Theme/ListBoxItemStyles.axaml" />
-        -->
     </Application.Styles>
 
     <Application.Resources>

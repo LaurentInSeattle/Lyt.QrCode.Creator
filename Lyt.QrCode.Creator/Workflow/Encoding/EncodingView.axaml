@@ -64,7 +64,7 @@
 				>
 				<shared:ContainerControl
 					x:Name="ContentContainer"
-					Title="Content"
+					Title="Data Content"
 					Text="Select the type of content to include in your QR code, then populate the corresponding form."
 					>
 					<shared:ContainerControl.ContainerControlContent>
@@ -74,8 +74,21 @@
 							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
+
 				<shared:ContainerControl
-					Title="Frame"
+					Title="Pick Module Colours"
+					Text="Choose here the colours of the modules. A strong contrast is still needed."
+					>
+					<shared:ContainerControl.ContainerControlContent>
+						<design:ColorsView
+							x:Name="ColorsView"
+							DataContext="{Binding ColorsViewModel}"
+							/>
+					</shared:ContainerControl.ContainerControlContent>
+				</shared:ContainerControl>
+
+				<shared:ContainerControl
+					Title="The Frame Around the Code"
 					Text="{DynamicResource Settings.Quota.Subtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
@@ -86,7 +99,7 @@
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
-					Title="Center Logo"		
+					Title="Add a Logo in the Center"		
 					Text="{DynamicResource Settings.Os.Subtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
@@ -97,7 +110,7 @@
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
-					Title="Background Image"
+					Title="Add a Background Image"
 					Text="{DynamicResource Settings.ReminderSubtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
@@ -108,18 +121,7 @@
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
-					Title="Colours"
-					Text="{DynamicResource Settings.ReminderSubtitle}"
-					>
-					<shared:ContainerControl.ContainerControlContent>
-						<design:ColorsView
-							x:Name="ColorsView"
-							DataContext="{Binding ColorsViewModel}"
-							/>
-					</shared:ContainerControl.ContainerControlContent>
-				</shared:ContainerControl>
-				<shared:ContainerControl
-					Title="Shapes"
+					Title="Customize Module Shapes"
 					Text="{DynamicResource Settings.ReminderSubtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>
@@ -130,7 +132,7 @@
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
-					Title="Image Size and Format"
+					Title="Adjust Image Size ~ Select Format"
 					Text="{DynamicResource Settings.ReminderSubtitle}"
 					>
 					<shared:ContainerControl.ContainerControlContent>

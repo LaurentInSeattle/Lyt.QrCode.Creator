@@ -20,6 +20,7 @@ public sealed partial class QrCodeViewModel :
         // Enforce property changed 
         this.HasData = true;
         this.HasData = false ;
+        this.EncodedString = string.Empty; 
     }
 
     [RelayCommand]
@@ -69,10 +70,12 @@ public sealed partial class QrCodeViewModel :
         }
 
         this.HasData = true;
+        this.EncodedString = this.qrCodeCreatorModel.QrCodeContent.QrString;
+        var trueBrush = new SolidColorBrush(this.qrCodeCreatorModel.TrueColor);
+        var falseBrush = new SolidColorBrush(this.qrCodeCreatorModel.FalseColor);
         this.View.ConstructGrid(
             this.qrCodeCreatorModel.Modules,
-            this.qrCodeCreatorModel.Scale, 
-            this.qrCodeCreatorModel.BorderSize);
-        this.EncodedString = this.qrCodeCreatorModel.QrCodeContent.QrString;
+            this.qrCodeCreatorModel.Scale,  this.qrCodeCreatorModel.BorderSize, 
+            trueBrush, falseBrush);
     }
 }

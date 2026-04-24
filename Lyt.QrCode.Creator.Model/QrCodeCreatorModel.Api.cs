@@ -17,6 +17,22 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return false;
         });
 
+    public void SetLightColor(uint value) =>
+        this.ApiAction(() =>
+        {
+            // TODO: Check luminance 
+            this.FalseColor = value;
+            return true;
+        });
+
+    public void SetDarkColor(uint value) =>
+        this.ApiAction(() =>
+        {
+            // TODO: Check luminance 
+            this.TrueColor = value;
+            return true;
+        });
+
     private bool ApiAction(Func<bool> action)
     {
         if (!this.timeoutTimer.IsRunning)

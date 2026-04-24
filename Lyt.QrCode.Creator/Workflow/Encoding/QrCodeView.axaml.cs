@@ -4,8 +4,8 @@ public partial class QrCodeView : View
 {
     internal void ConstructGrid(
         bool[,] modules,
-        int scale,
-        int border)
+        int scale, int border, 
+        SolidColorBrush trueBrush, SolidColorBrush falseBrush )
     {
         double screenScaling = App.MainWindow.Screens.ScreenFromVisual(this)?.Scaling ?? 1.0;
         double borderSize = border * scale / screenScaling;
@@ -24,7 +24,7 @@ public partial class QrCodeView : View
         var grid = new Grid()
         {
             Name = "QrCodeGrid",
-            Background = Brushes.White,
+            Background = falseBrush,
         };
 
         int rows = modules.GetLength(0);
@@ -51,7 +51,7 @@ public partial class QrCodeView : View
             {
                 var rect = new Rectangle
                 {
-                    Fill = modules[i, j] ? Brushes.Black : Brushes.White,
+                    Fill = modules[i, j] ? trueBrush : falseBrush,
                     RadiusX = 0, 
                     RadiusY = 0, 
                     Stroke = Brushes.Transparent,
