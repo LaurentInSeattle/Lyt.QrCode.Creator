@@ -318,14 +318,14 @@
 					x:Name="AddressKindButton"
 					Content="Home"
 					VerticalAlignment="Center" HorizontalAlignment="Left"
-					GroupName="ProtocolGroup"
+					GroupName="AddressKindGroup"
 					IsChecked="{Binding Path=Kind, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Home}"
 					/>
 				<RadioButton
 					Grid.Column="2"
 					Margin="130 0 0 0"
 					Content="Work"
-					GroupName="ProtocolGroup"
+					GroupName="AddressKindGroup"
 					VerticalAlignment="Center" HorizontalAlignment="Left"
 					IsChecked="{Binding Path=Kind, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Work}"
 					/>

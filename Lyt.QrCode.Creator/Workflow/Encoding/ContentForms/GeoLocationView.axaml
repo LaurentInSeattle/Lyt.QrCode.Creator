@@ -80,27 +80,27 @@
 				x:Name="GeoProtocolButton"
 				Content="geo: Protocol (Opens in Maps)"
 				VerticalAlignment="Center" HorizontalAlignment="Left"
-				GroupName="ProtocolGroup"
+				GroupName="GeoProtocolGroup"
 				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Geo}"
 				/>
 			<RadioButton
 				Grid.Row="1"
 				Content="Google Maps (Opens in browser)"
-				GroupName="ProtocolGroup"
+				GroupName="GeoProtocolGroup"
 				VerticalAlignment="Center" HorizontalAlignment="Left"
 				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=GoogleMapsLink}"
 				/>
 			<RadioButton
 				Grid.Row="2"
 				Content="Microsoft Bing Maps (Opens in browser)"
-				GroupName="ProtocolGroup"
+				GroupName="GeoProtocolGroup"
 				VerticalAlignment="Center" HorizontalAlignment="Left"
 				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=BingMapsLink}"
 				/>
 			<RadioButton
 				Grid.Row="3"
 				Content="US Weather Forecast (Opens in browser)"
-				GroupName="ProtocolGroup"
+				GroupName="GeoProtocolGroup"
 				VerticalAlignment="Center" HorizontalAlignment="Left"
 				IsChecked="{Binding Path=Protocol, Converter={StaticResource enumBooleanConverter}, ConverterParameter=UsWeatherLink}"
 				/>

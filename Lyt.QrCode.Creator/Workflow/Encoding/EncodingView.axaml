@@ -88,25 +88,37 @@
 				</shared:ContainerControl>
 
 				<shared:ContainerControl
-					Title="The Frame Around the Code"
-					Text="{DynamicResource Settings.Quota.Subtitle}"
+					Title="Framing your Content "
+					Text="You can add a frame around the QR Code to make clear for users what is going to happen when scanning the code."
 					>
 					<shared:ContainerControl.ContainerControlContent>
-						<design:FrameView
-							x:Name="FrameView"
-							DataContext="{Binding FrameViewModel}"
-							/>
+						<shared:OptionControl
+							OptionText="Add a frame around the QR Code?"
+							>
+							<shared:OptionControl.OptionControlContent>
+								<design:FrameView
+									x:Name="FrameView"
+									DataContext="{Binding FrameViewModel}"
+									/>
+							</shared:OptionControl.OptionControlContent>
+						</shared:OptionControl>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
-					Title="Add a Logo in the Center"		
-					Text="{DynamicResource Settings.Os.Subtitle}"
+					Title="Adding your Logo or Image"		
+					Text="QR Code encoding is redondant and allows for the loss of some pixels, thus making room for a logo or image."
 					>
 					<shared:ContainerControl.ContainerControlContent>
-						<design:LogoView
-							x:Name="LogoView"
-							DataContext="{Binding LogoViewModel}"
-							/>
+						<shared:OptionControl
+							OptionText="Add a Logo in the Center of the QR Code?"
+							>
+							<shared:OptionControl.OptionControlContent>
+								<design:LogoView
+									x:Name="LogoView"
+									DataContext="{Binding LogoViewModel}"
+									/>
+							</shared:OptionControl.OptionControlContent>
+						</shared:OptionControl>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
