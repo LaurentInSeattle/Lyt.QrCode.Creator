@@ -8,6 +8,8 @@ public partial class FormViewModel<TView, TValue>(
     protected readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
     protected readonly IFormValidator<TValue> validator = validator;
 
+    private QrContent? lastValidContent; 
+
     [ObservableProperty]
     public partial string ValidationMessage { get; set; } = string.Empty;
 
@@ -20,6 +22,15 @@ public partial class FormViewModel<TView, TValue>(
 
         // Need to clear the form when the view gets loaded so that the focus will be set 
         this.validator.Clear(this);
+    }
+
+    public override void Activate(object? activationParameters)
+    {
+        base.Activate(activationParameters);
+        if (this.lastValidContent is not null)
+        {
+            this.qrCodeCreatorModel.SetContent(this.lastValidContent);
+        }
     }
 
     protected void Submit(Func<TValue, QrContent?> submitAction)
@@ -42,6 +53,11 @@ public partial class FormViewModel<TView, TValue>(
                     {
                         Debug.WriteLine("Submit: Failed to set content");
                         if (Debugger.IsAttached) { Debugger.Break(); }
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Submit: Successfully set content");
+                        this.lastValidContent = content;
                     }
                 }
             }

@@ -86,10 +86,18 @@ public sealed partial class ContentViewModel(QrCodeCreatorModel qrCodeCreatorMod
         if (this.currentSelectedView is not null)
         {
             this.currentSelectedView.IsVisible = false;
+            if (this.currentSelectedView.DataContext is ViewModel previousViewModel)
+            {
+                previousViewModel.Deactivate();
+            }
         }
 
         var selectedView = this.SupportedContent[value].TargetView;
         selectedView.IsVisible = true;
         this.currentSelectedView = selectedView;
+        if (this.currentSelectedView.DataContext is ViewModel viewModel)
+        {
+            viewModel.Activate(null);
+        }
     }
 }
