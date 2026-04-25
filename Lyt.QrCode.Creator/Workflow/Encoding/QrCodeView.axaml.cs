@@ -4,22 +4,41 @@ public partial class QrCodeView : View
 {
     internal void ConstructGrid(
         bool[,] modules,
-        int scale, int border, 
-        SolidColorBrush trueBrush, SolidColorBrush falseBrush )
+        int scale, int border, int frame,
+        SolidColorBrush trueBrush, SolidColorBrush falseBrush,
+        string topText, string bottomText)
     {
         double screenScaling = App.MainWindow.Screens.ScreenFromVisual(this)?.Scaling ?? 1.0;
         double borderSize = border * scale / screenScaling;
         double moduleSize = scale / screenScaling;
+        double frameSize = frame * scale / screenScaling;
 
-        if ( this.FrameGrid.FindChildControl<Grid>() is Grid oldGrid)
+        if (this.FrameGrid.FindChildControl<Grid>() is Grid oldGrid)
         {
-            if ( oldGrid.Name == "QrCodeGrid")
+            if (oldGrid.Name == "QrCodeGrid")
             {
                 this.FrameGrid.Children.Remove(oldGrid);
             }
         }
 
         this.FrameGrid.Background = Brushes.DarkSlateBlue;
+        var frameRows = this.FrameGrid.RowDefinitions;
+        var frameCols = this.FrameGrid.ColumnDefinitions;
+        frameRows[0].Height = new GridLength(frameSize, GridUnitType.Pixel);
+        frameRows[1].Height = new GridLength(frameSize, GridUnitType.Pixel);
+        frameCols[0].Width = new GridLength(frameSize, GridUnitType.Pixel);
+        frameCols[1].Width = new GridLength(frameSize, GridUnitType.Pixel);
+
+        if (frame == 0)
+        {
+            this.TopTextBlock.Text = string.Empty;
+            this.BottomTextBlock.Text = string.Empty;
+        }
+        else
+        {
+            this.TopTextBlock.Text = topText;
+            this.BottomTextBlock.Text = bottomText;
+        }
 
         var grid = new Grid()
         {
@@ -52,8 +71,8 @@ public partial class QrCodeView : View
                 var rect = new Rectangle
                 {
                     Fill = modules[i, j] ? trueBrush : falseBrush,
-                    RadiusX = 0, 
-                    RadiusY = 0, 
+                    RadiusX = 0,
+                    RadiusY = 0,
                     Stroke = Brushes.Transparent,
                     StrokeThickness = 0,
                 };
@@ -75,9 +94,8 @@ public partial class QrCodeView : View
         int width = cols + border * 2;
         centerColumn.Width = new GridLength(width * moduleSize, GridUnitType.Pixel);
 
-        // TODO : Fix this hard coded values 
-        this.FrameGrid.Width = height * moduleSize + 44 + 40;
-        this.FrameGrid.Width = width * moduleSize + 40 + 40;
+        this.FrameGrid.Height = height * moduleSize + 2 * frameSize;
+        this.FrameGrid.Width = width * moduleSize + 2 * frameSize;
         this.FrameGrid.InvalidateVisual();
     }
 }

@@ -5,7 +5,10 @@ public partial class OptionControl : UserControl
     public OptionControl() => this.InitializeComponent();
 
     protected override void OnLoaded(RoutedEventArgs e)
-        => this.YesButton.IsChecked = true;
+    {
+        this.NoButton.IsChecked = true;
+        this.ShowContent(show: false);
+    }
 
     public static readonly StyledProperty<object?> OptionControlContentProperty =
         AvaloniaProperty.Register<OptionControl, object?>(nameof(OptionControlContent), null);

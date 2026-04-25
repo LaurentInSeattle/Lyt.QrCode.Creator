@@ -1,24 +1,18 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding.DesignForms;
 
-public sealed partial class FrameViewModel : ViewModel<FrameView>
+public sealed partial class FrameViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<FrameView>
 {
-    private readonly QrCodeCreatorModel qrCodeCreatorModel;
-
-    public FrameViewModel(QrCodeCreatorModel qrCodeCreatorModel)
-    {
-        this.qrCodeCreatorModel = qrCodeCreatorModel;
-    }
+    private readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
 
     public override void Activate(object? activationParameters)
     {
         base.Activate(activationParameters);
-        this.qrCodeCreatorModel.UseFrame = true;
-    } 
+        this.qrCodeCreatorModel.DoUseFrame(true);
+    }
 
     public override void Deactivate()
     {
         base.Deactivate();
-        this.qrCodeCreatorModel.UseFrame = false;
-    } 
-
+        this.qrCodeCreatorModel.DoUseFrame(false);
+    }
 }

@@ -42,17 +42,17 @@
 				<ColumnDefinition Width="40" />
 			</Grid.ColumnDefinitions>
 			<TextBlock
+				x:Name="TopTextBlock"
 				Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
 				Margin="0"
-				Text="Scan Me!"
 				Theme="{StaticResource H1}"
 				TextAlignment="Center"
 				VerticalAlignment="Center" HorizontalAlignment="Stretch"
 				/>
 			<TextBlock
-				Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" 
-				Margin="0"
-				Text="to open this link in your browser..."
+				x:Name="BottomTextBlock"
+				Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" 
+				Margin="0 -4 0 0"
 				Theme="{StaticResource H3}"
 				TextAlignment="Center"
 				VerticalAlignment="Center" HorizontalAlignment="Stretch"

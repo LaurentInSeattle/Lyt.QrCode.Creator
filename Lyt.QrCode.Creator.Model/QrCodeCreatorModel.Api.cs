@@ -33,14 +33,14 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
-    public void DoUseFrame(bool useFrame) =>
+    public void DoUseFrame(bool useFrame = true) =>
         this.ApiAction(() =>
         {
             this.UseFrame = useFrame;
             return true;
         });
 
-    public void DoUseLogo(bool useLogo) =>
+    public void DoUseLogo(bool useLogo = true) =>
         this.ApiAction(() =>
         {
             this.UseLogo = useLogo;

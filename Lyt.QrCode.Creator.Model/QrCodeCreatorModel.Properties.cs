@@ -43,7 +43,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public bool UseFrame { get; set; } = false;
 
     [JsonIgnore]
-    public int FrameSize { get; set; } = 2;
+    public int FrameSize { get; set; } = 6;
 
     [JsonIgnore]
     public uint FrameColor { get; set; } = ColorBlack;
@@ -52,10 +52,10 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public bool WithRoundedCorners { get; set; } = true;
 
     [JsonIgnore]
-    public string FrameTextTop { get; set; } = string.Empty;
+    public string FrameTextTop { get; set; } = "Scan Me!";
 
     [JsonIgnore]
-    public string FrameTextBottom { get; set; } = string.Empty;
+    public string FrameTextBottom { get; set; } = "to open this link in your browser...";
 
     [JsonIgnore]
     public uint FrameTextTopColor { get; set; } = ColorWhite;
