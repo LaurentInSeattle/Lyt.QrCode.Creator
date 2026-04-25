@@ -8,4 +8,17 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
     {
         this.qrCodeCreatorModel = qrCodeCreatorModel;
     }
+
+    public override void Activate(object? activationParameters)
+    {
+        base.Activate(activationParameters);
+        this.qrCodeCreatorModel.UseFrame = true;
+    } 
+
+    public override void Deactivate()
+    {
+        base.Deactivate();
+        this.qrCodeCreatorModel.UseFrame = false;
+    } 
+
 }

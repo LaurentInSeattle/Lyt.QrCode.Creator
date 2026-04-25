@@ -33,6 +33,20 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
+    public void DoUseFrame(bool useFrame) =>
+        this.ApiAction(() =>
+        {
+            this.UseFrame = useFrame;
+            return true;
+        });
+
+    public void DoUseLogo(bool useLogo) =>
+        this.ApiAction(() =>
+        {
+            this.UseLogo = useLogo;
+            return true;
+        });
+
     private bool ApiAction(Func<bool> action)
     {
         if (!this.timeoutTimer.IsRunning)

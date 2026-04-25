@@ -40,6 +40,9 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     //public partial int FrameSize { get; set; }
 
     [JsonIgnore]
+    public bool UseFrame { get; set; } = false;
+
+    [JsonIgnore]
     public int FrameSize { get; set; } = 2;
 
     [JsonIgnore]
@@ -78,6 +81,9 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public uint BorderColor { get; set; } = ColorWhite;
 
     // Logo
+
+    [JsonIgnore]
+    public bool UseLogo { get; set; } = false;
 
     [JsonIgnore]
     public byte[] LogoImageBytes { get; set; } = [];
