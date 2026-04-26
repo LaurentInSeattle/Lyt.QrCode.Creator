@@ -17,6 +17,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return false;
         });
 
+    // Module colors
     public void SetLightColor(uint value) =>
         this.ApiAction(() =>
         {
@@ -33,12 +34,53 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
+    // Frame
+
     public void DoUseFrame(bool useFrame = true) =>
         this.ApiAction(() =>
         {
             this.UseFrame = useFrame;
             return true;
         });
+
+    public void SetFrameForegroundColor(uint color) =>
+        this.ApiAction(() =>
+        {
+            this.FrameForegroundColor = color;
+            return true;
+        });
+
+    public void SetFrameBackgroundColor(uint color) =>
+        this.ApiAction(() =>
+        {
+            this.FrameBackgroundColor = color;
+            return true;
+        });
+
+    public void SetFrameTextTop(string text) =>
+        this.ApiAction(() =>
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return false; 
+            }
+
+            this.FrameTextTop = text;
+            return true;
+        });
+
+    public void SetFrameTextBottom(string text) =>
+        this.ApiAction(() =>
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return false;
+            }
+
+            this.FrameTextBottom = text;
+            return true;
+        });
+
 
     public void DoUseLogo(bool useLogo = true) =>
         this.ApiAction(() =>

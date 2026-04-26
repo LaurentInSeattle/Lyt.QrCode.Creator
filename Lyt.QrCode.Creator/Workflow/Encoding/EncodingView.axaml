@@ -83,6 +83,7 @@
 						<design:ColorsView
 							x:Name="ColorsView"
 							DataContext="{Binding ColorsViewModel}"
+							Margin="40 0 0 0"
 							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
@@ -99,6 +100,7 @@
 								<design:FrameView
 									x:Name="FrameView"
 									DataContext="{Binding FrameViewModel}"
+									Margin="40 0 0 0"
 									/>
 							</shared:OptionControl.OptionControlContent>
 						</shared:OptionControl>

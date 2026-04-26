@@ -11,22 +11,81 @@
 	>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="32" />
+			<RowDefinition Height="52" />
+			<RowDefinition Height="40" />
+			<RowDefinition Height="40" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="280" />
+			<ColumnDefinition Width="20" />
+			<ColumnDefinition Width="280" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
 			Grid.Column="0" Grid.Row="0" 
 			Margin="0"
-			Text="FrameView"
-			Theme="{StaticResource H1}"
-			TextAlignment="Center"
+			Text="Background Color"
+			Theme="{StaticResource Medium}"
+			TextAlignment="Left"
+			VerticalAlignment="Stretch" HorizontalAlignment="Left"
+			/>
+		<TextBlock
+			Grid.Column="2" Grid.Row="0" 
+			Margin="0"
+			Text="Foreground Color"
+			Theme="{StaticResource Medium}"
+			TextAlignment="Left"
+			VerticalAlignment="Stretch" HorizontalAlignment="Left"
+			/>
+		<ColorPicker
+			Grid.Column="0" Grid.Row="1" 
+			Width="280" Height="40"
+			Color="{Binding BackgroundColor}"
+			ColorModel="Rgba"
+			Foreground="{StaticResource LightAqua_0_120}"
+			IsAlphaEnabled="False"
+			IsAlphaVisible="False"
+			VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+			> 
+		</ColorPicker>
+		<ColorPicker
+			Grid.Column="2" Grid.Row="1" 
+			Width="280" Height="40"
+			Color="{Binding ForegroundColor}"
+			ColorModel="Rgba"
+			Foreground="{StaticResource LightAqua_0_120}"
+			IsAlphaEnabled="False"
+			IsAlphaVisible="False"
+			VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+			> 
+		</ColorPicker>
+		<TextBlock
+			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" 
+			Text="Optional frame labels:"
+			Theme="{StaticResource Medium}"
+			Margin="0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<TextBox
+			x:Name="TextTopTextBox"
+			Grid.Column="0" Grid.Row="3"
+			VerticalContentAlignment="Center" 
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Text above the QR code."
+			MaxLength="40"
+			Text="{Binding TextTop}"
+			Margin="0"
+			/>
+		<TextBox
+			x:Name="TextBottomTextBox"
+			Grid.Column="2" Grid.Row="3"
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Text below the QR code."
+			MaxLength="40"
+			Text="{Binding TextBottom}"
+			Margin="0"
 			/>
 	</Grid>
 </UserControl>

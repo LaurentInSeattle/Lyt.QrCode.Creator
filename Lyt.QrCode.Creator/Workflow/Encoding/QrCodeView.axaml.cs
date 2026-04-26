@@ -6,6 +6,7 @@ public partial class QrCodeView : View
         bool[,] modules,
         int scale, int border, int frame,
         SolidColorBrush trueBrush, SolidColorBrush falseBrush,
+        SolidColorBrush frameBackgroundBrush, SolidColorBrush frameForegroundBrush,
         string topText, string bottomText)
     {
         double screenScaling = App.MainWindow.Screens.ScreenFromVisual(this)?.Scaling ?? 1.0;
@@ -21,16 +22,17 @@ public partial class QrCodeView : View
             }
         }
 
-        this.FrameGrid.Background = Brushes.DarkSlateBlue;
+        this.FrameGrid.Background = frameBackgroundBrush;
         var frameRows = this.FrameGrid.RowDefinitions;
         var frameCols = this.FrameGrid.ColumnDefinitions;
         frameRows[0].Height = new GridLength(frameSize, GridUnitType.Pixel);
-        frameRows[1].Height = new GridLength(frameSize, GridUnitType.Pixel);
+        frameRows[2].Height = new GridLength(frameSize, GridUnitType.Pixel);
         frameCols[0].Width = new GridLength(frameSize, GridUnitType.Pixel);
-        frameCols[1].Width = new GridLength(frameSize, GridUnitType.Pixel);
+        frameCols[2].Width = new GridLength(frameSize, GridUnitType.Pixel);
 
         if (frame == 0)
         {
+            // If zero no frame
             this.TopTextBlock.Text = string.Empty;
             this.BottomTextBlock.Text = string.Empty;
         }
@@ -38,6 +40,8 @@ public partial class QrCodeView : View
         {
             this.TopTextBlock.Text = topText;
             this.BottomTextBlock.Text = bottomText;
+            this.TopTextBlock.Foreground = frameForegroundBrush;
+            this.BottomTextBlock.Foreground = frameForegroundBrush;
         }
 
         var grid = new Grid()

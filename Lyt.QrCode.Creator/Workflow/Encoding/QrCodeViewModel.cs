@@ -73,6 +73,8 @@ public sealed partial class QrCodeViewModel :
         this.EncodedString = this.qrCodeCreatorModel.QrCodeContent.QrString;
         var trueBrush = new SolidColorBrush(this.qrCodeCreatorModel.TrueColor);
         var falseBrush = new SolidColorBrush(this.qrCodeCreatorModel.FalseColor);
+        var frameBackgroundBrush = new SolidColorBrush(this.qrCodeCreatorModel.FrameBackgroundColor);
+        var frameForegroundBrush = new SolidColorBrush(this.qrCodeCreatorModel.FrameForegroundColor);
         int frameSize =
             this.qrCodeCreatorModel.UseFrame ? this.qrCodeCreatorModel.FrameSize : 0 ;
         this.View.ConstructGrid(
@@ -80,6 +82,7 @@ public sealed partial class QrCodeViewModel :
             this.qrCodeCreatorModel.Scale,  this.qrCodeCreatorModel.BorderSize, 
             frameSize,
             trueBrush, falseBrush,
+            frameBackgroundBrush, frameForegroundBrush,
             this.qrCodeCreatorModel.FrameTextTop,
             this.qrCodeCreatorModel.FrameTextBottom);
     }

@@ -46,7 +46,10 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public int FrameSize { get; set; } = 6;
 
     [JsonIgnore]
-    public uint FrameColor { get; set; } = ColorBlack;
+    public uint FrameForegroundColor { get; set; } = ColorWhite;
+
+    [JsonIgnore]
+    public uint FrameBackgroundColor { get; set; } = ColorBlack;
 
     [JsonIgnore]
     public bool WithRoundedCorners { get; set; } = true;
@@ -56,12 +59,6 @@ public sealed partial class QrCodeCreatorModel : ModelBase
 
     [JsonIgnore]
     public string FrameTextBottom { get; set; } = "to open this link in your browser...";
-
-    [JsonIgnore]
-    public uint FrameTextTopColor { get; set; } = ColorWhite;
-
-    [JsonIgnore]
-    public uint FrameTextBottomColor { get; set; } = ColorWhite;
 
     [JsonIgnore]
     public string FrameTextFontFamily { get; set; } = "Segoe UI";

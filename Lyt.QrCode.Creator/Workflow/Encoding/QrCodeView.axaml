@@ -12,6 +12,7 @@
 	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	>
 	<Grid		
+		ShowGridLines="False"
 		>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -25,21 +26,15 @@
 			IsVisible="{Binding HasData}"
 			ShowGridLines="False"
 			> 
-		  <Grid.CacheMode>
-			<BitmapCache 
-				SnapsToDevicePixels="True" 
-				EnableClearType="True" 
-				/>
-		  </Grid.CacheMode>			
 		  <Grid.RowDefinitions>
-				<RowDefinition Height="44" />
+				<RowDefinition Height="0" />
 				<RowDefinition Height="Auto" />
-				<RowDefinition Height="40" />
+				<RowDefinition Height="0" />
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="40" />
+				<ColumnDefinition Width="0" />
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="40" />
+				<ColumnDefinition Width="0" />
 			</Grid.ColumnDefinitions>
 			<TextBlock
 				x:Name="TopTextBlock"

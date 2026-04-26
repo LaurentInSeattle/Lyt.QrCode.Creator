@@ -16,28 +16,29 @@
 			<RowDefinition Height="52" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="280" />
+			<ColumnDefinition Width="20" />
+			<ColumnDefinition Width="280" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
 			Grid.Column="0" Grid.Row="0" 
 			Margin="0"
 			Text="Light Color"
-			Theme="{StaticResource Large}"
+			Theme="{StaticResource Medium}"
 			TextAlignment="Center"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
 		<TextBlock
-			Grid.Column="1" Grid.Row="0" 
+			Grid.Column="2" Grid.Row="0" 
 			Margin="0"
 			Text="Dark Color"
-			Theme="{StaticResource Large}"
+			Theme="{StaticResource Medium}"
 			TextAlignment="Center"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
 		<ColorPicker
 			Grid.Column="0" Grid.Row="1" 
-			Width="240" Height="40"
+			Width="280" Height="40"
 			Color="{Binding LightColor}"
 			ColorModel="Rgba"
 			Foreground="{StaticResource LightAqua_0_120}"
@@ -47,8 +48,8 @@
 			> 
 		</ColorPicker>
 		<ColorPicker
-			Grid.Column="1" Grid.Row="1" 
-			Width="240" Height="40"
+			Grid.Column="2" Grid.Row="1" 
+			Width="280" Height="40"
 			Color="{Binding DarkColor}"
 			ColorModel="Rgba"
 			Foreground="{StaticResource LightAqua_0_120}"
@@ -61,15 +62,15 @@
 			Grid.Column="0" Grid.Row="2" 
 			Margin="0"
 			Text="{Binding LightColorLuminanceValue}"
-			Theme="{StaticResource Large}"
+			Theme="{StaticResource Medium}"
 			TextAlignment="Center"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
 		<TextBlock
-			Grid.Column="1" Grid.Row="2" 
+			Grid.Column="2" Grid.Row="2" 
 			Margin="0"
 			Text="{Binding DarkColorLuminanceValue}"
-			Theme="{StaticResource Large}"
+			Theme="{StaticResource Medium}"
 			TextAlignment="Center"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
