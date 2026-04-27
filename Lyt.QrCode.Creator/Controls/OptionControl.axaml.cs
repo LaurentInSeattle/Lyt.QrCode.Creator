@@ -83,5 +83,8 @@ public partial class OptionControl : UserControl
                 }
             }
         }
+
+        var parent = MiscUtilities.FindParentControl<UserControl>(this); 
+        parent?.InvalidateVisual();
     }
 }

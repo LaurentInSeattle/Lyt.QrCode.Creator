@@ -22,8 +22,8 @@ public sealed partial class ColorsViewModel : ViewModel<ColorsView>
     public ColorsViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     {
         this.qrCodeCreatorModel = qrCodeCreatorModel;
-        this.LightColor = Colors.White;
-        this.DarkColor = Colors.Black;
+        this.LightColor = Color.FromUInt32(this.qrCodeCreatorModel.FalseColor);
+        this.DarkColor = Color.FromUInt32(this.qrCodeCreatorModel.TrueColor);
         this.LightColorLuminanceValue = string.Empty;
         this.DarkColorLuminanceValue = string.Empty;
     }
@@ -33,6 +33,13 @@ public sealed partial class ColorsViewModel : ViewModel<ColorsView>
         base.OnViewLoaded();
         this.OnLightColorChanged(Colors.White);
         this.OnDarkColorChanged(Colors.Black);
+    }
+
+    [RelayCommand]
+    public void OnCopyColors ()
+    {
+        this.LightColor = Color.FromUInt32(this.qrCodeCreatorModel.FrameForegroundColor);
+        this.DarkColor = Color.FromUInt32(this.qrCodeCreatorModel.FrameBackgroundColor);
     }
 
     partial void OnLightColorChanged(Color value)

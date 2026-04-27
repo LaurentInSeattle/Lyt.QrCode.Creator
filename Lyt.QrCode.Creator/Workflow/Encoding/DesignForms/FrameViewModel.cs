@@ -11,7 +11,14 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
         this.ForegroundColor = Color.FromUInt32(this.qrCodeCreatorModel.FrameForegroundColor);
         this.TextTop = this.qrCodeCreatorModel.FrameTextTop;
         this.TextBottom = this.qrCodeCreatorModel.FrameTextBottom;
+        this.FrameSizeSliderValue = (double) this.qrCodeCreatorModel.FrameSize;
     }
+
+    [ObservableProperty]
+    public partial double FrameSizeSliderValue { get; set; } = 6;
+
+    [ObservableProperty]
+    public partial string FrameSizeString { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial Color BackgroundColor { get; set; }
@@ -33,6 +40,7 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
         this.OnForegroundColorChanged(this.ForegroundColor);
         this.OnTextTopChanged(this.TextTop);
         this.OnTextBottomChanged(this.TextBottom);
+        this.OnFrameSizeSliderValueChanged(this.FrameSizeSliderValue); 
     }
 
     public override void Activate(object? activationParameters)
@@ -45,6 +53,20 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
     {
         base.Deactivate();
         this.qrCodeCreatorModel.DoUseFrame(false);
+    }
+
+    [RelayCommand]
+    public void OnCopyColors()
+    {
+        this.BackgroundColor= Color.FromUInt32(this.qrCodeCreatorModel.FalseColor);
+        this.ForegroundColor = Color.FromUInt32(this.qrCodeCreatorModel.TrueColor);
+    }
+
+    partial void OnFrameSizeSliderValueChanged(double value)
+    {
+        int intValue = (int)value;
+        this.qrCodeCreatorModel.SetFrameSize (intValue);
+        this.FrameSizeString = intValue == 1 ? "One module" : string.Format("{0} modules", intValue);
     }
 
     partial void OnForegroundColorChanged(Color value) 

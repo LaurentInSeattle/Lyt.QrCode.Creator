@@ -46,13 +46,40 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public void SetFrameForegroundColor(uint color) =>
         this.ApiAction(() =>
         {
+            if( ! this.UseFrame)
+            {
+                return false; 
+            }
+
             this.FrameForegroundColor = color;
+            return true;
+        });
+
+    public void SetFrameSize(int value) =>
+        this.ApiAction(() =>
+        {
+            if (!this.UseFrame)
+            {
+                return false;
+            }
+
+            if (value < 1 || value > 32)
+            {
+                return false;
+            }
+
+            this.FrameSize = value;
             return true;
         });
 
     public void SetFrameBackgroundColor(uint color) =>
         this.ApiAction(() =>
         {
+            if (!this.UseFrame)
+            {
+                return false;
+            }
+
             this.FrameBackgroundColor = color;
             return true;
         });
@@ -60,9 +87,14 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public void SetFrameTextTop(string text) =>
         this.ApiAction(() =>
         {
+            if (!this.UseFrame)
+            {
+                return false;
+            }
+
             if (string.IsNullOrWhiteSpace(text))
             {
-                return false; 
+                return false;
             }
 
             this.FrameTextTop = text;
@@ -72,6 +104,11 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public void SetFrameTextBottom(string text) =>
         this.ApiAction(() =>
         {
+            if (!this.UseFrame)
+            {
+                return false;
+            }
+
             if (string.IsNullOrWhiteSpace(text))
             {
                 return false;
@@ -81,11 +118,35 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
+    // Logo
 
     public void DoUseLogo(bool useLogo = true) =>
         this.ApiAction(() =>
         {
             this.UseLogo = useLogo;
+            return true;
+        });
+
+    public void SetLogo(byte[] imageBytes) =>
+        this.ApiAction(() =>
+        {
+            if (!this.UseLogo)
+            {
+                return false;
+            }
+
+            if ( imageBytes.Length < 256)
+            {
+                // Too small
+                return false;
+            }
+
+            if (imageBytes.Length > 2 * 1024 * 1024 )
+            {
+                // Too big
+                return false;
+            }
+
             return true;
         });
 

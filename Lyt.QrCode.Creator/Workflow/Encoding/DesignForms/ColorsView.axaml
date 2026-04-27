@@ -8,12 +8,15 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	>
 	<Grid> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="32" />
 			<RowDefinition Height="52" />
 			<RowDefinition Height="52" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="280" />
@@ -73,6 +76,20 @@
 			Theme="{StaticResource Medium}"
 			TextAlignment="Center"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			/>
+		<glyphs:GlyphButton
+			Style="{StaticResource ViewIconButton}"
+			HorizontalAlignment="Center" VerticalAlignment="Center"
+			Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+			Width="400" Height="52"
+			Margin="0 4 0 4"
+			FontSize="24"
+			GlyphAngle="-90"
+			GlyphSource="next"
+			ButtonBackground="BorderlessRectangle"
+			GlyphStrokeThickness="0"
+			Text="Copy from Frame Colours"
+			Command="{Binding OnCopyColors}"
 			/>
 	</Grid>
 </UserControl>

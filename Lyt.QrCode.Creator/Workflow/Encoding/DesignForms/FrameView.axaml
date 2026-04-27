@@ -8,13 +8,18 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="32" />
-			<RowDefinition Height="52" />
-			<RowDefinition Height="40" />
-			<RowDefinition Height="40" />
+			<RowDefinition Height="40" />	<!-- Size Prompt  --> 
+			<RowDefinition Height="40" />   <!-- Size Slider   --> 
+			<RowDefinition Height="32" />   <!-- Color Names --> 
+			<RowDefinition Height="52" />	<!-- Color Pickers --> 
+			<RowDefinition Height="Auto" />  <!-- Copy Button --> 
+			<RowDefinition Height="40" />	<!-- Text Prompt  --> 
+			<RowDefinition Height="40" />   <!-- Texts  --> 
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="280" />
@@ -22,23 +27,50 @@
 			<ColumnDefinition Width="280" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Grid.Column="0" Grid.Row="0" 
+			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
+			Margin="0"
+			Text="Frame border size, as a multiple of the module size."
+			Theme="{StaticResource Medium}"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<Slider 
+			Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+			Margin="4 -24 100 4 "
+			VerticalAlignment="Center" HorizontalAlignment="Stretch"
+			TickFrequency="1.0"
+			TickPlacement="BottomRight"
+			IsSnapToTickEnabled="True"
+			SmallChange="1" LargeChange="5"
+			Minimum="1"
+			Maximum="32"
+			Value="{Binding FrameSizeSliderValue}"
+			/>
+		<TextBlock
+			Grid.Row="1" Grid.Column="2" 
+			Margin="0 -20 0 0"
+			Theme="{StaticResource Large}"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			Text="{Binding FrameSizeString}"
+			/>
+		<TextBlock
+			Grid.Column="0" Grid.Row="2" 
 			Margin="0"
 			Text="Background Color"
 			Theme="{StaticResource Medium}"
 			TextAlignment="Left"
-			VerticalAlignment="Stretch" HorizontalAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 		<TextBlock
-			Grid.Column="2" Grid.Row="0" 
+			Grid.Column="2" Grid.Row="2" 
 			Margin="0"
 			Text="Foreground Color"
 			Theme="{StaticResource Medium}"
 			TextAlignment="Left"
-			VerticalAlignment="Stretch" HorizontalAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 		<ColorPicker
-			Grid.Column="0" Grid.Row="1" 
+			Grid.Column="0" Grid.Row="3" 
 			Width="280" Height="40"
 			Color="{Binding BackgroundColor}"
 			ColorModel="Rgba"
@@ -49,7 +81,7 @@
 			> 
 		</ColorPicker>
 		<ColorPicker
-			Grid.Column="2" Grid.Row="1" 
+			Grid.Column="2" Grid.Row="3" 
 			Width="280" Height="40"
 			Color="{Binding ForegroundColor}"
 			ColorModel="Rgba"
@@ -59,8 +91,23 @@
 			VerticalAlignment="Center" HorizontalAlignment="Stretch" 
 			> 
 		</ColorPicker>
+
+		<glyphs:GlyphButton
+			Style="{StaticResource ViewIconButton}"
+			HorizontalAlignment="Center" VerticalAlignment="Center"
+			Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
+			Width="400" Height="52"
+			Margin="0 4 0 4"
+			FontSize="24"
+			GlyphAngle="90"
+			GlyphSource="next"
+			ButtonBackground="BorderlessRectangle"
+			GlyphStrokeThickness="0"
+			Text="Copy from Modules Colours"
+			Command="{Binding OnCopyColors}"
+			/>
 		<TextBlock
-			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" 
+			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="5" 
 			Text="Optional frame labels:"
 			Theme="{StaticResource Medium}"
 			Margin="0"
@@ -69,7 +116,7 @@
 			/>
 		<TextBox
 			x:Name="TextTopTextBox"
-			Grid.Column="0" Grid.Row="3"
+			Grid.Column="0" Grid.Row="6"
 			VerticalContentAlignment="Center" 
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			PlaceholderText="Text above the QR code."
@@ -79,7 +126,7 @@
 			/>
 		<TextBox
 			x:Name="TextBottomTextBox"
-			Grid.Column="2" Grid.Row="3"
+			Grid.Column="2" Grid.Row="6"
 			VerticalContentAlignment="Center" 
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			PlaceholderText="Text below the QR code."
