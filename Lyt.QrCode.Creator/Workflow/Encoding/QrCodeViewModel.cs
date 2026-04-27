@@ -79,11 +79,11 @@ public sealed partial class QrCodeViewModel :
             this.qrCodeCreatorModel.UseFrame ? this.qrCodeCreatorModel.FrameSize : 0 ;
         this.View.ConstructGrid(
             this.qrCodeCreatorModel.Modules,
-            this.qrCodeCreatorModel.Scale,  this.qrCodeCreatorModel.BorderSize, 
+            this.qrCodeCreatorModel.Scale, this.qrCodeCreatorModel.BorderSize, 
             frameSize,
             trueBrush, falseBrush,
             frameBackgroundBrush, frameForegroundBrush,
-            this.qrCodeCreatorModel.FrameTextTop,
-            this.qrCodeCreatorModel.FrameTextBottom);
+            this.qrCodeCreatorModel.FrameTextTop, this.qrCodeCreatorModel.FrameTextBottom, 
+            this.qrCodeCreatorModel.UseLogo, this.qrCodeCreatorModel.LogoImageBytes, this.qrCodeCreatorModel.LogoSize);
     }
 }

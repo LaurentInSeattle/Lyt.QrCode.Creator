@@ -1,5 +1,7 @@
 namespace Lyt.QrCode.Creator.Workflow.Encoding;
 
+using global::Avalonia.Controls; // For 'Image', conflicting with one 'Lyt' namespace
+
 public partial class QrCodeView : View
 {
     internal void ConstructGrid(
@@ -7,7 +9,8 @@ public partial class QrCodeView : View
         int scale, int border, int frame,
         SolidColorBrush trueBrush, SolidColorBrush falseBrush,
         SolidColorBrush frameBackgroundBrush, SolidColorBrush frameForegroundBrush,
-        string topText, string bottomText)
+        string topText, string bottomText, 
+        bool useLogo, byte[] logoImageBytes, double logoSize)
     {
         double screenScaling = App.MainWindow.Screens.ScreenFromVisual(this)?.Scaling ?? 1.0;
         double borderSize = border * scale / screenScaling;
@@ -32,7 +35,7 @@ public partial class QrCodeView : View
 
         if (frame == 0)
         {
-            // If zero no frame
+            // If zero: no frame
             this.TopTextBlock.Text = string.Empty;
             this.BottomTextBlock.Text = string.Empty;
         }
@@ -90,6 +93,47 @@ public partial class QrCodeView : View
         Grid.SetColumn(grid, 1);
         Grid.SetRow(grid, 1);
 
+        if (useLogo)
+        {
+            bool hasImage = logoImageBytes.Length > 0; 
+            var logoGrid = new Grid()
+            {
+                Name = "LogoGrid",
+                Background = hasImage ? falseBrush : Brushes.HotPink,
+            };
+
+            // rows and cols in QR code are always odd, therefore size also must be
+            // Parametrize logo size ( percent ) 
+            int size = (int) Math.Round(rows * logoSize);
+            if (size % 2 == 0)
+            {
+                // if even, make it odd 
+                ++ size;
+            }
+
+            int halfSize = size / 2;
+            int centerCol = cols / 2;
+            int startCol = 1 + centerCol - halfSize;
+            Grid.SetRow(logoGrid, startCol);
+            Grid.SetColumn(logoGrid, startCol);
+            Grid.SetRowSpan(logoGrid, size);
+            Grid.SetColumnSpan(logoGrid, size);
+            grid.Children.Add(logoGrid);
+
+            if (hasImage)
+            {
+                using var ms = new MemoryStream(logoImageBytes);  
+                var bitmap = new Bitmap(ms);
+                var image = new Image()
+                {
+                    Source = bitmap , 
+                    Stretch = Stretch.UniformToFill,                         
+                };
+
+                logoGrid.Children.Add(image);
+            }
+        }
+
         this.FrameGrid.Children.Add(grid);
         var centerRow = this.FrameGrid.RowDefinitions[1];
         var centerColumn = this.FrameGrid.ColumnDefinitions[1];
@@ -100,6 +144,8 @@ public partial class QrCodeView : View
 
         this.FrameGrid.Height = height * moduleSize + 2 * frameSize;
         this.FrameGrid.Width = width * moduleSize + 2 * frameSize;
+
+        // TODO: Verify: Maybe not needed
         this.FrameGrid.InvalidateVisual();
     }
 }

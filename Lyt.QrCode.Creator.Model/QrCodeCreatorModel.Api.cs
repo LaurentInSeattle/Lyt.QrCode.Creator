@@ -2,19 +2,30 @@
 
 public sealed partial class QrCodeCreatorModel : ModelBase
 {
+    private bool SetContentInternal(QrContent qrContent, bool useLogo)
+    {
+        var encodeParameters = new EncodeParameters()
+        {
+            ErrorCorrectionLevel =
+                useLogo ? EncodeParameters.QrErrorCorrectionLevel.High : EncodeParameters.QrErrorCorrectionLevel.Medium,
+        };
+
+        var result = Qr.EncodeToModules(qrContent, encodeParameters);
+        if (result.Success)
+        {
+            this.QrCodeContentType = qrContent.GetType();
+            this.QrCodeContent = qrContent;
+            this.Modules = result.Result;
+            return true;
+        }
+
+        return false;
+    }
+
     public bool SetContent(QrContent qrContent) =>
         this.ApiAction(() =>
         {
-            var result = Qr.EncodeToModules(qrContent);
-            if (result.Success)
-            {
-                this.QrCodeContentType = qrContent.GetType();
-                this.QrCodeContent = qrContent;
-                this.Modules = result.Result;
-                return true;
-            }
-
-            return false;
+            return this.SetContentInternal(qrContent, this.UseLogo);
         });
 
     // Module colors
@@ -46,9 +57,9 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public void SetFrameForegroundColor(uint color) =>
         this.ApiAction(() =>
         {
-            if( ! this.UseFrame)
+            if (!this.UseFrame)
             {
-                return false; 
+                return false;
             }
 
             this.FrameForegroundColor = color;
@@ -123,8 +134,19 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public void DoUseLogo(bool useLogo = true) =>
         this.ApiAction(() =>
         {
+            bool result = true;
+            if (this.UseLogo != useLogo)
+            {
+                // Rebuild the content 
+                if (!this.SetContentInternal(this.QrCodeContent, this.UseLogo))
+                {
+                    result = false;
+                }
+
+            }
+
             this.UseLogo = useLogo;
-            return true;
+            return result;
         });
 
     public void SetLogo(byte[] imageBytes) =>
@@ -135,19 +157,39 @@ public sealed partial class QrCodeCreatorModel : ModelBase
                 return false;
             }
 
-            if ( imageBytes.Length < 256)
+            if (imageBytes.Length < 256)
             {
                 // Too small
                 return false;
             }
 
-            if (imageBytes.Length > 2 * 1024 * 1024 )
+            if (imageBytes.Length > 2 * 1024 * 1024)
             {
                 // Too big
                 return false;
             }
 
             this.LogoImageBytes = imageBytes;
+            return true;
+        });
+
+    public void SetLogoSize(double logoSize) =>
+        this.ApiAction(() =>
+        {
+            if (logoSize < 0.1)
+            {
+                // Too small
+                return false;
+            }
+
+            if (logoSize > 0.35)
+            {
+                // Too big
+                return false;
+            }
+
+
+            this.LogoSize = logoSize;
             return true;
         });
 

@@ -19,14 +19,7 @@ public sealed partial class LogoViewModel: ViewModel<LogoView> , IDropImageTarge
         this.qrCodeCreatorModel.DoUseLogo ();
     }
 
-    public override void Deactivate()
-    {
-        base.Deactivate();
-        this.qrCodeCreatorModel.DoUseLogo (false);
-    }
+    public override void Deactivate() => this.qrCodeCreatorModel.DoUseLogo (false);
 
-    public void OnImageDrop(byte[] imageBytes)
-    {
-
-    }
+    public void OnImageDrop(byte[] imageBytes) => this.qrCodeCreatorModel.SetLogo(imageBytes);
 }
