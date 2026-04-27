@@ -8,25 +8,28 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:shared="clr-namespace:Lyt.QrCode.Creator.Workflow.Shared"	
 	>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="40" />	<!-- Image Prompt  --> 
+			<RowDefinition Height="140" />   <!-- Drop zone  --> 
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="40" />
+			<ColumnDefinition Width="480" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Grid.Column="0" Grid.Row="0" 
-			Margin="0"
-			Text="LogoView"
-			Theme="{StaticResource H1}"
-			TextAlignment="Center"
-			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			Grid.Column="1" Grid.Row="0" 
+			Text="The image at the center of the QR code should be exactly square."
+			Theme="{StaticResource Medium}"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<shared:DropView
+			Grid.Column="1" Grid.Row="1"
+			DataContext="{Binding DropViewModel}"
 			/>
 	</Grid>
 </UserControl>
