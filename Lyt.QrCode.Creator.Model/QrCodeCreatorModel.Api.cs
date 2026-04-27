@@ -147,6 +147,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
                 return false;
             }
 
+            this.LogoImageBytes = imageBytes;
             return true;
         });
 
