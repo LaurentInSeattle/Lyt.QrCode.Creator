@@ -9,12 +9,34 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 
+
+	xmlns:glyphs="clr-namespace:Lyt.Avalonia.Controls.Glyphs;assembly=Lyt.Avalonia.Controls"
 	xmlns:shared="using:Lyt.QrCode.Creator.Controls"
-	xmlns:content="clr-namespace:Lyt.QrCode.Creator.Workflow.Encoding.ContentForms"
 	xmlns:design="clr-namespace:Lyt.QrCode.Creator.Workflow.Encoding.DesignForms"
 
 	Background="Transparent"
 	>
+
+	<UserControl.Resources>
+		<ControlTheme x:Key="NavigationButton" TargetType="glyphs:GlyphButton">
+			<Setter Property="Typography" Value="{StaticResource GlyphButtonTypography}"/>
+			<Setter Property="GeneralVisualState" Value="{StaticResource ToolbarIconGeneralVisualState}"/>
+			<Setter Property="BackgroundVisualState" Value="{StaticResource ToolbarIconBackgroundVisualState}"/>
+			<Setter Property="BackgroundBorderVisualState" Value="{StaticResource ToolbarIconBackgroundBorderVisualState}"/>
+			<Setter Property="Width" Value="114" />
+			<Setter Property="Height" Value="40" />
+			<Setter Property="Margin" Value="2 4 2 4" />
+			<Setter Property="FontSize" Value="18" />
+			<Setter Property="FontWeight" Value="SemiBold"/>
+			<Setter Property="Layout" Value="TextOnly" />
+			<Setter Property="Behaviour" Value="Tap" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="ButtonBackground" Value="BorderlessRectangle" />
+			<Setter Property="GlyphStrokeThickness" Value="0" />
+			<Setter Property="GlyphAngle" Value="0" />
+		</ControlTheme>
+	</UserControl.Resources>
 
 	<UserControl.Styles>
 		<Style Selector="GridSplitter.wide">
@@ -34,33 +56,106 @@
 				</ControlTemplate>
 			</Setter>
 		</Style>
+		<Style Selector="shared|ContainerControl"> 
+			<Setter Property="Width" Value="820"/>
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+		</Style>
+		<Style Selector="shared|OptionControl"> 
+			<Setter Property="Width" Value="800"/>
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+		</Style>
 	</UserControl.Styles>
 
 	<Grid> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="10" />
+			<RowDefinition Height="80" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="10" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="10" />
-			<ColumnDefinition Width="*" MinWidth="800"/>  
+			<ColumnDefinition Width="850"/>  
 			<ColumnDefinition Width="16" /> 
 			<ColumnDefinition Width="840" MinWidth="400"/>
 			<ColumnDefinition Width="10" />
 		</Grid.ColumnDefinitions>
 
+		<Grid
+			x:Name="NavigationGrid"
+			Grid.Row="1" Grid.Column="1" 
+			Background="{StaticResource DeepBlue_1_100}"
+			Height="60"
+			VerticalAlignment="Top"
+			>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="4" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="4" />
+			</Grid.ColumnDefinitions>
+			<glyphs:GlyphButton
+				Style="{StaticResource NavigationButton}"
+				Grid.Column="1" 
+				Text="Content"
+				Command="{Binding OnNavigate}" CommandParameter="ContentContainer"
+				/>
+			<glyphs:GlyphButton
+				Style="{StaticResource NavigationButton}"
+				Grid.Column="2" 
+				Text="Colours"
+				Command="{Binding OnNavigate}" CommandParameter="ColorsContainer"
+				/>
+			<glyphs:GlyphButton
+				Style="{StaticResource NavigationButton}"
+				Grid.Column="3" 
+				Text="Frame"
+				Command="{Binding OnNavigate}" CommandParameter="FrameContainer"
+				/>
+			<glyphs:GlyphButton
+				Style="{StaticResource NavigationButton}"
+				Grid.Column="4" 
+				Text="Logo"
+				Command="{Binding OnNavigate}" CommandParameter="LogoContainer"
+				/>
+			<glyphs:GlyphButton
+				Style="{StaticResource NavigationButton}"
+				Grid.Column="5" 
+				Text="Background"
+				Command="{Binding OnNavigate}" CommandParameter="BackgroundContainer"
+				/>
+			<glyphs:GlyphButton
+				Style="{StaticResource NavigationButton}"
+				Grid.Column="6" 
+				Text="Shapes"
+				Command="{Binding OnNavigate}" CommandParameter="ShapesContainer"
+				/>
+			<glyphs:GlyphButton
+				Style="{StaticResource NavigationButton}"
+				Grid.Column="7" 
+				Text="Format"
+				Command="{Binding OnNavigate}" CommandParameter="SizeFormatContainer"
+				/>
+		</Grid>
 		<ScrollViewer
-			Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+			x:Name="ContainersScrollViewer"
+			Grid.Row="2" Grid.Column="1" Grid.RowSpan="2"
 			Margin="2"
 			Background="Transparent"
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 			ScrollViewer.VerticalScrollBarVisibility="Auto"
 			>
-			<WrapPanel
+			<StackPanel
 				Background="Transparent"
+				Orientation="Vertical"
 				>
 				<shared:ContainerControl
 					x:Name="ContentContainer"
@@ -71,11 +166,13 @@
 						<vm:ContentView 
 							x:Name="ContentView"
 							DataContext="{Binding ContentViewModel}"
+							Width="800"
 							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 
 				<shared:ContainerControl
+					x:Name="ColorsContainer"
 					Title="Pick Module Colours"
 					Text="Choose here the colours of the modules. A strong contrast is still needed."
 					>
@@ -89,6 +186,7 @@
 				</shared:ContainerControl>
 
 				<shared:ContainerControl
+					x:Name="FrameContainer"
 					Title="Framing your Content "
 					Text="You can add a frame around the QR Code to make clear for users what is going to happen when scanning the code."
 					>
@@ -100,13 +198,13 @@
 								<design:FrameView
 									x:Name="FrameView"
 									DataContext="{Binding FrameViewModel}"
-									Margin="40 0 0 0"
 									/>
 							</shared:OptionControl.OptionControlContent>
 						</shared:OptionControl>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
+					x:Name="LogoContainer"
 					Title="Adding your Logo or Image"		
 					Text="QR Code encoding is redondant and allows for the loss of some pixels, thus making room for a logo or image."
 					>
@@ -124,6 +222,7 @@
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
+					x:Name="BackgroundContainer"
 					Title="Add a Background Image"
 					Text="{DynamicResource Settings.ReminderSubtitle}"
 					>
@@ -135,6 +234,7 @@
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
+					x:Name="ShapesContainer"
 					Title="Customize Module Shapes"
 					Text="{DynamicResource Settings.ReminderSubtitle}"
 					>
@@ -146,6 +246,7 @@
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 				<shared:ContainerControl
+					x:Name="SizeFormatContainer"
 					Title="Adjust Image Size ~ Select Format"
 					Text="{DynamicResource Settings.ReminderSubtitle}"
 					>
@@ -156,8 +257,10 @@
 							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
-			</WrapPanel>
+			</StackPanel>
 		</ScrollViewer>
+		
+		<!--
 		<GridSplitter
 			Classes="wide"
 			Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" 
@@ -170,6 +273,7 @@
 			Background="{StaticResource OrangePeel_1_100}" 
 			Opacity="0.55"
 			/>
+		-->
 		<StackPanel
 			Grid.Row="1" Grid.RowSpan="2" Grid.Column="3"
 			>			

@@ -33,6 +33,7 @@
 					Margin="0 10 0 0"
 					Text="Drop Zone"
 					Theme="{StaticResource H2}"
+					FontWeight="Medium"
 					TextAlignment="Center"
 					HorizontalAlignment="Center" VerticalAlignment="Top"
 					/>

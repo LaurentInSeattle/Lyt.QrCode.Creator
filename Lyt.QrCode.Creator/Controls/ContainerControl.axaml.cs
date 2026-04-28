@@ -10,6 +10,8 @@ public partial class ContainerControl : UserControl
         this.ToggleCollapse();
     }
 
+    public bool IsCollapsed => this.isCollapsed;
+
     public void ToggleCollapse()
     {
         var rows = this.rootGrid.RowDefinitions;

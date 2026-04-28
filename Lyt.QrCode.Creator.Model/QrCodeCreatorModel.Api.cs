@@ -137,8 +137,8 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             bool result = true;
             if (this.UseLogo != useLogo)
             {
-                // Rebuild the content 
-                if (!this.SetContentInternal(this.QrCodeContent, this.UseLogo))
+                // Rebuild the content, use the new value for UseLogo property 
+                if (!this.SetContentInternal(this.QrCodeContent, useLogo))
                 {
                     result = false;
                 }

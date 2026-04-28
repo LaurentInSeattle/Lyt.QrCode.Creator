@@ -47,7 +47,7 @@
 
     <ControlTheme x:Key="H3" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
         <Setter Property="FontSize" Value="{StaticResource H3.FontSize}" />
-        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontWeight" Value="Medium" />
     </ControlTheme>
 
     <ControlTheme x:Key="Data" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
