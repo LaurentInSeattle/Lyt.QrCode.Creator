@@ -18,17 +18,16 @@
 	</UserControl.Resources>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="40" />
-			<RowDefinition Height="40" />
+			<RowDefinition Height="40" /> <!-- prompt --> 
+			<RowDefinition Height="40" /> <!-- ssid --> 
+			<RowDefinition Height="20" /> 
+			<RowDefinition Height="40" /> <!-- pass --> 
 			<RowDefinition Height="20" />
-			<RowDefinition Height="40" />
+			<RowDefinition Height="40" /> <!-- hidden 5 --> 
 			<RowDefinition Height="20" />
-			<RowDefinition Height="40" />
-			<RowDefinition Height="20" />
-			<RowDefinition Height="40" />
-			<RowDefinition Height="90" />
-			<RowDefinition Height="20" />
-			<RowDefinition Height="56" />
+			<RowDefinition Height="40" /> <!-- prompt -->
+			<RowDefinition Height="80" /> <!-- radios -->
+			<RowDefinition Height="40" /> <!-- Message 9 -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="600" />
@@ -117,7 +116,7 @@
 				/>
 			<RadioButton
 				Grid.Column="1" Grid.Row="1"
-				Content="None (Security Risk)"
+				Content="None (Security risk)"
 				VerticalAlignment="Center" HorizontalAlignment="Left"
 				GroupName="AuthenticationGroup"
 				IsChecked="{Binding Path=Mode, Converter={StaticResource enumBooleanConverter}, ConverterParameter=None}"

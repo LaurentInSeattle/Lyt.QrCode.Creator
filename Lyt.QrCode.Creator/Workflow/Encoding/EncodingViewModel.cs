@@ -59,7 +59,19 @@ public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
                 }
                 else
                 {
-                    containerControl.BringIntoView();
+                    var scrollViewer = this.View.ContainersScrollViewer; 
+                    if (containerName == "ContentContainer")
+                    {
+                        scrollViewer.ScrollToHome();
+                    }
+                    else if (containerName == "SizeFormatContainer")
+                    {
+                        scrollViewer.ScrollToEnd();
+                    }
+                    else
+                    {
+                        containerControl.BringIntoView();
+                    } 
                 }
             }
         }

@@ -29,7 +29,7 @@
 			<RowDefinition Height="40" /> <!-- Address prompt - 15 -->
 			<RowDefinition Height="Auto" /> <!-- Grid Address  16 -->
 			<RowDefinition Height="10" />
-			<RowDefinition Height="56" /> <!-- Message  18 -->
+			<RowDefinition Height="40" /> <!-- Message  18 -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="400" />

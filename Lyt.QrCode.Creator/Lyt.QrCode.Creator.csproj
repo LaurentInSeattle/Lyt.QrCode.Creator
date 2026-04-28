@@ -26,18 +26,12 @@
     <PackageReference Include="Avalonia.Fonts.Inter" Version="12.0.1" />
     <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.1" />
     <PackageReference Include="Lyt.QrCode" Version="1.0.5" />
-    <PackageReference Include="Tmds.DBus.Protocol" Version="0.92.0" />
   </ItemGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
     <AvaloniaResource Include="Assets\Images\**" />
     <AvaloniaResource Include="Assets\Languages\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaXaml Remove="Assets\Theme\PickerStyles.axaml" />
-    <AvaloniaXaml Remove="Assets\Theme\RadioButtonStyles.axaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,21 +47,6 @@
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Utilities\Lyt.Utilities.csproj" />
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Validation\Lyt.Validation.csproj" />
     <ProjectReference Include="..\Lyt.QrCode.Creator.Model\Lyt.QrCode.Creator.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaResource Update="Assets\Theme\PickerStyles.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-    <AvaloniaResource Update="Assets\Theme\RadioButtonStyles.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Workflow\Encoding\ContentInfoView.axaml.cs">
-      <DependentUpon>ContentInfoView.axaml</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,9 @@
 	<UserControl.Resources>
 		<convertLib:EnumBooleanConverter x:Key="enumBooleanConverter" />
 	</UserControl.Resources>
-	<Grid> 
+	<Grid
+		ShowGridLines="False"
+		> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40" />
 			<RowDefinition Height="40" /> <!-- First Last - 1 -->
@@ -35,7 +37,7 @@
 			<RowDefinition Height="40" /> <!-- Address prompt - 17 -->
 			<RowDefinition Height="Auto" /> <!-- Grid Address  18 -->
 			<RowDefinition Height="10" />
-			<RowDefinition Height="56" /> <!-- Message  20 -->
+			<RowDefinition Height="40" /> <!-- Message  20 -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="400" />
@@ -212,8 +214,6 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="40"/>
-				<RowDefinition Height="12"/>
 				<RowDefinition Height="40"/>
 				<RowDefinition Height="12"/>
 				<RowDefinition Height="40"/>

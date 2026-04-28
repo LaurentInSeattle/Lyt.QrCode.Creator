@@ -25,8 +25,8 @@
 			<RowDefinition Height="20" />
 			<RowDefinition Height="40" /> <!-- prompt -->
 			<RowDefinition Height="130"/> <!-- grid --> 
-			<RowDefinition Height="20" />
-			<RowDefinition Height="56" /> <!-- error -->
+			<RowDefinition Height="10" />
+			<RowDefinition Height="40" /> <!-- error -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="600" />

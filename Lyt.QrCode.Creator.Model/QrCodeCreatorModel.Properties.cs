@@ -83,7 +83,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public bool UseLogo { get; set; } = false;
 
     [JsonIgnore]
-    public double LogoSize { get; set; } = 0.30;
+    public double LogoSize { get; set; } = 0.15;
 
     [JsonIgnore]
     public byte[] LogoImageBytes { get; set; } = [];

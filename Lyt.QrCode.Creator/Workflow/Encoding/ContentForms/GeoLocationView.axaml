@@ -24,7 +24,8 @@
 			<RowDefinition Height="20" />
 			<RowDefinition Height="40" /> <!-- prompt 5 -->
 			<RowDefinition Height="130"/> <!-- grid   6 --> 
-			<RowDefinition Height="56" />
+			<RowDefinition Height="10" />
+			<RowDefinition Height="40" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="600" />
@@ -106,7 +107,7 @@
 				/>
 		</Grid>
 		<TextBlock
-			Grid.Row="7"
+			Grid.Row="8"
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
 			Margin="40 0 20 0"
