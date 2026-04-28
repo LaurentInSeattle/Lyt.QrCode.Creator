@@ -46,7 +46,7 @@
 			Click="OnClickNo"
 			/>
 		<ContentPresenter
-			x:Name="Presenter"
+			x:Name="IfYesPresenter"
 			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2"
 			Margin="0"
 			/>

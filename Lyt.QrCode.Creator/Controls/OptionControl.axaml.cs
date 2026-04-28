@@ -19,9 +19,12 @@ public partial class OptionControl : UserControl
         set
         {
             this.SetValue(OptionControlContentProperty, value);
-            this.Presenter.Content = value;
+            this.IfYesPresenter.Content = value;
             if (value is not null)
             {
+                // A unique group name is required because there are multiple instance 
+                // of this control under the same view.
+                // We use the type name of the optional content view 
                 string name = value.GetType().Name;
                 this.YesButton.GroupName = name;
                 this.NoButton.GroupName = name;
@@ -68,7 +71,7 @@ public partial class OptionControl : UserControl
 
     private void ShowContent(bool show = true)
     {
-        if (this.Presenter.Content is UserControl userControl)
+        if (this.IfYesPresenter.Content is UserControl userControl)
         {
             userControl.IsVisible = show;
             if (userControl.DataContext is ViewModel viewModel)
