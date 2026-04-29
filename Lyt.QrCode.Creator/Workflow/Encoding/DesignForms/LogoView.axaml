@@ -24,6 +24,7 @@
 		</Grid.ColumnDefinitions>
 		<TextBlock
 			Grid.Column="1" Grid.Row="0" 
+			Margin="12 0 0 0"
 			Text="The image at the center of the QR code should be exactly square."
 			Theme="{StaticResource Medium}"
 			TextAlignment="Left"

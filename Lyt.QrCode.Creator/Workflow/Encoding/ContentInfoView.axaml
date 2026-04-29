@@ -13,6 +13,7 @@
 	>
 	<Grid
 		Height="40"
+		Background="{StaticResource DeepBlue_0_100}"
 		>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="320" />

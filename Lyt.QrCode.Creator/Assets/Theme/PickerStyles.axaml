@@ -4,6 +4,7 @@
 
 	<Style Selector="DatePickerPresenter">
 		<Setter Property="Foreground" Value="{StaticResource LightAqua_0_120}" />
+		<Setter Property="Background" Value="{StaticResource DeepBlue_0_100}" />
 	</Style>
 
 	<Style Selector="DatePicker /template/ TextBlock#PART_DayTextBlock">
@@ -23,6 +24,7 @@
 
 	<Style Selector="TimePickerPresenter">
 		<Setter Property="Foreground" Value="{StaticResource LightAqua_0_120}" />
+		<Setter Property="Background" Value="{StaticResource DeepBlue_0_100}" />
 	</Style>
 
 	<Style Selector="TimePicker /template/ TextBlock#PART_HourTextBlock">

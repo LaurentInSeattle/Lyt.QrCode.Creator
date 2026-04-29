@@ -23,11 +23,12 @@
 		<ComboBox
 			Grid.Row="0" 
 			Margin="40 0 20 0"
+			Padding="1"
 			VerticalAlignment="Center" HorizontalAlignment="Left"
 			x:Name="ContentComboBox"
 			ItemsSource="{Binding SupportedContent}"
 			SelectedIndex="{Binding SelectedContentIndex}"
-			Width="420" Height="52" MaxDropDownHeight="640"
+			Width="400" Height="52" MaxDropDownHeight="640"
 			>
 			<ComboBox.ItemsPanel>
 				<ItemsPanelTemplate>

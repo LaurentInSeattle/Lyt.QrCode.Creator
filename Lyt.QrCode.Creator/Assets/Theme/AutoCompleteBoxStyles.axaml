@@ -3,8 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:generic="using:System.Collections.Generic"
 	>
-    <Design.PreviewWith>
-        <Border Padding="20" Background="Black" >
+	<Design.PreviewWith>
+		<Border Padding="20" Background="Black" >
 			<AutoCompleteBox Width="200" IsEnabled="True" IsDropDownOpen="True">
 				<AutoCompleteBox.ItemsSource>
 					<generic:List x:TypeArguments="x:String">
@@ -19,8 +19,8 @@
 					</generic:List>
 				</AutoCompleteBox.ItemsSource>
 			</AutoCompleteBox>
-        </Border>
-    </Design.PreviewWith>
+		</Border>
+	</Design.PreviewWith>
 
 
 	<Style Selector="AutoCompleteBox">
@@ -67,6 +67,15 @@
 	</Style>
 	-->
 	
+	<Style Selector="ComboBoxItem">
+		<Setter Property="Background" Value="{StaticResource DeepBlue_0_100}"/>
+	</Style>
+	<Style Selector="ComboBoxItem:pointerover /template/ ContentPresenter">
+		<Setter Property="Background" Value="{StaticResource LightAqua_0_080}"/>
+	</Style>	
+	<Style Selector="ComboBoxItem:selected /template/ ContentPresenter">
+		<Setter Property="Background" Value="{StaticResource LightAqua_0_120}"/>
+	</Style>
 </Styles>
 
 <!--
@@ -100,7 +109,7 @@
 							 MaxLength="{TemplateBinding MaxLength}"
 							 InnerLeftContent="{TemplateBinding InnerLeftContent}"
 							 InnerRightContent="{TemplateBinding InnerRightContent}"
-                     />
+					 />
 					<Popup Name="PART_Popup"
 						   WindowManagerAddShadowHint="False"
 						   MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
