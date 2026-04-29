@@ -1,7 +1,7 @@
 <UserControl 
-	x:Class="Lyt.QrCode.Creator.Workflow.Encoding.DesignForms.SizeFormatView"
+	x:Class="Lyt.QrCode.Creator.Workflow.Encoding.DesignForms.OutputFormatView"
 	xmlns:vm="clr-namespace:Lyt.QrCode.Creator.Workflow.Encoding.DesignForms"
-	x:DataType="vm:SizeFormatViewModel" 
+	x:DataType="vm:OutputFormatViewModel" 
 
 	xmlns="https://github.com/avaloniaui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

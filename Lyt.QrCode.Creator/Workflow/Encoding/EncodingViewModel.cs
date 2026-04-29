@@ -1,7 +1,5 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding;
 
-using Lyt.QrCode.Creator.Controls;
-
 public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<EncodingView>
 {
     private readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
@@ -25,13 +23,13 @@ public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
     public partial ImageViewModel ImageViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
-    public partial ColorsViewModel ColorsViewModel { get; set; } = new(qrCodeCreatorModel);
+    public partial ModulesViewModel ModulesViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
     public partial ShapesViewModel ShapesViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
-    public partial SizeFormatViewModel SizeFormatViewModel { get; set; } = new(qrCodeCreatorModel);
+    public partial OutputFormatViewModel OutputFormatViewModel { get; set; } = new(qrCodeCreatorModel);
 
     public override void OnViewLoaded()
     {
@@ -45,7 +43,7 @@ public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
     {
         if ((parameter is string containerName) && !string.IsNullOrWhiteSpace(containerName))
         {
-            // TODO: Navigate 
+            // Navigate to the container for which we have a name
             Debug.WriteLine("Navigate to: " + containerName);
             var control = this.View.FindControl<ContainerControl>(containerName);
             if (control is ContainerControl containerControl)
@@ -64,7 +62,7 @@ public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
                     {
                         scrollViewer.ScrollToHome();
                     }
-                    else if (containerName == "SizeFormatContainer")
+                    else if (containerName == "OutputFormatContainer")
                     {
                         scrollViewer.ScrollToEnd();
                     }

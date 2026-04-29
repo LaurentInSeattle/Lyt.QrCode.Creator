@@ -28,8 +28,33 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return this.SetContentInternal(qrContent, this.UseLogo);
         });
 
-    // Module colors
-    public void SetLightColor(uint value) =>
+    // Modules , scaling and colours
+
+    public bool SetScale(int value) =>
+        this.ApiAction(() =>
+        {
+            if (value < 2 || value > 64)
+            {
+                return false;
+            }
+
+            this.Scale = value;
+            return true;
+        });
+
+    public bool SetBorderSize(int value) =>
+        this.ApiAction(() =>
+        {
+            if (value < 2 || value > 16)
+            {
+                return false;
+            }
+
+            this.BorderSize = value;
+            return true;
+        });
+
+    public bool SetLightColor(uint value) =>
         this.ApiAction(() =>
         {
             // TODO: Check luminance 
@@ -37,7 +62,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
-    public void SetDarkColor(uint value) =>
+    public bool SetDarkColor(uint value) =>
         this.ApiAction(() =>
         {
             // TODO: Check luminance 
@@ -47,14 +72,14 @@ public sealed partial class QrCodeCreatorModel : ModelBase
 
     // Frame
 
-    public void DoUseFrame(bool useFrame = true) =>
+    public bool DoUseFrame(bool useFrame = true) =>
         this.ApiAction(() =>
         {
             this.UseFrame = useFrame;
             return true;
         });
 
-    public void SetFrameForegroundColor(uint color) =>
+    public bool SetFrameForegroundColor(uint color) =>
         this.ApiAction(() =>
         {
             if (!this.UseFrame)
@@ -66,7 +91,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
-    public void SetFrameSize(int value) =>
+    public bool SetFrameSize(int value) =>
         this.ApiAction(() =>
         {
             if (!this.UseFrame)
@@ -83,7 +108,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
-    public void SetFrameBackgroundColor(uint color) =>
+    public bool SetFrameBackgroundColor(uint color) =>
         this.ApiAction(() =>
         {
             if (!this.UseFrame)
@@ -95,7 +120,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
-    public void SetFrameTextTop(string text) =>
+    public bool SetFrameTextTop(string text) =>
         this.ApiAction(() =>
         {
             if (!this.UseFrame)
@@ -112,7 +137,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
-    public void SetFrameTextBottom(string text) =>
+    public bool SetFrameTextBottom(string text) =>
         this.ApiAction(() =>
         {
             if (!this.UseFrame)
@@ -131,7 +156,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
 
     // Logo
 
-    public void DoUseLogo(bool useLogo = true) =>
+    public bool DoUseLogo(bool useLogo = true) =>
         this.ApiAction(() =>
         {
             bool result = true;
@@ -149,7 +174,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return result;
         });
 
-    public void SetLogo(byte[] imageBytes) =>
+    public bool SetLogo(byte[] imageBytes) =>
         this.ApiAction(() =>
         {
             if (!this.UseLogo)
@@ -173,7 +198,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
-    public void SetLogoSize(double logoSize) =>
+    public bool SetLogoSize(double logoSize) =>
         this.ApiAction(() =>
         {
             if (logoSize < 0.1)

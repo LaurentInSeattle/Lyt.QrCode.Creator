@@ -11,7 +11,7 @@
 	>
 	<Grid
 		x:Name="rootGrid"
-		Margin="8 0 8 32"
+		Margin="8 0 8 16"
 		>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="8" />
@@ -21,6 +21,7 @@
 			<RowDefinition Height="40" />
 			<RowDefinition Height="50" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="16" />
 		</Grid.RowDefinitions>
 		<ContentPresenter
 			x:Name="presenter"
@@ -78,5 +79,29 @@
 			FontWeight="Normal"
 			Foreground="{StaticResource Secondary.TextColor}"
 			/>
+		<!--
+		<Rectangle
+			Grid.Column="1" Grid.Row="3" 
+			Margin="320 -20 320 0"
+			Fill="{StaticResource LightAqua_0_120}"
+			Opacity="0.13"
+			VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+			Height="1"
+			/>
+		--> 
+		<Separator 
+			Grid.Column="1" Grid.Row="3" 
+			Margin="300 -10 300 0"
+			Height="1"
+			VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+			>
+			<Separator.Background>
+				<LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+					<GradientStop Color="Transparent" Offset="0.0" />
+					<GradientStop Color="{StaticResource LightAqua_1_040_Color}" Offset="0.5" />
+					<GradientStop Color="Transparent" Offset="1.0" />
+				</LinearGradientBrush>
+			</Separator.Background>
+		</Separator>
 	</Grid>
 </UserControl>

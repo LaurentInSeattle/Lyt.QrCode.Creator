@@ -69,13 +69,19 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     [JsonIgnore]
     public string FrameTextBottomTypography { get; set; } = "H2";
 
-    // Border 
+    // Module colors, Scale and Border 
+
+    [JsonIgnore]
+    public int Scale { get; set; } = 16;
 
     [JsonIgnore]
     public int BorderSize { get; set; } = 2;
 
     [JsonIgnore]
-    public uint BorderColor { get; set; } = ColorWhite;
+    public uint FalseColor { get; set; } = ColorWhite;
+
+    [JsonIgnore]
+    public uint TrueColor { get; set; } = ColorBlack;
 
     // Logo
 
@@ -83,7 +89,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public bool UseLogo { get; set; } = false;
 
     [JsonIgnore]
-    public double LogoSize { get; set; } = 0.15;
+    public double LogoSize { get; set; } = 0.25;
 
     [JsonIgnore]
     public byte[] LogoImageBytes { get; set; } = [];
@@ -93,14 +99,6 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     [JsonIgnore]
     public byte[] BackgroundImageBytes { get; set; } = [];
 
-    // Module colors
-
-    [JsonIgnore]
-    public uint FalseColor { get; set; } = ColorWhite;
-
-    [JsonIgnore]
-    public uint TrueColor { get; set; } = ColorBlack;
-
     // Finders and Module shapes
 
     [JsonIgnore]
@@ -109,10 +107,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     [JsonIgnore]
     public FinderShape FinderShape { get; set; } = FinderShape.Square;
 
-    // Size and Format 
-
-    [JsonIgnore]
-    public int Scale { get; set; } = 16;
+    // Format 
 
     [JsonIgnore]
     public OutputLocation OutputLocation { get; set; } = OutputLocation.Desktop;

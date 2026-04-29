@@ -97,11 +97,11 @@ global using Lyt.QrCode.API;
 global using Lyt.QrCode.Content;
 global using Lyt.QrCode.Parser;
 
+global using Lyt.QrCode.Creator.Controls;
 global using Lyt.QrCode.Creator.Model;
 global using Lyt.QrCode.Creator.Model.Validation;
 global using Lyt.QrCode.Creator.Model.Messaging;
 global using Lyt.QrCode.Creator.Model.Utilities;
-
 global using Lyt.QrCode.Creator.Messaging;
 global using Lyt.QrCode.Creator.Shell;
 global using Lyt.QrCode.Creator.Utilities;

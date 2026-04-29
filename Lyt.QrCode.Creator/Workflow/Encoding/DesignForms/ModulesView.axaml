@@ -1,7 +1,7 @@
 <UserControl 
-	x:Class="Lyt.QrCode.Creator.Workflow.Encoding.DesignForms.ColorsView"
+	x:Class="Lyt.QrCode.Creator.Workflow.Encoding.DesignForms.ModulesView"
 	xmlns:vm="clr-namespace:Lyt.QrCode.Creator.Workflow.Encoding.DesignForms"
-	x:DataType="vm:ColorsViewModel" 
+	x:DataType="vm:ModulesViewModel" 
 
 	xmlns="https://github.com/avaloniaui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,9 +13,13 @@
 	>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="32" />
-			<RowDefinition Height="52" />
-			<RowDefinition Height="52" />
+			<RowDefinition Height="40" />	<!-- Pixel Size Prompt  --> 
+			<RowDefinition Height="40" />   <!-- Pixel Size Slider   --> 
+			<RowDefinition Height="40" />	<!-- Border Size Prompt  --> 
+			<RowDefinition Height="40" />   <!-- Border Size Slider   --> 
+			<RowDefinition Height="40" />
+			<RowDefinition Height="52" />   <!-- Pickers 5  --> 
+			<RowDefinition Height="52" />   <!-- Luminances  6  --> 
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -23,8 +27,64 @@
 			<ColumnDefinition Width="20" />
 			<ColumnDefinition Width="280" />
 		</Grid.ColumnDefinitions>
+
 		<TextBlock
-			Grid.Column="0" Grid.Row="0" 
+			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
+			Margin="0"
+			Text="The module size, as a count of pixels."
+			Theme="{StaticResource Medium}"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<Slider 
+			Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+			Margin="4 -24 100 4 "
+			VerticalAlignment="Center" HorizontalAlignment="Stretch"
+			TickFrequency="1.0"
+			TickPlacement="BottomRight"
+			IsSnapToTickEnabled="True"
+			SmallChange="1" LargeChange="5"
+			Minimum="8"
+			Maximum="32"
+			Value="{Binding ModuleSizeSliderValue}"
+			/>
+		<TextBlock
+			Grid.Row="1" Grid.Column="2" 
+			Margin="0 -20 0 0"
+			Theme="{StaticResource Large}"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			Text="{Binding ModuleSizeString}"
+			/>
+		<TextBlock
+			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" 
+			Margin="0"
+			Text="The border (aka 'quiet zone') size, as a multiple of the module size."
+			Theme="{StaticResource Medium}"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<Slider 
+			Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" 
+			Margin="4 -24 100 4 "
+			VerticalAlignment="Center" HorizontalAlignment="Stretch"
+			TickFrequency="1.0"
+			TickPlacement="BottomRight"
+			IsSnapToTickEnabled="True"
+			SmallChange="1" LargeChange="5"
+			Minimum="2"
+			Maximum="12"
+			Value="{Binding BorderSizeSliderValue}"
+			/>
+		<TextBlock
+			Grid.Row="3" Grid.Column="2" 
+			Margin="0 -20 0 0"
+			Theme="{StaticResource Large}"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			Text="{Binding BorderSizeString}"
+			/>
+
+		<TextBlock
+			Grid.Column="0" Grid.Row="4" 
 			Margin="0"
 			Text="Light Color"
 			Theme="{StaticResource Medium}"
@@ -32,7 +92,7 @@
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
 		<TextBlock
-			Grid.Column="2" Grid.Row="0" 
+			Grid.Column="2" Grid.Row="4" 
 			Margin="0"
 			Text="Dark Color"
 			Theme="{StaticResource Medium}"
@@ -40,7 +100,7 @@
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
 		<ColorPicker
-			Grid.Column="0" Grid.Row="1" 
+			Grid.Column="0" Grid.Row="5" 
 			Width="280" Height="40"
 			Color="{Binding LightColor}"
 			ColorModel="Rgba"
@@ -51,7 +111,7 @@
 			> 
 		</ColorPicker>
 		<ColorPicker
-			Grid.Column="2" Grid.Row="1" 
+			Grid.Column="2" Grid.Row="5" 
 			Width="280" Height="40"
 			Color="{Binding DarkColor}"
 			ColorModel="Rgba"
@@ -62,7 +122,7 @@
 			> 
 		</ColorPicker>
 		<TextBlock
-			Grid.Column="0" Grid.Row="2" 
+			Grid.Column="0" Grid.Row="6" 
 			Margin="0"
 			Text="{Binding LightColorLuminanceValue}"
 			Theme="{StaticResource Medium}"
@@ -70,7 +130,7 @@
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			/>
 		<TextBlock
-			Grid.Column="2" Grid.Row="2" 
+			Grid.Column="2" Grid.Row="6" 
 			Margin="0"
 			Text="{Binding DarkColorLuminanceValue}"
 			Theme="{StaticResource Medium}"
@@ -80,7 +140,7 @@
 		<glyphs:GlyphButton
 			Style="{StaticResource ViewIconButton}"
 			HorizontalAlignment="Center" VerticalAlignment="Center"
-			Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+			Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3"
 			Width="400" Height="52"
 			Margin="0 4 0 4"
 			FontSize="24"
