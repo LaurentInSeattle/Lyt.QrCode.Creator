@@ -46,12 +46,14 @@
 					<Border 
 						Width="16" 
 						Background="Transparent" IsHitTestVisible="True">
-						<Border BorderBrush="{TemplateBinding BorderBrush}"
-								BorderThickness="{TemplateBinding BorderThickness}"
-								CornerRadius="{TemplateBinding CornerRadius}"
-								Background="{TemplateBinding Background}"
-								HorizontalAlignment="Center"
-								Width="2"/>
+						<Border 
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							Background="{TemplateBinding Background}"
+							HorizontalAlignment="Center"
+							Width="2"
+							/>
 					</Border>
 				</ControlTemplate>
 			</Setter>
@@ -86,9 +88,14 @@
 			x:Name="NavigationGrid"
 			Grid.Row="1" Grid.Column="1" 
 			Background="{StaticResource DeepBlue_1_100}"
-			Height="54"
+			Height="68"
 			VerticalAlignment="Top"
 			>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="54" />
+				<RowDefinition Height="0" />
+				<RowDefinition Height="14" />
+			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="4" />
 				<ColumnDefinition Width="*" />
@@ -101,46 +108,61 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="4" />
 			</Grid.ColumnDefinitions>
+			<Rectangle
+				x:Name="NavigationIndicator"
+				Grid.Column="1" Grid.Row="2" 
+				Margin="6 -4 6 0"
+				Height="2" 
+				HorizontalAlignment="Stretch" VerticalAlignment="Top"
+				Fill="{StaticResource FreshGreen_2_100}"
+				/>
 			<glyphs:GlyphButton
 				Style="{StaticResource NavigationButton}"
 				Grid.Column="1" 
 				Text="Content"
+				Click="OnNavigationButtonClick"
 				Command="{Binding OnNavigate}" CommandParameter="ContentContainer"
 				/>
 			<glyphs:GlyphButton
 				Style="{StaticResource NavigationButton}"
 				Grid.Column="2" 
 				Text="Modules"
+				Click="OnNavigationButtonClick"
 				Command="{Binding OnNavigate}" CommandParameter="ModulesContainer"
 				/>
 			<glyphs:GlyphButton
 				Style="{StaticResource NavigationButton}"
 				Grid.Column="3" 
 				Text="Frame"
+				Click="OnNavigationButtonClick"
 				Command="{Binding OnNavigate}" CommandParameter="FrameContainer"
 				/>
 			<glyphs:GlyphButton
 				Style="{StaticResource NavigationButton}"
 				Grid.Column="4" 
 				Text="Logo"
+				Click="OnNavigationButtonClick"
 				Command="{Binding OnNavigate}" CommandParameter="LogoContainer"
 				/>
 			<glyphs:GlyphButton
 				Style="{StaticResource NavigationButton}"
 				Grid.Column="5" 
 				Text="Background"
+				Click="OnNavigationButtonClick"
 				Command="{Binding OnNavigate}" CommandParameter="BackgroundContainer"
 				/>
 			<glyphs:GlyphButton
 				Style="{StaticResource NavigationButton}"
 				Grid.Column="6" 
 				Text="Shapes"
+				Click="OnNavigationButtonClick"
 				Command="{Binding OnNavigate}" CommandParameter="ShapesContainer"
 				/>
 			<glyphs:GlyphButton
 				Style="{StaticResource NavigationButton}"
 				Grid.Column="7" 
 				Text="Format"
+				Click="OnNavigationButtonClick"
 				Command="{Binding OnNavigate}" CommandParameter="OutputFormatContainer"
 				/>
 		</Grid>
@@ -154,6 +176,7 @@
 			ScrollViewer.VerticalScrollBarVisibility="Auto"
 			>
 			<StackPanel
+				x:Name="ContainersStackPanel"
 				Background="Transparent"
 				Orientation="Vertical"
 				>
@@ -204,6 +227,7 @@
 						</shared:OptionControl>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
+
 				<shared:ContainerControl
 					x:Name="LogoContainer"
 					Title="Adding your Logo. (or any Image)"		
@@ -222,6 +246,7 @@
 						</shared:OptionControl>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
+
 				<shared:ContainerControl
 					x:Name="BackgroundContainer"
 					Title="Add a Background Image."
@@ -234,6 +259,7 @@
 							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
+
 				<shared:ContainerControl
 					x:Name="ShapesContainer"
 					Title="Customize Module Shapes."
@@ -246,6 +272,7 @@
 							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
+
 				<shared:ContainerControl
 					x:Name="OutputFormatContainer"
 					Title="Select the Image Output Format"
@@ -258,6 +285,12 @@
 							/>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
+				<!-- Empty area so that navigation will place the last items at the top of the scroll viewer -->
+				<Grid
+					Background="Transparent"
+					Height="666"
+					>					
+				</Grid>
 			</StackPanel>
 		</ScrollViewer>
 		

@@ -41,37 +41,29 @@ public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
     [RelayCommand]
     public void OnNavigate(object? parameter)
     {
-        if ((parameter is string containerName) && !string.IsNullOrWhiteSpace(containerName))
+        if ((parameter is not string containerName) || string.IsNullOrWhiteSpace(containerName))
         {
-            // Navigate to the container for which we have a name
-            Debug.WriteLine("Navigate to: " + containerName);
-            var control = this.View.FindControl<ContainerControl>(containerName);
-            if (control is ContainerControl containerControl)
-            {
-                if (containerControl.IsCollapsed)
-                {
-                    // If we need to open the container, we need to schedule bringing it into view 
-                    // or else the scroll viewer will not show the collapsed section.
-                    containerControl.ToggleCollapse();
-                    Schedule.OnUiThread(66, containerControl.BringIntoView, DispatcherPriority.Background); 
-                }
-                else
-                {
-                    var scrollViewer = this.View.ContainersScrollViewer; 
-                    if (containerName == "ContentContainer")
-                    {
-                        scrollViewer.ScrollToHome();
-                    }
-                    else if (containerName == "OutputFormatContainer")
-                    {
-                        scrollViewer.ScrollToEnd();
-                    }
-                    else
-                    {
-                        containerControl.BringIntoView();
-                    } 
-                }
-            }
+            return;
         }
+
+        // Navigate to the container for which we have a name
+        Debug.WriteLine("Navigate to: " + containerName);
+        var control = this.View.FindControl<ContainerControl>(containerName);
+        if (control is ContainerControl containerControl)
+        {
+            var scrollViewer = this.View.ContainersScrollViewer;
+            void ScrollTo()  => scrollViewer.Offset = new Vector(0, containerControl.Bounds.TopLeft.Y);
+            if (containerControl.IsCollapsed)
+            {
+                // If we need to open the container, we need to schedule bringing it into view 
+                // or else the scroll viewer will not show the collapsed section.
+                containerControl.ToggleCollapse();
+                Schedule.OnUiThread(66, ScrollTo, DispatcherPriority.Background); 
+            }
+            else
+            {
+                ScrollTo(); 
+            }
+        }        
     }
 }
