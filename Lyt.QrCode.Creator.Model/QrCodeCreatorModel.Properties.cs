@@ -118,10 +118,18 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     [JsonIgnore]
     public string OutputFileName { get; set; } = "QR-Code";
 
+    [JsonIgnore]
+    public bool UseTimeStamp { get; set; } = true;
+
     public string OutputFilePath()
     {
         string rootPath = this.OutputLocation.FolderPath();
         string fileName = this.OutputFileName;
+        if (this.UseTimeStamp)
+        {
+            fileName += $"_{FileManagerModel.TimestampString()}";
+        }   
+
         string extension = this.OutputFormat.FileExtension();
         return Path.Combine(rootPath, $"{fileName}.{extension}");
     }

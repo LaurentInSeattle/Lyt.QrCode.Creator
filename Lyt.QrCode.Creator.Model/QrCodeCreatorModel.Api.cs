@@ -33,6 +33,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public bool SetScale(int value) =>
         this.ApiAction(() =>
         {
+            // TODO: Magic numbers
             if (value < 2 || value > 64)
             {
                 return false;
@@ -45,6 +46,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public bool SetBorderSize(int value) =>
         this.ApiAction(() =>
         {
+            // TODO: Magic numbers
             if (value < 2 || value > 16)
             {
                 return false;
@@ -182,6 +184,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
                 return false;
             }
 
+            // TODO: Magic numbers
             if (imageBytes.Length < 256)
             {
                 // Too small
@@ -201,6 +204,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public bool SetLogoSize(double logoSize) =>
         this.ApiAction(() =>
         {
+            // TODO: Magic numbers
             if (logoSize < 0.1)
             {
                 // Too small
@@ -216,6 +220,48 @@ public sealed partial class QrCodeCreatorModel : ModelBase
 
             this.LogoSize = logoSize;
             return true;
+        });
+
+    public void UpdateOutputFilename(string filename) =>
+        this.ApiAction(() =>
+        {
+            if ((string.IsNullOrWhiteSpace(filename)) ||
+                (filename.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) >= 0))
+            {
+                return false;
+            }
+
+            this.OutputFileName = filename;
+
+            // No need to publish an update message here.
+            return false;
+        });
+
+    public void UpdateUseTimeStamp(bool useTimeStamp) =>
+        this.ApiAction(() =>
+        {
+            this.UseTimeStamp = useTimeStamp;
+
+            // No need to publish an update message here.
+            return false;
+        });
+
+    public void UpdateOutputFormat(OutputFormat outputFormat) =>
+        this.ApiAction(() =>
+        {
+            this.OutputFormat = outputFormat;
+
+            // No need to publish an update message here.
+            return false;
+        });
+
+    public void UpdateOutputLocation(OutputLocation outputLocation) =>
+        this.ApiAction(() =>
+        {
+            this.OutputLocation = outputLocation;
+
+            // No need to publish an update message here.
+            return false;
         });
 
     private bool ApiAction(Func<bool> action)

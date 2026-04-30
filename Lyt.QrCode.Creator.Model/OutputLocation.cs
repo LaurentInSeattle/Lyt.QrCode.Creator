@@ -15,6 +15,6 @@ public static class OutputLocationExtensions
             OutputLocation.Desktop => Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
             OutputLocation.Documents => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             OutputLocation.Downloads => Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads",
-            _ => throw new ArgumentOutOfRangeException(nameof(location), $"Not expected output location value: {location}"),
+            _ => throw new ArgumentOutOfRangeException(nameof(location), $"Unexpected output location value: {location}"),
         };
 }

@@ -8,25 +8,160 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:glyphs="using:Lyt.Avalonia.Controls.Glyphs"	
+	xmlns:toggle="using:Lyt.Avalonia.Controls.Toggle"	
+	xmlns:convertLib="clr-namespace:Lyt.Avalonia.Mvvm.Converters;assembly=Lyt.Avalonia.Mvvm"    
 	>
+	<UserControl.Resources>
+			<convertLib:EnumBooleanConverter x:Key="enumBooleanConverter" />
+	</UserControl.Resources>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="40" /> <!-- prompt --> 
+			<RowDefinition Height="40" /> <!-- file name --> 
+			<RowDefinition Height="20" /> 
+			<RowDefinition Height="40" /> <!-- time stamp slider 3 --> 
+			<RowDefinition Height="20" />
+
+			<RowDefinition Height="40" /> <!-- prompt 5 -->
+			<RowDefinition Height="40" /> <!-- radios 6 -->
+
+			<RowDefinition Height="40" /> <!-- prompt 7 -->
+			<RowDefinition Height="40" /> <!-- radios 8	-->
+
+			<RowDefinition Height="40" /> <!-- Sample  9 -->
+			<RowDefinition Height="40" /> <!-- Message 10 -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="600" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Grid.Column="0" Grid.Row="0" 
-			Margin="0"
-			Text="SizeFormatView"
-			Theme="{StaticResource H1}"
-			TextAlignment="Center"
+			Grid.Column="0" Grid.Row="0"	
+			Text="File name WITHOUT extension"
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<TextBox
+			x:Name="FilenameTextBox"
+			Grid.Row="1"
+			VerticalContentAlignment="Center" 
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Enter the network name."
+			MaxLength="40"
+			Text="{Binding Filename}"
+			Margin="40 0 20 0"
+			/>
+		<toggle:ToggleSwitch
+			x:Name="TimestampToggleSwitch"
+			Grid.Row="3" 
+			Style="{StaticResource StandardToggleSwitch}"
+			TrueText="Append a time stamp"
+			FalseText="None"
+			Margin="40 0 0 0"
+			Height="36" Width="420"
+			Orientation="Horizontal"
+			HorizontalAlignment="Left" VerticalAlignment="Center"
+			Value="{Binding UseTimeStamp}"
+			/>
+		<TextBlock
+			Grid.Row="5"
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			Text="Image File Format:"
+			/>
+		<Grid
+			Margin="60 0 20 0"
+			Grid.Row="6"
+			>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<RadioButton
+				Grid.Column="0" Grid.Row="0"
+				Content="PNG"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				GroupName="OutputFormatGroup"
+				IsChecked="{Binding Path=OutputFormat, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Png}"
+				/>
+			<RadioButton
+				Grid.Column="1" Grid.Row="0"
+				Content="JPEG"
+				GroupName="OutputFormatGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=OutputFormat, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Jpeg}"
+				/>
+			<RadioButton
+				Grid.Column="2" Grid.Row="0"
+				Content="BMP"
+				GroupName="OutputFormatGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=OutputFormat, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Bmp}"
+				/>
+		</Grid>
+		<TextBlock
+			Grid.Row="7"
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			Text="Storage Location on Disk:"
+			/>
+		<Grid
+			Margin="60 0 20 0"
+			Grid.Row="8"
+			>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<RadioButton
+				Grid.Column="0" Grid.Row="0"
+				Content="Desktop"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				GroupName="OutputLocationGroup"
+				IsChecked="{Binding Path=OutputLocation, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Desktop}"
+				/>
+			<RadioButton
+				Grid.Column="1" Grid.Row="0"
+				Content="Documents"
+				GroupName="OutputLocationGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=OutputLocation, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Documents}"
+				/>
+			<RadioButton
+				Grid.Column="2" Grid.Row="0"
+				Content="Downloads"
+				GroupName="OutputLocationGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=OutputLocation, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Downloads}"
+				/>
+		</Grid>
+		<TextBlock
+			Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
+			Text="{Binding SamplePath}"
+			Theme="{StaticResource Large}"
+			Margin="40 0 20 0"
+			/>
+		<TextBlock
+			Grid.Row="10"
+			Text="{Binding ValidationMessage}"
+			Theme="{StaticResource ValidationError}"
+			Margin="40 0 20 0"
 			/>
 	</Grid>
 </UserControl>
+
