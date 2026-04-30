@@ -11,7 +11,7 @@
 	>
 	<Grid
 		x:Name="rootGrid"
-		Margin="8 0 8 16"
+		Margin="4 0 8 16"
 		>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="8" />
