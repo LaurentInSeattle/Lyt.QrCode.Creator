@@ -97,6 +97,12 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     // Background
 
     [JsonIgnore]
+    public bool UseBackground { get; set; } = false;
+
+    [JsonIgnore]
+    public double Coloring { get; set; } = 0.5;
+
+    [JsonIgnore]
     public byte[] BackgroundImageBytes { get; set; } = [];
 
     // Finders and Module shapes

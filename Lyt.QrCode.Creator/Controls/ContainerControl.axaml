@@ -71,7 +71,7 @@
 		<TextBlock
 			x:Name="textTextBlock"
 			Grid.Row="1" Grid.Column="1"
-			MaxWidth="600"
+			MaxWidth="640"
 			Text="Text"
 			HorizontalAlignment="Left" VerticalAlignment="Center"
 			Margin="32 0 4 0"
@@ -79,16 +79,6 @@
 			FontWeight="Normal"
 			Foreground="{StaticResource Secondary.TextColor}"
 			/>
-		<!--
-		<Rectangle
-			Grid.Column="1" Grid.Row="3" 
-			Margin="320 -20 320 0"
-			Fill="{StaticResource LightAqua_0_120}"
-			Opacity="0.13"
-			VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-			Height="1"
-			/>
-		--> 
 		<Separator 
 			Grid.Column="1" Grid.Row="3" 
 			Margin="300 -10 300 0"

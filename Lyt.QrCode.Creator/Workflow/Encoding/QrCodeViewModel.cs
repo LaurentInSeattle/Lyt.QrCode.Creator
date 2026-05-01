@@ -63,27 +63,32 @@ public sealed partial class QrCodeViewModel :
     private void ReceiveOnUiThread(ModelChangedMessage _)
     {
         // Debug.WriteLine("Model changed message received in QrCodeViewModel");
-        if (this.qrCodeCreatorModel.Modules.Length == 0)
+        var model = this.qrCodeCreatorModel; 
+        if (model.Modules.Length == 0)
         {
             this.HasData = false;
             return;
         }
 
         this.HasData = true;
-        this.EncodedString = this.qrCodeCreatorModel.QrCodeContent.QrString;
-        var trueBrush = new SolidColorBrush(this.qrCodeCreatorModel.TrueColor);
-        var falseBrush = new SolidColorBrush(this.qrCodeCreatorModel.FalseColor);
-        var frameBackgroundBrush = new SolidColorBrush(this.qrCodeCreatorModel.FrameBackgroundColor);
-        var frameForegroundBrush = new SolidColorBrush(this.qrCodeCreatorModel.FrameForegroundColor);
+        this.EncodedString = model.QrCodeContent.QrString;
+        var trueBrush = new SolidColorBrush(model.TrueColor);
+        var falseBrush = 
+            model.UseBackground ?
+                new SolidColorBrush(Colors.Transparent):
+                new SolidColorBrush(model.FalseColor);
+        var frameForegroundBrush = new SolidColorBrush(model.FrameForegroundColor);
+        var frameBackgroundBrush = new SolidColorBrush(model.FrameBackgroundColor);
         int frameSize =
-            this.qrCodeCreatorModel.UseFrame ? this.qrCodeCreatorModel.FrameSize : 0 ;
+            model.UseFrame ? model.FrameSize : 0 ;
         this.View.ConstructGrid(
-            this.qrCodeCreatorModel.Modules,
-            this.qrCodeCreatorModel.Scale, this.qrCodeCreatorModel.BorderSize, 
+            model.Modules,
+            model.Scale, model.BorderSize, 
             frameSize,
             trueBrush, falseBrush,
             frameBackgroundBrush, frameForegroundBrush,
-            this.qrCodeCreatorModel.FrameTextTop, this.qrCodeCreatorModel.FrameTextBottom, 
-            this.qrCodeCreatorModel.UseLogo, this.qrCodeCreatorModel.LogoImageBytes, this.qrCodeCreatorModel.LogoSize);
+            model.FrameTextTop, model.FrameTextBottom, 
+            model.UseLogo, model.LogoImageBytes, model.LogoSize, 
+            model.UseBackground, model.BackgroundImageBytes, model.Coloring);
     }
 }

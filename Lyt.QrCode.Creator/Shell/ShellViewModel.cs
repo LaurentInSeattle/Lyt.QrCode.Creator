@@ -70,7 +70,7 @@ public sealed partial class ShellViewModel
 
         this.isFirstActivation = true;
         // Select(this.qrCodeCreatorModel.IsFirstRun ? ActivatedView.Language : ActivatedView.Encoding);
-        Select(ActivatedView.Language);
+        Select(ActivatedView.Encoding);
 
         this.Logger.Debug("OnViewLoaded complete");
     }

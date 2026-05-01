@@ -250,13 +250,19 @@
 				<shared:ContainerControl
 					x:Name="BackgroundContainer"
 					Title="Add a Background Image."
-					Text="{DynamicResource Settings.ReminderSubtitle}"
+					Text="You can replace the uniform background with an image of your choice. To ensure proper scanning, it needs to be luminous and low constrast."
 					>
 					<shared:ContainerControl.ContainerControlContent>
-						<design:ImageView
-							x:Name="ImageView"
-							DataContext="{Binding ImageViewModel}"
-							/>
+						<shared:OptionControl
+							OptionText="Use a Background Image?"
+							>
+							<shared:OptionControl.OptionControlContent>
+								<design:ImageView
+									x:Name="ImageView"
+									DataContext="{Binding ImageViewModel}"
+									/>
+							</shared:OptionControl.OptionControlContent>
+						</shared:OptionControl>
 					</shared:ContainerControl.ContainerControlContent>
 				</shared:ContainerControl>
 

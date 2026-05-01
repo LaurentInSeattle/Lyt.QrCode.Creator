@@ -10,7 +10,8 @@ public partial class QrCodeView : View
         SolidColorBrush trueBrush, SolidColorBrush falseBrush,
         SolidColorBrush frameBackgroundBrush, SolidColorBrush frameForegroundBrush,
         string topText, string bottomText, 
-        bool useLogo, byte[] logoImageBytes, double logoSize)
+        bool useLogo, byte[] logoImageBytes, double logoSize,
+        bool useBackground, byte[] backgroundImageBytes, double coloring)
     {
         double screenScaling = App.MainWindow.Screens.ScreenFromVisual(this)?.Scaling ?? 1.0;
         double borderSize = border * scale / screenScaling;
@@ -71,6 +72,62 @@ public partial class QrCodeView : View
 
         grid.ColumnDefinitions.Add(new ColumnDefinition(borderSize, GridUnitType.Pixel));
 
+        Grid.SetColumn(grid, 1);
+        Grid.SetRow(grid, 1);
+
+        // Background image
+        if (useBackground)
+        {
+            if (backgroundImageBytes is null || backgroundImageBytes.Length <= 250)
+            {
+                // No image ready yet: Add a coloured rectangle as placeholder
+                var rectangle = new Rectangle()
+                {
+                    Fill = Brushes.DarkOrchid,
+                    VerticalAlignment =  global::Avalonia.Layout.VerticalAlignment.Stretch,
+                    HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Stretch,
+                };
+
+                Grid.SetColumn(rectangle, 0);
+                Grid.SetRow(rectangle, 0);
+                Grid.SetColumnSpan(rectangle, cols + 2);
+                Grid.SetRowSpan(rectangle, rows + 2);
+                grid.Children.Add(rectangle);
+            }
+            else
+            {
+                using var ms = new MemoryStream(backgroundImageBytes);
+                var bitmap = new Bitmap(ms);
+                var image = new Image()
+                {
+                    Source = bitmap,
+                    Stretch = Stretch.UniformToFill,
+                };
+
+                Grid.SetColumn(image, 0);
+                Grid.SetRow(image, 0);
+                Grid.SetColumnSpan(image, cols + 2);
+                Grid.SetRowSpan(image, rows + 2);
+                grid.Children.Add(image);
+            }
+
+            // Add the coloring effect on top 
+            var coloringRectangle = new Rectangle()
+            {
+                Fill = Brushes.White,
+                Opacity = coloring, 
+                VerticalAlignment = global::Avalonia.Layout.VerticalAlignment.Stretch,
+                HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Stretch,
+            };
+
+            Grid.SetColumn(coloringRectangle, 0);
+            Grid.SetRow(coloringRectangle, 0);
+            Grid.SetColumnSpan(coloringRectangle, cols + 2);
+            Grid.SetRowSpan(coloringRectangle, rows + 2);
+            grid.Children.Add(coloringRectangle);
+        }
+
+        // Add QR code modules above background image and below logo ( if any )
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < cols; j++)
@@ -90,9 +147,7 @@ public partial class QrCodeView : View
             }
         }
 
-        Grid.SetColumn(grid, 1);
-        Grid.SetRow(grid, 1);
-
+        // Logo on top of QR code and background image
         if (useLogo)
         {
             bool hasImage = logoImageBytes.Length > 0; 

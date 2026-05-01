@@ -222,6 +222,62 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
+    // Background Image
+
+    public bool DoUseBackground(bool useBackground = true) =>
+        this.ApiAction(() =>
+        {
+            bool result = true;
+            this.UseBackground = useBackground;
+            return result;
+        });
+
+    public bool SetBackground(byte[] imageBytes) =>
+        this.ApiAction(() =>
+        {
+            if (!this.UseBackground)
+            {
+                return false;
+            }
+
+            // TODO: Magic numbers
+            if (imageBytes.Length < 256)
+            {
+                // Too small
+                return false;
+            }
+
+            if (imageBytes.Length > 2 * 1024 * 1024)
+            {
+                // Too big
+                return false;
+            }
+
+            this.BackgroundImageBytes = imageBytes;
+            return true;
+        });
+
+    public bool SetColoring(double coloring) =>
+        this.ApiAction(() =>
+        {
+            // TODO: Magic numbers
+            if (coloring < 0.0)
+            {
+                // Too small
+                return false;
+            }
+
+            if (coloring > 0.99)
+            {
+                // Too big
+                return false;
+            }
+
+
+            this.Coloring = coloring;
+            return true;
+        });
+
     public void UpdateOutputFilename(string filename) =>
         this.ApiAction(() =>
         {
