@@ -13,6 +13,7 @@ public sealed partial class OutputFormatViewModel : ViewModel<OutputFormatView>
         this.OutputLocation = this.qrCodeCreatorModel.OutputLocation;
         this.ValidationMessage = string.Empty;
         this.SamplePath = string.Empty;
+        this.SamplePathPrompt = string.Empty;
     }
 
     public override void OnViewLoaded()
@@ -43,8 +44,13 @@ public sealed partial class OutputFormatViewModel : ViewModel<OutputFormatView>
     [ObservableProperty]
     public partial string SamplePath { get; set; }
 
+    [ObservableProperty]
+    public partial string SamplePathPrompt { get; set; }
+    
     partial void OnFilenameChanged(string value)
     {
+        this.SamplePath = string.Empty;
+        this.SamplePathPrompt = string.Empty;
         if (string.IsNullOrWhiteSpace(value))
         {
             this.ValidationMessage = "The filename cannot be empty.";
@@ -59,24 +65,33 @@ public sealed partial class OutputFormatViewModel : ViewModel<OutputFormatView>
 
         this.ValidationMessage = string.Empty;
         this.qrCodeCreatorModel.UpdateOutputFilename(this.Filename);
-        this.SamplePath = this.qrCodeCreatorModel.OutputFilePath();
+        this.ShowSamplePath();
     }
 
     partial void OnUseTimeStampChanged(bool value)
     {
         this.qrCodeCreatorModel.UpdateUseTimeStamp(value);
-        this.SamplePath = this.qrCodeCreatorModel.OutputFilePath();
+        this.ShowSamplePath();
     }
 
     partial void OnOutputFormatChanged(OutputFormat value)
     {
         this.qrCodeCreatorModel.UpdateOutputFormat(value);
-        this.SamplePath = this.qrCodeCreatorModel.OutputFilePath();
+        this.ShowSamplePath();
     }
 
     partial void OnOutputLocationChanged(OutputLocation value)
     {
         this.qrCodeCreatorModel.UpdateOutputLocation(value);
+        this.ShowSamplePath ();
+    }
+
+    private void ShowSamplePath ()
+    {
+        this.SamplePathPrompt = 
+            this.qrCodeCreatorModel.UseTimeStamp ? 
+                "Output File path, with most likely a different timestamp:" :
+                "Output File path:";
         this.SamplePath = this.qrCodeCreatorModel.OutputFilePath();
     }
 }

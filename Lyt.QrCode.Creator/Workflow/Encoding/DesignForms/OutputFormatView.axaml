@@ -31,7 +31,8 @@
 			<RowDefinition Height="40" /> <!-- radios 8	-->
 
 			<RowDefinition Height="40" /> <!-- Sample  9 -->
-			<RowDefinition Height="40" /> <!-- Message 10 -->
+			<RowDefinition Height="40" /> <!-- Label 10 -->
+			<RowDefinition Height="40" /> <!-- Message 11 -->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="600" />
@@ -151,16 +152,24 @@
 				/>
 		</Grid>
 		<TextBlock
-			Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
-			Text="{Binding SamplePath}"
-			Theme="{StaticResource Large}"
-			Margin="40 0 20 0"
+			Grid.Column="0" Grid.Row="9"	
+			Text="{Binding SamplePathPrompt}"
+			Theme="{StaticResource Medium}"
+			Margin="40 0 0 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 		<TextBlock
-			Grid.Row="10"
+			Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
+			Text="{Binding SamplePath}"
+			Theme="{StaticResource Large}"
+			Margin="60 0 0 0"
+			/>
+		<TextBlock
+			Grid.Row="11"
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
-			Margin="40 0 20 0"
+			Margin="40 0 0 0"
 			/>
 	</Grid>
 </UserControl>
