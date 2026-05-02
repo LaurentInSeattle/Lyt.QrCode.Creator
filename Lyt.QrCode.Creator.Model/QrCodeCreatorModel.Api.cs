@@ -320,6 +320,14 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return false;
         });
 
+    public void SetModuleShape(ModuleShape value) =>
+        this.ApiAction(() =>
+        {
+            this.ModuleShape = value;
+            return true;
+        });
+
+
     private bool ApiAction(Func<bool> action)
     {
         if (!this.timeoutTimer.IsRunning)

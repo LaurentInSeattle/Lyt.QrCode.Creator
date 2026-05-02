@@ -269,7 +269,7 @@
 				<shared:ContainerControl
 					x:Name="ShapesContainer"
 					Title="Customize Module Shapes."
-					Text="{DynamicResource Settings.ReminderSubtitle}"
+					Text="When using modules with a large pixel count, at least above 20, you can customize their shape without compromising decoding."
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<design:ShapesView
@@ -281,8 +281,8 @@
 
 				<shared:ContainerControl
 					x:Name="OutputFormatContainer"
-					Title="Select the Image Output Format"
-					Text="Choose output location and file format of the final QR Code image."
+					Title="Select the Output Format and Location"
+					Text="Choose the output location on disk and the file format for the final QR Code image."
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<design:OutputFormatView

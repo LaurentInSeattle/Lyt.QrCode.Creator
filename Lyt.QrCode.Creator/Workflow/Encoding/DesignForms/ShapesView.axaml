@@ -8,25 +8,63 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+	xmlns:glyphs="using:Lyt.Avalonia.Controls.Glyphs"	
+	xmlns:toggle="using:Lyt.Avalonia.Controls.Toggle"	
+	xmlns:convertLib="clr-namespace:Lyt.Avalonia.Mvvm.Converters;assembly=Lyt.Avalonia.Mvvm"    
 	>
+	<UserControl.Resources>
+			<convertLib:EnumBooleanConverter x:Key="enumBooleanConverter" />
+	</UserControl.Resources>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="40" /> <!-- prompt -->
+			<RowDefinition Height="80" /> <!-- radios -->
+			<RowDefinition Height="20" /> <!-- Spacer-->
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="600" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Grid.Column="0" Grid.Row="0" 
-			Margin="0"
-			Text="ShapesView"
-			Theme="{StaticResource H1}"
-			TextAlignment="Center"
-			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			Grid.Row="0"
+			Theme="{StaticResource Medium}"
+			Margin="40 0 20 0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			Text="Module Shape:"
 			/>
+		<Grid
+			Margin="60 0 20 0"
+			Grid.Row="1"
+			>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40" />
+				<RowDefinition Height="40" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<RadioButton
+				Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
+				Content="Square - 'Classic' Regular"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				GroupName="ModuleShapeGroup"
+				IsChecked="{Binding Path=ModuleShape, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Square}"
+				/>
+			<RadioButton
+				Grid.Column="0" Grid.Row="1"
+				Content="Rounded Square"
+				GroupName="ModuleShapeGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=ModuleShape, Converter={StaticResource enumBooleanConverter}, ConverterParameter=RoundedSquare}"
+				/>
+			<RadioButton
+				Grid.Column="1" Grid.Row="1"
+				Content="Circle"
+				GroupName="ModuleShapeGroup"
+				VerticalAlignment="Center" HorizontalAlignment="Left"
+				IsChecked="{Binding Path=ModuleShape, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Circle}"
+				/>
+		</Grid>
 	</Grid>
 </UserControl>

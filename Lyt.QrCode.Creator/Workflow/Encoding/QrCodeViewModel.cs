@@ -89,6 +89,7 @@ public sealed partial class QrCodeViewModel :
             frameBackgroundBrush, frameForegroundBrush,
             model.FrameTextTop, model.FrameTextBottom, 
             model.UseLogo, model.LogoImageBytes, model.LogoSize, 
-            model.UseBackground, model.BackgroundImageBytes, model.Coloring);
+            model.UseBackground, model.BackgroundImageBytes, model.Coloring,
+            model.ModuleShape);
     }
 }

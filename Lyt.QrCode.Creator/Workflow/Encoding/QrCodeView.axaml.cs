@@ -9,9 +9,10 @@ public partial class QrCodeView : View
         int scale, int border, int frame,
         SolidColorBrush trueBrush, SolidColorBrush falseBrush,
         SolidColorBrush frameBackgroundBrush, SolidColorBrush frameForegroundBrush,
-        string topText, string bottomText, 
+        string topText, string bottomText,
         bool useLogo, byte[] logoImageBytes, double logoSize,
-        bool useBackground, byte[] backgroundImageBytes, double coloring)
+        bool useBackground, byte[] backgroundImageBytes, double coloring,
+        ModuleShape moduleShape)
     {
         double screenScaling = App.MainWindow.Screens.ScreenFromVisual(this)?.Scaling ?? 1.0;
         double borderSize = border * scale / screenScaling;
@@ -84,7 +85,7 @@ public partial class QrCodeView : View
                 var rectangle = new Rectangle()
                 {
                     Fill = Brushes.DarkOrchid,
-                    VerticalAlignment =  global::Avalonia.Layout.VerticalAlignment.Stretch,
+                    VerticalAlignment = global::Avalonia.Layout.VerticalAlignment.Stretch,
                     HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Stretch,
                 };
 
@@ -115,7 +116,7 @@ public partial class QrCodeView : View
             var coloringRectangle = new Rectangle()
             {
                 Fill = Brushes.White,
-                Opacity = coloring, 
+                Opacity = coloring,
                 VerticalAlignment = global::Avalonia.Layout.VerticalAlignment.Stretch,
                 HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Stretch,
             };
@@ -128,29 +129,71 @@ public partial class QrCodeView : View
         }
 
         // Add QR code modules above background image and below logo ( if any )
-        for (int i = 0; i < rows; i++)
+        Shape CreateModuleShape(int i, int j)
         {
-            for (int j = 0; j < cols; j++)
+            var brush = modules[i, j] ? trueBrush : falseBrush;
+            return moduleShape switch
             {
-                var rect = new Rectangle
+                ModuleShape.Square => new Rectangle()
                 {
-                    Fill = modules[i, j] ? trueBrush : falseBrush,
+                    Fill = brush,
                     RadiusX = 0,
                     RadiusY = 0,
                     Stroke = Brushes.Transparent,
                     StrokeThickness = 0,
-                };
+                },
+                
+                ModuleShape.Circle => new Ellipse()
+                {
+                    Fill = brush,
+                    Height = moduleSize,
+                    Width = moduleSize,
+                },
+                
+                ModuleShape.RoundedSquare => new Rectangle()
+                {
+                    Fill = brush,
+                    RadiusX = moduleSize / 4.0,
+                    RadiusY = moduleSize / 4.0,
+                    Stroke = Brushes.Transparent,
+                    StrokeThickness = 0,
+                },
 
-                Grid.SetRow(rect, i + 1);
-                Grid.SetColumn(rect, j + 1);
-                grid.Children.Add(rect);
+                // Fails too often to decode 
+                //ModuleShape.Diamond => new Polygon()
+                //{
+                //    Fill = brush,
+                //    Margin = new Thickness(0),
+                //    Points =
+                //    [
+                //        new(moduleSize / 2.0 + moduleSize / 4.0, 0),
+                //        new(moduleSize / 2.0 - moduleSize / 4.0, 0),
+                //        new (0, moduleSize / 4.0),
+                //        new (moduleSize / 2.0 - 2.0, moduleSize + moduleSize / 8.0 ),
+                //        new (moduleSize / 2.0 + 2.0, moduleSize + moduleSize / 8.0 ),
+                //        new (moduleSize , moduleSize / 4.0 ),
+                //    ]
+                //},
+
+                _ => throw new ArgumentOutOfRangeException(nameof(moduleShape), $"Unsupported module shape: {moduleShape}"),
+            };
+        }
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                var shape = CreateModuleShape(i, j);
+                Grid.SetRow(shape, i + 1);
+                Grid.SetColumn(shape, j + 1);
+                grid.Children.Add(shape);
             }
         }
 
         // Logo on top of QR code and background image
         if (useLogo)
         {
-            bool hasImage = logoImageBytes.Length > 0; 
+            bool hasImage = logoImageBytes.Length > 0;
             var logoGrid = new Grid()
             {
                 Name = "LogoGrid",
@@ -159,11 +202,11 @@ public partial class QrCodeView : View
 
             // rows and cols in QR code are always odd, therefore size also must be
             // Parametrize logo size ( percent ) 
-            int size = (int) Math.Round(rows * logoSize);
+            int size = (int)Math.Round(rows * logoSize);
             if (size % 2 == 0)
             {
                 // if even, make it odd 
-                ++ size;
+                ++size;
             }
 
             int halfSize = size / 2;
@@ -177,12 +220,12 @@ public partial class QrCodeView : View
 
             if (hasImage)
             {
-                using var ms = new MemoryStream(logoImageBytes);  
+                using var ms = new MemoryStream(logoImageBytes);
                 var bitmap = new Bitmap(ms);
                 var image = new Image()
                 {
-                    Source = bitmap , 
-                    Stretch = Stretch.UniformToFill,                         
+                    Source = bitmap,
+                    Stretch = Stretch.UniformToFill,
                 };
 
                 logoGrid.Children.Add(image);
