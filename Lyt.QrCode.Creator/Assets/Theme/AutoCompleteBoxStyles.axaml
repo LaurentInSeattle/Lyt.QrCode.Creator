@@ -69,12 +69,13 @@
 	
 	<Style Selector="ComboBoxItem">
 		<Setter Property="Background" Value="{StaticResource DeepBlue_0_100}"/>
+		<Setter Property="Padding" Value="4"/>
 	</Style>
 	<Style Selector="ComboBoxItem:pointerover /template/ ContentPresenter">
-		<Setter Property="Background" Value="{StaticResource LightAqua_0_080}"/>
+		<Setter Property="Background" Value="{StaticResource LightAqua_0_020}"/>
 	</Style>	
 	<Style Selector="ComboBoxItem:selected /template/ ContentPresenter">
-		<Setter Property="Background" Value="{StaticResource LightAqua_0_120}"/>
+		<Setter Property="Background" Value="{StaticResource LightAqua_0_040}"/>
 	</Style>
 </Styles>
 

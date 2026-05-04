@@ -20,8 +20,13 @@
 			<RowDefinition Height="Auto" />  <!-- Copy Button --> 
 			<RowDefinition Height="40" />	<!-- Text Prompt  --> 
 			<RowDefinition Height="40" />   <!-- Text 1  --> 
-			<RowDefinition Height="20" />   <!-- Spacer  --> 
+			<RowDefinition Height="20" />	<!-- Spacer  --> 
+			<RowDefinition Height="40" />   <!-- Text 1	Font size and weight 	--> 
+			<RowDefinition Height="40" />	<!-- Text Prompt  --> 
 			<RowDefinition Height="40" />   <!-- Text 2  --> 
+			<RowDefinition Height="20" />	<!-- Spacer  --> 
+			<RowDefinition Height="40" />   <!-- Text 2	Font size and weight 	--> 
+			<RowDefinition Height="50" />   <!-- Validation 	--> 
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="280" />
@@ -110,7 +115,7 @@
 			/>
 		<TextBlock
 			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="5" 
-			Text="Optional frame labels, above and below the QR code:"
+			Text="Optional top frame label, ABOVE the QR code:"
 			Theme="{StaticResource Medium}"
 			Margin="0"
 			TextAlignment="Left"
@@ -126,15 +131,108 @@
 			Text="{Binding TextTop}"
 			Margin="0"
 			/>
+		<TextBlock
+			Grid.Column="0" Grid.Row="8" 
+			Text="Font Size:"
+			Theme="{StaticResource Medium}"
+			Margin="0"
+			Width="80"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<TextBox
+			Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="8"
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Font Size (8 to 80)"
+			MaxLength="40"
+			Text="{Binding TextTopFontSize}"
+			Margin="80 0 0 0"
+			/>
+		<TextBlock
+			Grid.Column="2" Grid.Row="8" 
+			Text="Font Weight:"
+			Theme="{StaticResource Medium}"
+			Margin="0"
+			Width="80"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+
+		<TextBlock
+			Grid.Column="2" Grid.Row="12" 
+			Text="Font Weight:"
+			Theme="{StaticResource Medium}"
+			Margin="0"
+			Width="80"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<ComboBox
+			Grid.Column="2" Grid.Row="12" 
+			Theme="{StaticResource Medium}"
+			Margin="0"
+			Width="80"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+
+		<TextBlock
+			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="9" 
+			Text="Optional bottom frame label, BELOW the QR code:"
+			Theme="{StaticResource Medium}"
+			Margin="0"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
 		<TextBox
 			x:Name="TextBottomTextBox"
-			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="8"
+			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="10"
 			VerticalContentAlignment="Center" 
 			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			PlaceholderText="Text below the QR code."
 			MaxLength="40"
 			Text="{Binding TextBottom}"
 			Margin="0"
+			/>
+		<TextBlock
+			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="12" 
+			Text="Font Size:"
+			Theme="{StaticResource Medium}"
+			Margin="0"
+			Width="80"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<TextBox
+			Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="12"
+			VerticalContentAlignment="Center" 
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			PlaceholderText="Font Size (8 to 80)"
+			MaxLength="40"
+			Text="{Binding TextBottomFontSize}"
+			Margin="80 0 0 0"
+			/>
+		<TextBlock
+			Grid.Column="2" Grid.Row="12" 
+			Text="Font Weight:"
+			Theme="{StaticResource Medium}"
+			Margin="0"
+			Width="80"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<ComboBox
+			Grid.Column="2" Grid.Row="12" 
+			Theme="{StaticResource Medium}"
+			Margin="0"
+			Width="80"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<TextBlock
+			Grid.Row="13"
+			Text="{Binding ValidationMessage}"
+			Theme="{StaticResource ValidationError}"
+			Margin="40 0 0 0"
 			/>
 	</Grid>
 </UserControl>

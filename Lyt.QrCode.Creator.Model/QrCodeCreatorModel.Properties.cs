@@ -64,10 +64,16 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public string FrameTextFontFamily { get; set; } = "Segoe UI";
 
     [JsonIgnore]
-    public string FrameTextTopTypography { get; set; } = "H2";
+    public int FrameTextTopFontSize { get; set; } = 24;
 
     [JsonIgnore]
-    public string FrameTextBottomTypography { get; set; } = "H2";
+    public int FrameTextBottomFontSize { get; set; } = 18;
+
+    [JsonIgnore]
+    public int FrameTextTopFontWeight { get; set; } = 500;
+
+    [JsonIgnore]
+    public int FrameTextBottomFontWeight { get; set; } = 400;
 
     // Module colors, Scale and Border 
 

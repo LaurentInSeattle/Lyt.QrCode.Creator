@@ -56,7 +56,7 @@
 		<TextBlock
 			IsVisible="{Binding !HasData}"
 			Margin="0 20 0 20"
-			Text="- No Data Yet -"
+			Text="- No Content Yet -"
 			Theme="{StaticResource Alert}"
 			TextAlignment="Center"
 			VerticalAlignment="Center" HorizontalAlignment="Stretch"

@@ -139,6 +139,40 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
+    public bool SetFrameTextTopFontSize(int fontSize) =>
+        this.ApiAction(() =>
+        {
+            if (!this.UseFrame)
+            {
+                return false;
+            }
+
+            if (fontSize < 4 || fontSize > 80)
+            {
+                return false;
+            }
+
+            this.FrameTextTopFontSize = fontSize;
+            return true;
+        });
+
+    public bool SetFrameTextTopFontWeight(int fontWeight) =>
+        this.ApiAction(() =>
+        {
+            if (!this.UseFrame)
+            {
+                return false;
+            }
+
+            if (fontWeight < 100 || fontWeight > 900)
+            {
+                return false;
+            }
+
+            this.FrameTextTopFontWeight = fontWeight;
+            return true;
+        });
+
     public bool SetFrameTextBottom(string text) =>
         this.ApiAction(() =>
         {
@@ -153,6 +187,40 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             }
 
             this.FrameTextBottom = text;
+            return true;
+        });
+
+    public bool SetFrameTextBottomFontSize(int fontSize) =>
+        this.ApiAction(() =>
+        {
+            if (!this.UseFrame)
+            {
+                return false;
+            }
+
+            if (fontSize < 4 || fontSize > 80)
+            {
+                return false;
+            }
+
+            this.FrameTextBottomFontSize = fontSize;
+            return true;
+        });
+
+    public bool SetFrameTextBottomFontWeight(int fontWeight) =>
+        this.ApiAction(() =>
+        {
+            if (!this.UseFrame)
+            {
+                return false;
+            }
+
+            if (fontWeight < 100 || fontWeight > 900)
+            {
+                return false;
+            }
+
+            this.FrameTextBottomFontWeight = fontWeight;
             return true;
         });
 
