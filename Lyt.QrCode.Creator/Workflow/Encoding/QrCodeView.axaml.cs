@@ -10,6 +10,8 @@ public partial class QrCodeView : View
         SolidColorBrush trueBrush, SolidColorBrush falseBrush,
         SolidColorBrush frameBackgroundBrush, SolidColorBrush frameForegroundBrush,
         string topText, string bottomText,
+        int topTextFontSize, int bottomTextFontSize,
+        int topTextFontWeight, int bottomTextFontWeight,
         bool useLogo, byte[] logoImageBytes, double logoSize,
         bool useBackground, byte[] backgroundImageBytes, double coloring,
         ModuleShape moduleShape)
@@ -44,9 +46,14 @@ public partial class QrCodeView : View
         else
         {
             this.TopTextBlock.Text = topText;
-            this.BottomTextBlock.Text = bottomText;
             this.TopTextBlock.Foreground = frameForegroundBrush;
+            this.TopTextBlock.FontSize = topTextFontSize;
+            this.TopTextBlock.FontWeight = (FontWeight)topTextFontWeight; 
+
+            this.BottomTextBlock.Text = bottomText;
             this.BottomTextBlock.Foreground = frameForegroundBrush;
+            this.BottomTextBlock.FontSize = bottomTextFontSize;
+            this.BottomTextBlock.FontWeight = (FontWeight)bottomTextFontWeight;
         }
 
         var grid = new Grid()

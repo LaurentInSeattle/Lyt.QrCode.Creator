@@ -26,8 +26,4 @@
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="start /WAIT ..\Tools\prebuild.bat&#xD;&#xA;" />
   </Target>
-
-  <ItemGroup>
-    <AvaloniaResource Remove="puzzle.ico" />
-  </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding;
 
-public sealed partial class QrCodeViewModel : 
-    ViewModel<QrCodeView> , 
+public sealed partial class QrCodeViewModel :
+    ViewModel<QrCodeView>,
     IRecipient<ModelChangedMessage>
 {
     private readonly QrCodeCreatorModel qrCodeCreatorModel;
@@ -19,8 +19,8 @@ public sealed partial class QrCodeViewModel :
 
         // Enforce property changed 
         this.HasData = true;
-        this.HasData = false ;
-        this.EncodedString = string.Empty; 
+        this.HasData = false;
+        this.EncodedString = string.Empty;
     }
 
     [RelayCommand]
@@ -28,7 +28,7 @@ public sealed partial class QrCodeViewModel :
     {
         if (!this.HasData)
         {
-            return ;
+            return;
         }
 
         bool success = false;
@@ -51,10 +51,10 @@ public sealed partial class QrCodeViewModel :
             var toaster = App.GetRequiredService<IToaster>();
             toaster.Show(
                 success ? "Success" : "Error",
-                message, 
-                success ? 10_000 : 30_000, 
+                message,
+                success ? 10_000 : 30_000,
                 success ? InformationLevel.Success : InformationLevel.Error);
-        } 
+        }
     }
 
     public void Receive(ModelChangedMessage message)
@@ -63,7 +63,7 @@ public sealed partial class QrCodeViewModel :
     private void ReceiveOnUiThread(ModelChangedMessage _)
     {
         // Debug.WriteLine("Model changed message received in QrCodeViewModel");
-        var model = this.qrCodeCreatorModel; 
+        var model = this.qrCodeCreatorModel;
         if (model.Modules.Length == 0)
         {
             this.HasData = false;
@@ -73,22 +73,29 @@ public sealed partial class QrCodeViewModel :
         this.HasData = true;
         this.EncodedString = model.QrCodeContent.QrString;
         var trueBrush = new SolidColorBrush(model.TrueColor);
-        var falseBrush = 
+        var falseBrush =
             model.UseBackground ?
-                new SolidColorBrush(Colors.Transparent):
+                new SolidColorBrush(Colors.Transparent) :
                 new SolidColorBrush(model.FalseColor);
         var frameForegroundBrush = new SolidColorBrush(model.FrameForegroundColor);
         var frameBackgroundBrush = new SolidColorBrush(model.FrameBackgroundColor);
         int frameSize =
-            model.UseFrame ? model.FrameSize : 0 ;
+            model.UseFrame ? model.FrameSize : 0;
+        int topTextFontSize = model.FrameTextTopFontSize;
+        int bottomTextFontSize = model.FrameTextBottomFontSize;
+        int topTextFontWeight = model.FrameTextTopFontWeight;
+        int bottomTextFontWeight = model.FrameTextBottomFontWeight;
         this.View.ConstructGrid(
             model.Modules,
-            model.Scale, model.BorderSize, 
+            model.Scale, model.BorderSize,
             frameSize,
             trueBrush, falseBrush,
             frameBackgroundBrush, frameForegroundBrush,
-            model.FrameTextTop, model.FrameTextBottom, 
-            model.UseLogo, model.LogoImageBytes, model.LogoSize, 
+            model.FrameTextTop, model.FrameTextBottom,
+                    topTextFontSize, bottomTextFontSize,
+        topTextFontWeight, bottomTextFontWeight,
+
+            model.UseLogo, model.LogoImageBytes, model.LogoSize,
             model.UseBackground, model.BackgroundImageBytes, model.Coloring,
             model.ModuleShape);
     }

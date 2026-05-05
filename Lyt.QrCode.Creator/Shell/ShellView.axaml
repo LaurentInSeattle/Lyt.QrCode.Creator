@@ -40,6 +40,7 @@
                     Stretch="UniformToFill"
                     Source="\Assets\Images\sky.jpg"
                     Grid.ColumnSpan="999" Grid.RowSpan="999"
+                    Opacity="0.7"
                     />
                 <Rectangle
                     Fill="#58000020"

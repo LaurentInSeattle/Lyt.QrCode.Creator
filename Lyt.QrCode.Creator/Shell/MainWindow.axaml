@@ -15,4 +15,5 @@
     ExtendClientAreaTitleBarHeightHint="50"
     ExtendClientAreaToDecorationsHint="False"
     Icon="\Assets\Images\qrcode.ico"
+    Background="Black"
     />

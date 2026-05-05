@@ -22,7 +22,7 @@
 			<RowDefinition Height="40" />   <!-- Text 1  --> 
 			<RowDefinition Height="20" />	<!-- Spacer  --> 
 			<RowDefinition Height="40" />   <!-- Text 1	Font size and weight 	--> 
-			<RowDefinition Height="40" />	<!-- Text Prompt  --> 
+			<RowDefinition Height="50" />	<!-- Text Prompt  --> 
 			<RowDefinition Height="40" />   <!-- Text 2  --> 
 			<RowDefinition Height="20" />	<!-- Spacer  --> 
 			<RowDefinition Height="40" />   <!-- Text 2	Font size and weight 	--> 
@@ -147,34 +147,37 @@
 			PlaceholderText="Font Size (8 to 80)"
 			MaxLength="40"
 			Text="{Binding TextTopFontSize}"
-			Margin="80 0 0 0"
+			Margin="80 0 40 0"
 			/>
 		<TextBlock
-			Grid.Column="2" Grid.Row="8" 
+			Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="8" 
 			Text="Font Weight:"
 			Theme="{StaticResource Medium}"
 			Margin="0"
-			Width="80"
-			TextAlignment="Left"
-			VerticalAlignment="Center" HorizontalAlignment="Left"
-			/>
-
-		<TextBlock
-			Grid.Column="2" Grid.Row="12" 
-			Text="Font Weight:"
-			Theme="{StaticResource Medium}"
-			Margin="0"
-			Width="80"
+			Width="90"
 			TextAlignment="Left"
 			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 		<ComboBox
-			Grid.Column="2" Grid.Row="12" 
-			Theme="{StaticResource Medium}"
-			Margin="0"
-			Width="80"
-			VerticalAlignment="Center" HorizontalAlignment="Left"
-			/>
+			Grid.Column="2" Grid.Row="8" 
+			IsEditable="False"
+			Margin="80 0 0 0"
+			Width="200" Height="40"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			ItemsSource="{Binding SupportedFontWeights}"
+			SelectedIndex="{Binding SelectedTopTextFontWeightsIndex}"
+			>
+			<ComboBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Vertical"/>
+				</ItemsPanelTemplate>
+			</ComboBox.ItemsPanel>
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding}" Foreground="{StaticResource LightAqua_0_100}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
 
 		<TextBlock
 			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="9" 
@@ -210,26 +213,41 @@
 			PlaceholderText="Font Size (8 to 80)"
 			MaxLength="40"
 			Text="{Binding TextBottomFontSize}"
-			Margin="80 0 0 0"
+			Margin="80 0 40 0"
 			/>
 		<TextBlock
-			Grid.Column="2" Grid.Row="12" 
+			Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="12" 
 			Text="Font Weight:"
 			Theme="{StaticResource Medium}"
 			Margin="0"
-			Width="80"
+			Width="90"
 			TextAlignment="Left"
 			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
+
 		<ComboBox
 			Grid.Column="2" Grid.Row="12" 
-			Theme="{StaticResource Medium}"
-			Margin="0"
-			Width="80"
-			VerticalAlignment="Center" HorizontalAlignment="Left"
-			/>
+			IsEditable="False"
+			Margin="80 0 0 0"
+			Width="200" Height="40"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			ItemsSource="{Binding SupportedFontWeights}"
+			SelectedIndex="{Binding SelectedBottomTextFontWeightsIndex}"
+			>
+			<ComboBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Vertical"/>
+				</ItemsPanelTemplate>
+			</ComboBox.ItemsPanel>
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding}" Foreground="{StaticResource LightAqua_0_100}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+			
 		<TextBlock
-			Grid.Row="13"
+			Grid.Row="13"  Grid.ColumnSpan="3" 
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
 			Margin="40 0 0 0"
