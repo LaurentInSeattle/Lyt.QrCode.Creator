@@ -194,9 +194,9 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
             return;
         }
 
-        if (fontSize < 8 || fontSize > 80)
+        if (fontSize < 8 || fontSize > 120)
         {
-            this.ValidationMessage = "Top text font size must be between 8 and 80.";
+            this.ValidationMessage = "Top text font size must be between 8 and 120.";
             return;
         }
 
@@ -218,9 +218,9 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
             return;
         }
 
-        if (fontSize < 8 || fontSize > 80)
+        if (fontSize < 8 || fontSize > 120)
         {
-            this.ValidationMessage = "Bottom text font size must be between 8 and 80.";
+            this.ValidationMessage = "Bottom text font size must be between 8 and 120.";
             return;
         }
 

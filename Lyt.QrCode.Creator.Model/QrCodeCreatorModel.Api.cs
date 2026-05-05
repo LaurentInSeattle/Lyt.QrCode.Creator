@@ -147,7 +147,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
                 return false;
             }
 
-            if (fontSize < 4 || fontSize > 80)
+            if (fontSize < 8 || fontSize > 120)
             {
                 return false;
             }
@@ -198,7 +198,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
                 return false;
             }
 
-            if (fontSize < 4 || fontSize > 80)
+            if (fontSize < 8 || fontSize > 120)
             {
                 return false;
             }

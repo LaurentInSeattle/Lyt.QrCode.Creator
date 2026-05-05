@@ -285,7 +285,7 @@
 		</ComboBox>
 			
 		<TextBlock
-			Grid.Row="14"  Grid.ColumnSpan="3" 
+			Grid.Row="15"  Grid.ColumnSpan="3" 
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
 			Margin="40 0 0 0"
