@@ -5,6 +5,7 @@ public sealed partial class QrCodeViewModel :
     IRecipient<ModelChangedMessage>
 {
     private readonly QrCodeCreatorModel qrCodeCreatorModel;
+    private readonly Dictionary<string, FontFamily> fontFamiliesDictionary;
 
     [ObservableProperty]
     public partial bool HasData { get; set; }
@@ -16,6 +17,9 @@ public sealed partial class QrCodeViewModel :
     {
         this.qrCodeCreatorModel = qrCodeCreatorModel;
         this.Subscribe<ModelChangedMessage>();
+
+        var fontCollection = FontManager.Current.SystemFonts;
+        this.fontFamiliesDictionary = fontCollection.ToDictionary(x => x.Name, x => x);
 
         // Enforce property changed 
         this.HasData = true;
@@ -79,8 +83,17 @@ public sealed partial class QrCodeViewModel :
                 new SolidColorBrush(model.FalseColor);
         var frameForegroundBrush = new SolidColorBrush(model.FrameForegroundColor);
         var frameBackgroundBrush = new SolidColorBrush(model.FrameBackgroundColor);
-        int frameSize =
-            model.UseFrame ? model.FrameSize : 0;
+        int frameSize = model.UseFrame ? model.FrameSize : 0;
+
+        if (! // NOT 
+            (this.fontFamiliesDictionary.TryGetValue(model.FrameTextFontFamily, out FontFamily? fontFamily) && 
+            fontFamily is not null)
+            )
+        {
+            Debug.WriteLine($"Font family '{model.FrameTextFontFamily}' not found. Using default font family.");
+            fontFamily = FontFamily.Default;
+        }
+
         int topTextFontSize = model.FrameTextTopFontSize;
         int bottomTextFontSize = model.FrameTextBottomFontSize;
         int topTextFontWeight = model.FrameTextTopFontWeight;
@@ -92,9 +105,9 @@ public sealed partial class QrCodeViewModel :
             trueBrush, falseBrush,
             frameBackgroundBrush, frameForegroundBrush,
             model.FrameTextTop, model.FrameTextBottom,
-                    topTextFontSize, bottomTextFontSize,
-        topTextFontWeight, bottomTextFontWeight,
-
+            topTextFontSize, bottomTextFontSize,
+            topTextFontWeight, bottomTextFontWeight,
+            fontFamily,
             model.UseLogo, model.LogoImageBytes, model.LogoSize,
             model.UseBackground, model.BackgroundImageBytes, model.Coloring,
             model.ModuleShape);

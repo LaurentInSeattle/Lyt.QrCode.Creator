@@ -61,7 +61,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public string FrameTextBottom { get; set; } = "to open this link in your browser...";
 
     [JsonIgnore]
-    public string FrameTextFontFamily { get; set; } = "Segoe UI";
+    public string FrameTextFontFamily { get; set; } = "Arial";
 
     [JsonIgnore]
     public int FrameTextTopFontSize { get; set; } = 24;
@@ -119,7 +119,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     [JsonIgnore]
     public FinderShape FinderShape { get; set; } = FinderShape.Square;
 
-    // Format 
+    // Output Format 
 
     [JsonIgnore]
     public OutputLocation OutputLocation { get; set; } = OutputLocation.Desktop;

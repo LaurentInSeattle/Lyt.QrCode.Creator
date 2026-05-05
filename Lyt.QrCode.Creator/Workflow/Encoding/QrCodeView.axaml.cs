@@ -12,6 +12,7 @@ public partial class QrCodeView : View
         string topText, string bottomText,
         int topTextFontSize, int bottomTextFontSize,
         int topTextFontWeight, int bottomTextFontWeight,
+        FontFamily fontFamily,
         bool useLogo, byte[] logoImageBytes, double logoSize,
         bool useBackground, byte[] backgroundImageBytes, double coloring,
         ModuleShape moduleShape)
@@ -49,11 +50,13 @@ public partial class QrCodeView : View
             this.TopTextBlock.Foreground = frameForegroundBrush;
             this.TopTextBlock.FontSize = topTextFontSize;
             this.TopTextBlock.FontWeight = (FontWeight)topTextFontWeight; 
+            this.TopTextBlock.FontFamily = fontFamily;
 
             this.BottomTextBlock.Text = bottomText;
             this.BottomTextBlock.Foreground = frameForegroundBrush;
             this.BottomTextBlock.FontSize = bottomTextFontSize;
             this.BottomTextBlock.FontWeight = (FontWeight)bottomTextFontWeight;
+            this.BottomTextBlock.FontFamily = fontFamily;
         }
 
         var grid = new Grid()

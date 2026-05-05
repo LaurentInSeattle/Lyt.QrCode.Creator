@@ -1,5 +1,7 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding.DesignForms;
 
+using global::Avalonia.Media.Fonts;
+
 public sealed partial class FrameViewModel : ViewModel<FrameView>
 {
     private readonly QrCodeCreatorModel qrCodeCreatorModel;
@@ -29,6 +31,7 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
         // "Solid - 950", // 950 // Apparently not supported 
     ];
 
+
     public FrameViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     {
         this.qrCodeCreatorModel = qrCodeCreatorModel;
@@ -39,6 +42,27 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
         this.TextTopFontSize = this.qrCodeCreatorModel.FrameTextTopFontSize.ToString("D");
         this.TextBottomFontSize = this.qrCodeCreatorModel.FrameTextBottomFontSize.ToString("D");
         this.SupportedFontWeights = this.SupportedFontWeightText;
+
+        var fontCollection = FontManager.Current.SystemFonts;
+        var fontFamilies = new List<FontFamily>(fontCollection).OrderBy(x => x.Name).ToList();
+
+        // UGLY HACK !
+        // Crash when opening the combo if the InterV font is present in the list
+        // Note: Inter is doing fine...
+        var toRemove =
+            (from family in fontFamilies
+             where family.Name.StartsWith("InterV", StringComparison.InvariantCultureIgnoreCase)
+             // where family.Name.StartsWith("Inter", StringComparison.InvariantCultureIgnoreCase) 
+             select family).ToList();
+        if (toRemove.Count > 0)
+        {
+            foreach (var family in toRemove)
+            {
+                fontFamilies.Remove(family);
+            }
+        }
+
+        this.SupportedFontFamilies = fontFamilies;
 
         // Enforce property changed
         this.SelectedTopTextFontWeightsIndex = 0;
@@ -86,6 +110,12 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
     public partial int SelectedBottomTextFontWeightsIndex { get; set; }
 
     [ObservableProperty]
+    public partial List<FontFamily> SupportedFontFamilies { get; set; }
+
+    [ObservableProperty]
+    public partial int SelectedFontFamilyIndex { get; set; } 
+
+    [ObservableProperty]
     public partial string ValidationMessage { get; set; }
 
     public override void OnViewLoaded()
@@ -99,6 +129,17 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
         this.OnTextTopFontSizeChanged(this.TextTopFontSize);
         this.OnTextBottomFontSizeChanged(this.TextBottomFontSize);
         this.OnFrameSizeSliderValueChanged(this.FrameSizeSliderValue);
+
+        string fontFamilyName = this.qrCodeCreatorModel.FrameTextFontFamily;
+        for (int index = 0; index < this.SupportedFontFamilies.Count; ++index )
+        {
+            if (this.SupportedFontFamilies[index].Name.Equals(fontFamilyName, StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.SelectedFontFamilyIndex = index;
+                this.OnSelectedFontFamilyIndexChanged(index);
+                break; 
+            }
+        }
     }
 
     public override void Activate(object? activationParameters)
@@ -197,5 +238,11 @@ public sealed partial class FrameViewModel : ViewModel<FrameView>
     {
         int weight = this.SupportedFontWeightValues[value];
         this.qrCodeCreatorModel.SetFrameTextBottomFontWeight(weight);
+    }
+
+    partial void OnSelectedFontFamilyIndexChanged(int value)
+    {
+        var fontFamily = this.SupportedFontFamilies[value];
+        this.qrCodeCreatorModel.SetFrameTextFontFamily(fontFamily.Name);
     }
 }

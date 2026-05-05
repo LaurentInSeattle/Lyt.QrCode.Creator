@@ -224,6 +224,24 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
+
+    public void SetFrameTextFontFamily(string name) => 
+        this.ApiAction(() =>
+        {
+        if (!this.UseFrame)
+        {
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return false;
+        }
+
+        this.FrameTextFontFamily = name;
+        return true;
+    });
+
     // Logo
 
     public bool DoUseLogo(bool useLogo = true) =>

@@ -45,7 +45,7 @@
 			IsSnapToTickEnabled="True"
 			SmallChange="1" LargeChange="5"
 			Minimum="8"
-			Maximum="32"
+			Maximum="40"
 			Value="{Binding ModuleSizeSliderValue}"
 			/>
 		<TextBlock

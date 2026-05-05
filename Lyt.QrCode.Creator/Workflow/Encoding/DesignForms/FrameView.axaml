@@ -26,6 +26,8 @@
 			<RowDefinition Height="40" />   <!-- Text 2  --> 
 			<RowDefinition Height="20" />	<!-- Spacer  --> 
 			<RowDefinition Height="40" />   <!-- Text 2	Font size and weight 	--> 
+			<RowDefinition Height="20" />	<!-- Spacer  --> 
+			<RowDefinition Height="40" />	<!-- Font family Prompt  and Combo --> 
 			<RowDefinition Height="50" />   <!-- Validation 	--> 
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -247,7 +249,43 @@
 		</ComboBox>
 			
 		<TextBlock
-			Grid.Row="13"  Grid.ColumnSpan="3" 
+			Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="14" 
+			Text="Font Family: (for both texts)"
+			Theme="{StaticResource Medium}"
+			Margin="0 0 20 0"
+			Width="280"
+			TextAlignment="Right"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			/>
+
+		<ComboBox
+			Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="14" 
+			IsEditable="False"
+			Margin="10 0 0 0"
+			Width="280" Height="40"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			ItemsSource="{Binding SupportedFontFamilies}"
+			SelectedIndex="{Binding SelectedFontFamilyIndex}"
+			>
+			<ComboBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Vertical"/>
+				</ItemsPanelTemplate>
+			</ComboBox.ItemsPanel>
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock 
+						Text="{Binding Name}" 
+						FontFamily="{Binding}" 
+						Foreground="{StaticResource LightAqua_0_100}"
+						FontSize="20"
+						/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+			
+		<TextBlock
+			Grid.Row="14"  Grid.ColumnSpan="3" 
 			Text="{Binding ValidationMessage}"
 			Theme="{StaticResource ValidationError}"
 			Margin="40 0 0 0"
