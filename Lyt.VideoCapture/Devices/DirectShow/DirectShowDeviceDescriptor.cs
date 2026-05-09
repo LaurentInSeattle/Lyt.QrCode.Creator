@@ -1,0 +1,28 @@
+﻿namespace Lyt.VideoCapture.Devices.DirectShow;
+
+public sealed class DirectShowDeviceDescriptor : CaptureDeviceDescriptor
+{
+    private readonly string devicePath;
+
+    internal DirectShowDeviceDescriptor(
+        string devicePath, string name, string description,
+        VideoCharacteristics[] characteristics,
+        BufferPool defaultBufferPool) :
+        base(name, description, characteristics, defaultBufferPool) =>
+        this.devicePath = devicePath;
+
+    public override object Identity =>
+        this.devicePath;
+
+    public override DeviceTypes DeviceType =>
+        DeviceTypes.DirectShow;
+
+    protected override Task<CaptureDevice> OnOpenWithFrameProcessorAsync(
+        VideoCharacteristics characteristics,
+        TranscodeFormats transcodeFormat,
+        FrameProcessor frameProcessor,
+        CancellationToken ct) =>
+        this.InternalOnOpenWithFrameProcessorAsync(
+            new DirectShowDevice(this.devicePath, this.Name),
+            characteristics, transcodeFormat, frameProcessor, ct);
+}

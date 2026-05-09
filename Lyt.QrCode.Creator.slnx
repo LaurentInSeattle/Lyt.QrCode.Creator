@@ -25,4 +25,5 @@
   <Project Path="Lyt.QrCode.Creator.Desktop/Lyt.QrCode.Creator.Desktop.csproj" Id="04bf4f48-6424-4c60-ab15-07cb7b2bf220" />
   <Project Path="Lyt.QrCode.Creator.Model/Lyt.QrCode.Creator.Model.csproj" Id="1fae431d-ca1e-4fa2-90d2-abbe2853de3e" />
   <Project Path="Lyt.QrCode.Creator/Lyt.QrCode.Creator.csproj" Id="f67f5c81-4c34-48dd-8bad-28cd53dce05d" />
+  <Project Path="Lyt.VideoCapture/Lyt.VideoCapture.csproj" Id="6f933f00-5d40-463d-900e-fe742f2049a0" />
 </Solution>
