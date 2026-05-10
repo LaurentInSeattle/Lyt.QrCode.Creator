@@ -15,6 +15,8 @@
 
     <system:String x:Key="Shell.Encoding">Codificación</system:String>
 
+    <system:String x:Key="Shell.Decoding">Descodificación</system:String>
+
     <system:String x:Key="Shell.Settings">Ajustes</system:String>
 
     <system:String x:Key="Shell.Language">Idioma</system:String>

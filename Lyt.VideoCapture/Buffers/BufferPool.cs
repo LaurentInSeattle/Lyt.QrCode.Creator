@@ -1,4 +1,7 @@
-﻿
+﻿#if DEBUG 
+// #define DEBUG_BUFFER_POOL
+#endif
+
 namespace Lyt.VideoCapture.Buffers;
 
 public abstract class BufferPool
@@ -11,7 +14,7 @@ public abstract class BufferPool
     public abstract void Return(byte[] buffer);
 }
 
-public sealed class DefaultBufferPool :  BufferPool
+public sealed class DefaultBufferPool : BufferPool
 {
     private sealed class BufferElement(byte[] buffer)
     {
@@ -59,21 +62,22 @@ public sealed class DefaultBufferPool :  BufferPool
                     // * Determined: size, exactSize and availability
                     bufferElement.ExtractBuffer() is { } buffer)
                 {
+#if DEBUG_BUFFER_POOL
                     Debug.WriteLine($"DefaultBufferPool: Rend: Size={buffer.Length}/{minimumSize}, Index={index}");
+#endif
                     return buffer;
                 }
             }
             else if (!(bufferElement?.IsAvailable ?? true))
             {
                 // Remove corrected element (and forgot).
-                Interlocked.CompareExchange(
-                    ref this.bufferElements[index],
-                    null,
-                    bufferElement);
+                Interlocked.CompareExchange(ref this.bufferElements[index], null, bufferElement);
             }
         }
 
+#if DEBUG_BUFFER_POOL
         Debug.WriteLine($"DefaultBufferPool: Created: Size={minimumSize}");
+#endif
         return new byte[minimumSize];
     }
 
@@ -81,7 +85,7 @@ public sealed class DefaultBufferPool :  BufferPool
     {
         var newBufferElement = new BufferElement(buffer);
 
-        for (var index = 0; index < this.bufferElements.Length; index++)
+        for (int index = 0; index < this.bufferElements.Length; index++)
         {
             var bufferElement = this.bufferElements[index];
             if (bufferElement == null || !bufferElement.IsAvailable)
@@ -93,13 +97,17 @@ public sealed class DefaultBufferPool :  BufferPool
                         bufferElement),
                     bufferElement))
                 {
+#if DEBUG_BUFFER_POOL
                     Debug.WriteLine($"DefaultBufferPool: Returned: Size={buffer.Length}, Index={index}");
+#endif
                     return;
                 }
             }
         }
 
         // It was better to simply discard a buffer instance than the cost of extending the table.
+#if DEBUG_BUFFER_POOL
         Debug.WriteLine($"DefaultBufferPool: Discarded: Size={buffer.Length}");
+#endif
     }
 }

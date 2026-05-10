@@ -29,9 +29,9 @@ public sealed partial class ShellViewModel
     {
     }
 
-    public void Receive(ToolbarCommandMessage message) 
-    { 
-        if ( message.Command == ToolbarCommandMessage.ToolbarCommand.PlayFullscreen)
+    public void Receive(ToolbarCommandMessage message)
+    {
+        if (message.Command == ToolbarCommandMessage.ToolbarCommand.PlayFullscreen)
         {
         }
         else if (message.Command == ToolbarCommandMessage.ToolbarCommand.PlayWindowed)
@@ -109,7 +109,9 @@ public sealed partial class ShellViewModel
             selectableViews.Add(new SelectableView<ActivatedView>(activatedView, vm, control));
         }
 
-        SetupNoToolbar<EncodingViewModel, EncodingView>( ActivatedView.Encoding, view.EncodingButton);
+        SetupNoToolbar<EncodingViewModel, EncodingView>(ActivatedView.Encoding, view.EncodingButton);
+
+        SetupNoToolbar<DecodingViewModel, DecodingView>(ActivatedView.Decoding, view.DecodingButton);
 
         Setup<LanguageViewModel, LanguageView, LanguageToolbarViewModel, LanguageToolbarView>(
             ActivatedView.Language, view.FlagButton);
@@ -148,6 +150,9 @@ public sealed partial class ShellViewModel
 
     [RelayCommand]
     public void OnEncoding() => Select(ActivatedView.Encoding);
+
+    [RelayCommand]
+    public void OnDecoding() => Select(ActivatedView.Decoding);
 
     [RelayCommand]
     public void OnLanguage() => Select(ActivatedView.Language);

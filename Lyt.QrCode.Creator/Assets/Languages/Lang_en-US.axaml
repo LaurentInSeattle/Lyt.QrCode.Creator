@@ -11,6 +11,7 @@
 	<system:String x:Key="Shell.About">About...</system:String>
 	<system:String x:Key="Shell.Play">Play</system:String>
 	<system:String x:Key="Shell.Encoding">Encoding</system:String>
+	<system:String x:Key="Shell.Decoding">Decoding</system:String>
 	<system:String x:Key="Shell.Settings">Settings</system:String>
 	<system:String x:Key="Shell.Language">Language</system:String>
 	<system:String x:Key="Shell.Exit">Quit</system:String>

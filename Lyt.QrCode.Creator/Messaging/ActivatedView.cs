@@ -6,5 +6,6 @@ public enum ActivatedView : int
     Exit,
 
     Encoding,
+    Decoding,
     Language,
 }

@@ -15,6 +15,8 @@
 
     <system:String x:Key="Shell.Encoding">编码</system:String>
 
+    <system:String x:Key="Shell.Decoding">解码</system:String>
+
     <system:String x:Key="Shell.Settings">设置</system:String>
 
     <system:String x:Key="Shell.Language">语言</system:String>

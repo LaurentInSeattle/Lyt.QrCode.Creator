@@ -15,6 +15,8 @@
 
     <system:String x:Key="Shell.Encoding">Κωδικοποίηση</system:String>
 
+    <system:String x:Key="Shell.Decoding">Αποκρυπτογράφηση</system:String>
+
     <system:String x:Key="Shell.Settings">Ρυθμίσεις</system:String>
 
     <system:String x:Key="Shell.Language">Γλώσσα</system:String>

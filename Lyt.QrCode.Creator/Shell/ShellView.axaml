@@ -117,6 +117,15 @@
                         Group="{Binding ElementName=SelectionGroup}"
                         />
                     <glyphs:GlyphButton
+                        x:Name="DecodingButton"
+                        Style="{StaticResource NavigationIconButton}"
+                        GlyphSource="qrcode"
+                        GlyphStrokeThickness="0"
+                        Text="{DynamicResource Shell.Decoding}"
+                        Command="{Binding OnDecoding}"  
+                        Group="{Binding ElementName=SelectionGroup}"
+                        />
+                    <glyphs:GlyphButton
                         x:Name="FlagButton"
                         Style="{StaticResource NavigationIconButton}"
                         GlyphSource="flag"
