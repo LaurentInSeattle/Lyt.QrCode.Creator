@@ -5,7 +5,7 @@ public abstract class FrameProcessor(BufferPool bufferPool)
     private readonly BufferPool bufferPool = bufferPool;
     private readonly Stack<PixelBuffer> reserver = new();
 
-    protected FrameProcessor() : this(new DefaultBufferPool())
+    protected FrameProcessor() : this(new BufferPool())
     {
     }
 

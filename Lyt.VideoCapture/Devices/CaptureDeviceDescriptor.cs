@@ -234,7 +234,7 @@ public abstract class CaptureDeviceDescriptor
                 pixelBuffer.InternalReleaseNow();
 
                 tcs.TrySetResult(image.Array);
-            }, 1, new DefaultBufferPool()),
+            }, 1, new BufferPool()),
             ct);
 
         await device.InternalStartAsync(ct);

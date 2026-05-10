@@ -4,22 +4,13 @@
 
 namespace Lyt.VideoCapture.Buffers;
 
-public abstract class BufferPool
+public sealed class BufferPool(int maxReservedBufferElements)
 {
-    protected BufferPool()
-    {
-    }
-
-    public abstract byte[] Rent(int minimumSize);
-    public abstract void Return(byte[] buffer);
-}
-
-public sealed class DefaultBufferPool : BufferPool
-{
-    private sealed class BufferElement(byte[] buffer)
+    private sealed class Buffer(byte[] buffer)
     {
         private readonly int size = buffer.Length;
-        private readonly WeakReference wr = new WeakReference(buffer);
+
+        private readonly WeakReference wr = new(buffer);
 
         public bool IsAvailable => this.wr.IsAlive;
 
@@ -28,24 +19,19 @@ public sealed class DefaultBufferPool : BufferPool
         public byte[]? ExtractBuffer() => (byte[]?)this.wr.Target;
     }
 
-    private readonly BufferElement?[] bufferElements;
+    private readonly Buffer?[] buffers = new Buffer?[maxReservedBufferElements];
 
-    public DefaultBufferPool() : this(16)
-    {
-    }
-
-    public DefaultBufferPool(int maxReservedBufferElements) =>
-        this.bufferElements = new BufferElement?[maxReservedBufferElements];
+    public BufferPool() : this(16) { }
 
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public int UnsafeAvailableCount =>
-        this.bufferElements.Count(bufferHolder => bufferHolder?.IsAvailable ?? false);
+        this.buffers.Count(bufferHolder => bufferHolder?.IsAvailable ?? false);
 
-    public override byte[] Rent(int minimumSize)
+    public byte[] Borrow(int minimumSize)
     {
-        for (var index = 0; index < this.bufferElements.Length; index++)
+        for (int index = 0; index < this.buffers.Length; index++)
         {
-            var bufferElement = this.bufferElements[index];
+            var bufferElement = this.buffers[index];
 
             // First phase:
             // * Determined: size and exactSize
@@ -53,17 +39,14 @@ public sealed class DefaultBufferPool : BufferPool
             if (bufferElement?.IsAvailableAndFit(minimumSize) ?? false)
             {
                 if (object.ReferenceEquals(
-                    Interlocked.CompareExchange(
-                        ref this.bufferElements[index],
-                        null,
-                        bufferElement),
-                        bufferElement) &&
+                    Interlocked.CompareExchange(ref this.buffers[index], null, bufferElement),
+                    bufferElement) &&
                     // Second phase
                     // * Determined: size, exactSize and availability
                     bufferElement.ExtractBuffer() is { } buffer)
                 {
 #if DEBUG_BUFFER_POOL
-                    Debug.WriteLine($"DefaultBufferPool: Rend: Size={buffer.Length}/{minimumSize}, Index={index}");
+                    Debug.WriteLine($"DefaultBufferPool: Rent: Size={buffer.Length}/{minimumSize}, Index={index}");
 #endif
                     return buffer;
                 }
@@ -71,7 +54,7 @@ public sealed class DefaultBufferPool : BufferPool
             else if (!(bufferElement?.IsAvailable ?? true))
             {
                 // Remove corrected element (and forgot).
-                Interlocked.CompareExchange(ref this.bufferElements[index], null, bufferElement);
+                Interlocked.CompareExchange(ref this.buffers[index], null, bufferElement);
             }
         }
 
@@ -81,20 +64,16 @@ public sealed class DefaultBufferPool : BufferPool
         return new byte[minimumSize];
     }
 
-    public override void Return(byte[] buffer)
+    public void Return(byte[] buffer)
     {
-        var newBufferElement = new BufferElement(buffer);
-
-        for (int index = 0; index < this.bufferElements.Length; index++)
+        Buffer newBufferElement = new(buffer);
+        for (int index = 0; index < this.buffers.Length; index++)
         {
-            var bufferElement = this.bufferElements[index];
+            var bufferElement = this.buffers[index];
             if (bufferElement == null || !bufferElement.IsAvailable)
             {
                 if (object.ReferenceEquals(
-                    Interlocked.CompareExchange(
-                        ref this.bufferElements[index],
-                        newBufferElement,
-                        bufferElement),
+                    Interlocked.CompareExchange(ref this.buffers[index], newBufferElement, bufferElement),
                     bufferElement))
                 {
 #if DEBUG_BUFFER_POOL

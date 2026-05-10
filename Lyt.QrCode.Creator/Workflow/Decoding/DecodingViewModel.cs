@@ -2,6 +2,8 @@
 
 using SkiaSharp;
 
+using static Lyt.QrCode.Creator.Utilities.SkiaExtensions;
+
 public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<DecodingView>
 {
     private readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
@@ -56,11 +58,19 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
             return;
         }
 
-        await this.selectedDevice!.StartAsync();
-        await Task.Delay(240); // Let it run for a while to capture some frames.
-        if (this.selectedDevice.IsRunning)
+        try
         {
-            Debug.WriteLine($"Capture started.");
+            await this.selectedDevice!.StartAsync();
+            await Task.Delay(240); // Let it run for a while to capture some frames.
+            if (this.selectedDevice.IsRunning)
+            {
+                Debug.WriteLine($"Capture started.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to start capture: {ex}");
+            this.selectedDevice = null;
         }
     }
 
@@ -72,11 +82,19 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
             return;
         }
 
-        await this.selectedDevice!.StopAsync();
-        await Task.Delay(120); // Let it run for a while to capture some frames.
-        if (this.selectedDevice.IsRunning)
+        try
         {
-            Debug.WriteLine($"Cannot stop capture.");
+            await this.selectedDevice!.StopAsync();
+            await Task.Delay(120); // Let it run for a while to capture some frames.
+            if (this.selectedDevice.IsRunning)
+            {
+                Debug.WriteLine($"Cannot stop capture.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to start capture: {ex}");
+            this.selectedDevice = null;
         }
     }
 
@@ -95,82 +113,103 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
 
     private async Task DetectCaptureDevicesWindows()
     {
-        CaptureDevices devices = new();
-        List<CaptureDeviceDescriptor> descriptors = [];
-
-        // Only DirectShow devices.
-        descriptors = [.. devices.EnumerateDescriptors().Where(d => d.DeviceType == DeviceTypes.DirectShow)];
-
-        // pickup first device FOR NOW ,
-        // TODO: Allow user to select device
-        var firstDevice = descriptors.FirstOrDefault();
-        if (firstDevice == null)
+        try
         {
-            Debug.WriteLine($"Could not detect any capture interfaces.");
-            return;
+
+            CaptureDevices devices = new();
+            List<CaptureDeviceDescriptor> descriptors = [];
+
+            // Only DirectShow devices.
+            descriptors = [.. devices.EnumerateDescriptors().Where(d => d.DeviceType == DeviceTypes.DirectShow)];
+
+            // pickup first device FOR NOW ,
+            // TODO: Allow user to select device
+            var firstDevice = descriptors.FirstOrDefault();
+            if (firstDevice == null)
+            {
+                Debug.WriteLine($"Could not detect any capture interfaces.");
+                return;
+            }
+
+            this.selectedDeviceDescriptor = firstDevice;
+
+            // get characteristics 
+            var characteristics = this.selectedDeviceDescriptor.Characteristics;
+            if (characteristics.Length == 0)
+            {
+                Debug.WriteLine($"Could not select color format characteristics.");
+                return;
+            }
+
+            // Select best characteristics, first by size, then by frame rate
+            var sorted =
+                (from c in characteristics
+                 orderby c.Width * c.Height descending
+                 orderby (double)c.FramesPerSecond descending
+                 select c).ToList();
+            this.selectedCharacteristics = sorted[0];
+            Debug.WriteLine($"Selected capture device: {this.selectedDeviceDescriptor}, {this.selectedCharacteristics}");
+
+            this.selectedDevice =
+                await this.selectedDeviceDescriptor.OpenAsync(
+                    this.selectedCharacteristics,
+                    this.OnPixelBufferArrivedAsync);
         }
-
-        this.selectedDeviceDescriptor = firstDevice;
-
-        // get characteristics 
-        var characteristics = this.selectedDeviceDescriptor.Characteristics;
-        if (characteristics.Length == 0)
+        catch (Exception ex)
         {
-            Debug.WriteLine($"Could not select color format characteristics.");
-            return;
+            Debug.WriteLine($"Failed to detect capture devices: {ex}");
+            this.selectedDevice = null;
         }
-
-        // Select best characteristics, first by size, then by frame rate
-        var sorted =
-            (from c in characteristics
-             orderby c.Width * c.Height descending
-             orderby (double)c.FramesPerSecond descending
-             select c).ToList();
-        this.selectedCharacteristics = sorted[0];
-        Debug.WriteLine($"Selected capture device: {this.selectedDeviceDescriptor}, {this.selectedCharacteristics}");
-
-        this.selectedDevice =
-            await this.selectedDeviceDescriptor.OpenAsync(
-                this.selectedCharacteristics,
-                this.OnPixelBufferArrivedAsync);
     }
 
     private async Task OnPixelBufferArrivedAsync(PixelBufferScope bufferScope)
     {
-        // this thread context is NOT UI thread.
-        // refer image data binary directly.
-        ArraySegment<byte> image = bufferScope.Buffer.ReferImage();
-
-        // Decode image data to a bitmap:
-        var bitmap = SKBitmap.Decode(image);
-
-        // Capture statistics variables.
-        //var countFrames = Interlocked.Increment(ref this.countFrames);
-        //var frameIndex = bufferScope.Buffer.FrameIndex;
-        //var timestamp = bufferScope.Buffer.Timestamp;
-
-        // `bitmap` is copied, so we can release pixel buffer now.
-        bufferScope.ReleaseNow();
-
-        // Switch to UI thread
-        if (bitmap == null)
+        try
         {
-            Debug.WriteLine($"Failed to decode bitmap from image data.");
-            return;
-        }
+            // This thread context is NOT the UI thread:  refer image data binary directly.
+            ArraySegment<byte> image = bufferScope.Buffer.ReferImage();
 
-        Dispatch.OnUiThread(() => this.UpdateImageAndStatistics(bitmap.ToAvaloniaImage()));
+            // Decode image data to a skia bitmap:
+            var bitmap = SKBitmap.Decode(image);
+
+            // Switch to UI thread
+            if (bitmap is null)
+            {
+                Debug.WriteLine($"Failed to decode bitmap from image data.");
+                return;
+            }
+
+            Dispatch.OnUiThread(() => this.UpdateImageAndStatistics(bitmap.ToAvaloniaIImage()));
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to detect capture devices: {ex}");
+            this.selectedDevice = null;
+        }
+        finally
+        {
+            // Ensure the pixel buffer is released in case of any exception.
+            // `bitmap` is copied, so we can release pixel buffer now.
+            // => release even if bitmap decoding failed, since we won't use the pixel buffer anymore.
+            bufferScope.ReleaseNow();
+        }
     }
 
     private void UpdateImageAndStatistics(IImage? image)
     {
+        // Dispose previous frame if exists.
+        if (this.Image is AvaloniaImage oldImage)
+        {
+            oldImage.Dispose();
+        }
+
         // Update the image.
         this.Image = image;
 
-        // Update statistics.
+        // TODO: Update statistics.
+        //var countFrames = Interlocked.Increment(ref this.countFrames);
         //var realFps = countFrames / timestamp.TotalSeconds;
         //var fpsByIndex = frameIndex / timestamp.TotalSeconds;
-        //this.Statistics1 = $"Frame={countFrames}/{frameIndex}";
         //this.Statistics2 = $"FPS={realFps:F3}/{fpsByIndex:F3}";
         //this.Statistics3 = $"SKBitmap={bitmap.Width}x{bitmap.Height} [{bitmap.ColorType}]";
     }

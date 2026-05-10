@@ -54,19 +54,16 @@ public sealed class PixelBuffer
 
         lock (this)
         {
-            var imageContainer = this.imageContainer;
-
-            if (imageContainer == null ||
-                imageContainer.Length < totalSize)
+            byte[]? imageContainer = this.imageContainer;
+            if (imageContainer == null || imageContainer.Length < totalSize)
             {
                 if (imageContainer != null)
                 {
                     this.bufferPool.Return(imageContainer);
                 }
-                imageContainer = this.bufferPool.Rent(totalSize);
-                this.imageContainer = imageContainer;
 
-                Debug.WriteLine($"Allocated: Size={totalSize}");
+                imageContainer = this.bufferPool.Borrow(totalSize);
+                this.imageContainer = imageContainer;
             }
 
             this.imageContainerSize = totalSize;

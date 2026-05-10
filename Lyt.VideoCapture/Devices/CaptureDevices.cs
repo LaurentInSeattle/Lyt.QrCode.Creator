@@ -4,7 +4,7 @@ public class CaptureDevices(BufferPool defaultBufferPool)
 {
     protected readonly BufferPool DefaultBufferPool = defaultBufferPool;
 
-    public CaptureDevices() : this(new DefaultBufferPool()) { }
+    public CaptureDevices() : this(new BufferPool()) { }
 
     public List<CaptureDeviceDescriptor> EnumerateDescriptors() => 
         Platform.Current switch
