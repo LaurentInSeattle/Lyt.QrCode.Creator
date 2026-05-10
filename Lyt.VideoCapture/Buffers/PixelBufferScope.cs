@@ -14,6 +14,9 @@ public abstract class PixelBufferScope
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void ReleaseNow() => this.InternalReleaseNow();
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected virtual void OnReleaseNow() => this.Buffer = null!;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

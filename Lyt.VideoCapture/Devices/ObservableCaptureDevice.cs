@@ -11,6 +11,16 @@ public sealed class ObservableCaptureDevice : IObservable<PixelBufferScope>, IDi
         this.proxy = proxy;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task StartAsync(CancellationToken ct = default) => this.InternalStartAsync(ct);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task StopAsync(CancellationToken ct = default) => this.InternalStopAsync(ct);
+
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public IDisposable Subscribe(IObserver<PixelBufferScope> observer) => this.InternalSubscribe(observer);
+
     public void Dispose()
     {
         if (this.captureDevice is { } captureDevice)

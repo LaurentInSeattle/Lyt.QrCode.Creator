@@ -11,8 +11,27 @@ public sealed class PixelBuffer
     private long timestampMicroseconds;
     private TranscodeFormats transcodeFormat;
 
-    internal PixelBuffer(BufferPool bufferPool) =>
-        this.bufferPool = bufferPool;
+    internal PixelBuffer(BufferPool bufferPool) => this.bufferPool = bufferPool;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public byte[] ExtractImage()
+    {
+        var image = this.InternalExtractImage(BufferStrategies.CopyWhenDifferentSizeOrReuse);
+        Debug.Assert(image.Array!.Length == image.Count);
+        return image.Array;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public byte[] CopyImage()
+    {
+        var image = this.InternalExtractImage(BufferStrategies.ForceCopy);
+        Debug.Assert(image.Array!.Length == image.Count);
+        return image.Array;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ArraySegment<byte> ReferImage() =>
+        this.InternalExtractImage(BufferStrategies.ForceReuse);
 
     internal unsafe void CopyIn(
         IntPtr pih, IntPtr pData, int size,

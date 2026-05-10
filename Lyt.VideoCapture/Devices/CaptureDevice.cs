@@ -11,6 +11,16 @@ public abstract class CaptureDevice : IAsyncDisposable, IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task StartAsync(CancellationToken ct = default) => this.InternalStartAsync(ct);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task StopAsync(CancellationToken ct = default) => this.InternalStopAsync(ct);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<bool> ShowPropertyPageAsync(IntPtr parentWindow, CancellationToken ct = default) 
+        => this.InternalShowPropertyPageAsync(parentWindow, ct);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispose() => _ = this.DisposeAsync().ConfigureAwait(false);
 
     ValueTask IAsyncDisposable.DisposeAsync() => new(this.DisposeAsync());

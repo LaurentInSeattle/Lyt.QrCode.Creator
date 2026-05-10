@@ -1,19 +1,13 @@
 ﻿namespace Lyt.VideoCapture.Devices.DirectShow;
 
-public sealed class DirectShowDevices : CaptureDevices
+using static Lyt.VideoCapture.Interop.DirectShow.NativeMethods_DirectShow;
+
+public static class DirectShowDevices 
 {
-    public DirectShowDevices() : this(new DefaultBufferPool())
-    {
-    }
-
-    public DirectShowDevices(BufferPool defaultBufferPool) : base(defaultBufferPool)
-    {
-    }
-
-    protected override List<CaptureDeviceDescriptor> OnEnumerateDescriptors() =>
-        NativeMethods_DirectShow.EnumerateDeviceMoniker(
-            NativeMethods_DirectShow.CLSID_VideoInputDeviceCategory).
-        Collect(moniker => moniker.GetPropertyBag() is { } pb ?
+    internal static List<CaptureDeviceDescriptor> EnumerateDescriptors(BufferPool bufferPool) =>
+        [.. NativeMethods_DirectShow
+        .EnumerateDeviceMoniker(CLSID_VideoInputDeviceCategory)
+        .Collect(moniker => moniker.GetPropertyBag() is { } pb ?
             pb.SafeReleaseBlock(pb =>
                 pb.GetValue("FriendlyName", default(string))?.Trim() is { } n &&
                 (string.IsNullOrEmpty(n) ? "Unknown" : n!) is { } name &&
@@ -22,13 +16,13 @@ public sealed class DirectShowDevices : CaptureDevices
                         devicePath, name,
                         pb.GetValue("Description", default(string))?.Trim() ?? $"{name} (DirectShow)",
                         moniker.BindToObject(
-                            null, null, in NativeMethods_DirectShow.IID_IBaseFilter, out var cs) == 0 &&
-                        cs is NativeMethods_DirectShow.IBaseFilter captureSource ?
+                            null, null, in IID_IBaseFilter, out var cs) == 0 &&
+                        cs is IBaseFilter captureSource ?
                             captureSource.SafeReleaseBlock(
                                 captureSource => captureSource.EnumeratePins().
                                 Collect(pin =>
                                     pin.GetPinInfo() is { } pinInfo &&
-                                    pinInfo.dir == NativeMethods_DirectShow.PIN_DIRECTION.Output ?
+                                    pinInfo.dir == PIN_DIRECTION.Output ?
                                         pin : null).
                                 SelectMany(pin =>
                                     pin.EnumerateFormats().
@@ -36,8 +30,8 @@ public sealed class DirectShowDevices : CaptureDevices
                                 Distinct().
                                 OrderByDescending(vc => vc).
                                 ToArray()) :
-                            Array.Empty<VideoCharacteristics>(),
-                        this.DefaultBufferPool) :
+                            [],
+                        bufferPool) :
                     null) :
-            null).ToList();
+            null)];
 }

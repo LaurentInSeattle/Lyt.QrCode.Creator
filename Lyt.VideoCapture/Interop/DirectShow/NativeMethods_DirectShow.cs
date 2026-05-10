@@ -622,7 +622,10 @@ internal static class NativeMethods_DirectShow
         }
         finally
         {
+#pragma warning disable CA1416 
+            // Validate platform compatibility
             Marshal.ReleaseComObject(intf);
+#pragma warning restore CA1416 
         }
     }
 
@@ -635,10 +638,15 @@ internal static class NativeMethods_DirectShow
         }
         finally
         {
+#pragma warning disable CA1416 
+            // Validate platform compatibility
             Marshal.ReleaseComObject(intf);
+#pragma warning restore CA1416 
         }
     }
 
+#pragma warning disable CA1416
+    // Validate platform compatibility
     public static IEnumerable<IMoniker> EnumerateDeviceMoniker(Guid deviceCategory)
     {
         if (CoCreateInstance(
@@ -671,6 +679,8 @@ internal static class NativeMethods_DirectShow
         }
     }
 
+#pragma warning restore CA1416 
+
     public static IPropertyBag? GetPropertyBag(
         this IMoniker moniker) =>
         moniker.BindToStorage(
@@ -696,7 +706,11 @@ internal static class NativeMethods_DirectShow
             {
                 yield return pins[0]!;
             }
+
+#pragma warning disable CA1416 
+            // Validate platform compatibility
             Marshal.ReleaseComObject(enumPins);
+#pragma warning restore CA1416 
         }
     }
 
@@ -795,10 +809,8 @@ internal static class NativeMethods_DirectShow
                 this.PartialMediaType.subtype.ToString());
     }
 
-    ////////////////////////////////////////////////////////////////////////
 
-    private static unsafe readonly int videoStreamConfigCapsSize =
-        sizeof(VIDEO_STREAM_CONFIG_CAPS);
+    private static unsafe readonly int videoStreamConfigCapsSize = sizeof(VIDEO_STREAM_CONFIG_CAPS);
 
     public static bool SetFormat(this IPin pin, VideoMediaFormat format)
     {
@@ -919,7 +931,7 @@ internal static class NativeMethods_DirectShow
         }
         else
         {
-            throw new InvalidOperationException("FlashCap: Couldn't create graph builder.");
+            throw new InvalidOperationException("Couldn't create graph builder.");
         }
     }
 
@@ -940,7 +952,7 @@ internal static class NativeMethods_DirectShow
         }
         else
         {
-            throw new InvalidOperationException("FlashCap: Couldn't create sample grabber.");
+            throw new InvalidOperationException("Couldn't create sample grabber.");
         }
     }
 
@@ -985,12 +997,16 @@ internal static class NativeMethods_DirectShow
 
     #region SHOW_PROPERTY_PAGES
 
+#pragma warning disable CS0649   // Never assigned to 
+
     [ComVisible(false)]
     internal struct CAUUID
     {
         public int cElems;
         public IntPtr pElems;
     }
+
+#pragma warning restore CA1416 
 
     [ComImport]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]

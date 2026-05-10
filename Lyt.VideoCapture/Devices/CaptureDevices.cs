@@ -1,26 +1,20 @@
 namespace Lyt.VideoCapture.Devices;
 
-public class CaptureDevices
+public class CaptureDevices(BufferPool defaultBufferPool)
 {
-    protected readonly BufferPool DefaultBufferPool;
+    protected readonly BufferPool DefaultBufferPool = defaultBufferPool;
 
     public CaptureDevices() : this(new DefaultBufferPool()) { }
-    
-    public CaptureDevices(BufferPool defaultBufferPool) => this.DefaultBufferPool = defaultBufferPool;
 
-    protected virtual List<CaptureDeviceDescriptor> OnEnumerateDescriptors() =>
+    public List<CaptureDeviceDescriptor> EnumerateDescriptors() => 
         Platform.Current switch
         {
-            Platforms.Windows => [],
-                //new DirectShowDevices(this.DefaultBufferPool).OnEnumerateDescriptors().
-                //Concat(new VideoForWindowsDevices(this.DefaultBufferPool).OnEnumerateDescriptors()),
+            Platforms.Windows => DirectShowDevices.EnumerateDescriptors(this.DefaultBufferPool),
+            //Concat(new VideoForWindowsDevices(this.DefaultBufferPool).OnEnumerateDescriptors()),
             //Platforms.Linux =>
             //    new V4L2Devices().OnEnumerateDescriptors(),
             //Platforms.MacOS =>
             //    new AVFoundationDevices().OnEnumerateDescriptors(),
-           _ => [],
+            _ => [],
         };
-
-    internal IEnumerable<CaptureDeviceDescriptor> InternalEnumerateDescriptors() =>
-        this.OnEnumerateDescriptors();
 }

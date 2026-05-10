@@ -217,7 +217,7 @@ internal sealed class IndependentSingleApartmentContext :
         this.targetThreadId = GetCurrentThreadId();
         SetSynchronizationContext(this);
 
-        Debug.WriteLine($"FlashCap: Started IndependentSingleApartmentContext: Id={this.targetThreadId}");
+        Debug.WriteLine($"Started IndependentSingleApartmentContext: Id={this.targetThreadId}");
 
         this.ready!.Set();
 
@@ -233,7 +233,7 @@ internal sealed class IndependentSingleApartmentContext :
             if (result == -1)
             {
                 var hr = Marshal.GetHRForLastWin32Error();
-                Debug.WriteLine($"FlashCap: Unknown error for win32 message: {hr}");
+                Debug.WriteLine($"Unknown error for win32 message: {hr}");
                 break;
             }
 
@@ -262,6 +262,6 @@ internal sealed class IndependentSingleApartmentContext :
             DispatchMessage(ref msg);
         }
 
-        Debug.WriteLine($"FlashCap: Exited IndependentSingleApartmentContext: Id={this.targetThreadId}");
+        Debug.WriteLine($"Exited IndependentSingleApartmentContext: Id={this.targetThreadId}");
     }
 }

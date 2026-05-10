@@ -40,11 +40,147 @@ public abstract class CaptureDeviceDescriptor
         $"{this.Name}: {this.Description}, Characteristics={this.Characteristics.Length}";
 
 
+    public Task<CaptureDevice> OpenWithFrameProcessorAsync(      
+        VideoCharacteristics characteristics,
+        TranscodeFormats transcodeFormat,
+        FrameProcessor frameProcessor,
+        CancellationToken ct = default) =>
+        this.InternalOpenWithFrameProcessorAsync(characteristics, transcodeFormat, frameProcessor, ct);
+
+    public Task<CaptureDevice> OpenAsync(        
+        VideoCharacteristics characteristics,
+        PixelBufferArrivedDelegate pixelBufferArrived,
+        CancellationToken ct = default) =>
+        this.OpenWithFrameProcessorAsync(
+            characteristics, TranscodeFormats.Auto,
+            new DelegatedQueuingProcessor(pixelBufferArrived, 1, this.defaultBufferPool),
+            ct);
+
+    public Task<CaptureDevice> OpenAsync(
+        VideoCharacteristics characteristics,
+        TranscodeFormats transcodeFormat,
+        PixelBufferArrivedDelegate pixelBufferArrived,
+        CancellationToken ct = default) =>
+        this.OpenWithFrameProcessorAsync(
+            characteristics, transcodeFormat,
+            new DelegatedQueuingProcessor(pixelBufferArrived, 1, this.defaultBufferPool),
+            ct);
+
+    public Task<CaptureDevice> OpenAsync(
+        VideoCharacteristics characteristics,
+        TranscodeFormats transcodeFormat,
+        bool isScattering,
+        int maxQueuingFrames,
+        PixelBufferArrivedDelegate pixelBufferArrived,
+        CancellationToken ct = default) =>
+        this.OpenWithFrameProcessorAsync(
+            characteristics, transcodeFormat,
+            isScattering ?
+                new DelegatedScatteringProcessor(pixelBufferArrived, maxQueuingFrames, this.defaultBufferPool) :
+                new DelegatedQueuingProcessor(pixelBufferArrived, maxQueuingFrames, this.defaultBufferPool),
+            ct);
+
+    //////////////////////////////////////////////////////////////////////////////////
+
+    public Task<CaptureDevice> OpenAsync(
+        VideoCharacteristics characteristics,
+        PixelBufferArrivedTaskDelegate pixelBufferArrived,
+        CancellationToken ct = default) =>
+        this.OpenWithFrameProcessorAsync(
+            characteristics, TranscodeFormats.Auto,
+            new DelegatedQueuingTaskProcessor(pixelBufferArrived, 1, this.defaultBufferPool),
+            ct);
+
+    public Task<CaptureDevice> OpenAsync(
+        VideoCharacteristics characteristics,
+        TranscodeFormats transcodeFormat,
+        PixelBufferArrivedTaskDelegate pixelBufferArrived,
+        CancellationToken ct = default) =>
+        this.OpenWithFrameProcessorAsync(
+            characteristics, transcodeFormat,
+            new DelegatedQueuingTaskProcessor(pixelBufferArrived, 1, this.defaultBufferPool),
+            ct);
+
+    public Task<CaptureDevice> OpenAsync(
+        VideoCharacteristics characteristics,
+        TranscodeFormats transcodeFormat,
+        bool isScattering,
+        int maxQueuingFrames,
+        PixelBufferArrivedTaskDelegate pixelBufferArrived,
+        CancellationToken ct = default) =>
+        this.OpenWithFrameProcessorAsync(
+            characteristics, transcodeFormat,
+            isScattering ?
+                new DelegatedScatteringTaskProcessor(pixelBufferArrived, maxQueuingFrames, this.defaultBufferPool) :
+                new DelegatedQueuingTaskProcessor(pixelBufferArrived, maxQueuingFrames, this.defaultBufferPool),
+            ct);
+
+    //////////////////////////////////////////////////////////////////////////////////
+
+    public async Task<ObservableCaptureDevice> AsObservableAsync(
+        VideoCharacteristics characteristics,
+        CancellationToken ct = default)
+    {
+        var observerProxy = new ObservableCaptureDevice.ObserverProxy();
+        var captureDevice = await this.OpenWithFrameProcessorAsync(
+            characteristics, TranscodeFormats.Auto,
+            new DelegatedQueuingProcessor(observerProxy.OnPixelBufferArrived, 1, this.defaultBufferPool),
+            ct).
+            ConfigureAwait(false);
+
+        return new ObservableCaptureDevice(captureDevice, observerProxy);
+    }
+
+    public async Task<ObservableCaptureDevice> AsObservableAsync(
+        VideoCharacteristics characteristics,
+        TranscodeFormats transcodeFormat,
+        CancellationToken ct = default)
+    {
+        var observerProxy = new ObservableCaptureDevice.ObserverProxy();
+        var captureDevice = await this.OpenWithFrameProcessorAsync(
+            characteristics, transcodeFormat,
+            new DelegatedQueuingProcessor(observerProxy.OnPixelBufferArrived, 1, this.defaultBufferPool),
+            ct).
+            ConfigureAwait(false);
+
+        return new ObservableCaptureDevice(captureDevice, observerProxy);
+    }
+
+    public async Task<ObservableCaptureDevice> AsObservableAsync(
+        VideoCharacteristics characteristics,
+        TranscodeFormats transcodeFormat,
+        bool isScattering,
+        int maxQueuingFrames,
+        CancellationToken ct = default)
+    {
+        var observerProxy = new ObservableCaptureDevice.ObserverProxy();
+        var captureDevice = await this.OpenWithFrameProcessorAsync(
+            characteristics, transcodeFormat,
+            isScattering ?
+                new DelegatedScatteringProcessor(observerProxy.OnPixelBufferArrived, maxQueuingFrames, this.defaultBufferPool) :
+                new DelegatedQueuingProcessor(observerProxy.OnPixelBufferArrived, maxQueuingFrames, this.defaultBufferPool),
+            ct).
+            ConfigureAwait(false);
+
+        return new ObservableCaptureDevice(captureDevice, observerProxy);
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+
+    public Task<byte[]> TakeOneShotAsync(
+        VideoCharacteristics characteristics,
+        CancellationToken ct = default) =>
+        this.InternalTakeOneShotAsync(characteristics, TranscodeFormats.Auto, ct);
+
+    public Task<byte[]> TakeOneShotAsync(
+        VideoCharacteristics characteristics,
+        TranscodeFormats transcodeFormat,
+        CancellationToken ct = default) =>
+        this.InternalTakeOneShotAsync(characteristics, transcodeFormat, ct);
+
     //////////////////////////////////////////////////////////////////////////
 
-#if NET45_OR_GREATER || NETSTANDARD || NETCOREAPP
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
     internal Task<CaptureDevice> InternalOpenWithFrameProcessorAsync(
         VideoCharacteristics characteristics,
         TranscodeFormats transcodeFormat,
@@ -62,7 +198,7 @@ public abstract class CaptureDeviceDescriptor
         if (characteristics.PixelFormat == PixelFormats.Unknown)
         {
             throw new ArgumentException(
-                $"FlashCap: Couldn't use unknown pixel format: {characteristics} ({characteristics.RawPixelFormat})");
+                $"Couldn't use unknown pixel format: {characteristics} ({characteristics.RawPixelFormat})");
         }
 
         using var _ = await this.locker.LockAsync(ct);
