@@ -18,6 +18,7 @@
 	<Grid> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="10" />
+			<RowDefinition Height="60" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="10" />
 		</Grid.RowDefinitions>
@@ -28,12 +29,42 @@
 			<ColumnDefinition Width="840" MinWidth="400"/>
 			<ColumnDefinition Width="10" />
 		</Grid.ColumnDefinitions>
-		<Image		
+		<TextBlock
 			Grid.Row="1" Grid.Column="1"
 			Margin="4"
-			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-			Source="{Binding Image}"
-			Stretch="UniformToFill"
+			IsVisible="{Binding !IsCapturing}"
+			Text="{Binding CaptureStatus}"
+			Theme="{StaticResource Alert}"
+			TextAlignment="Center"
+			VerticalAlignment="Center" HorizontalAlignment="Center"
 			/>
+		<TextBlock
+			IsVisible="{Binding IsCapturing}"
+			Grid.Row="1" Grid.Column="1"
+			Margin="4"
+			Text="{Binding CaptureDeviceInfo}"
+			Theme="{StaticResource H3}"
+			FontWeight="Normal"
+			Foreground="{StaticResource Secondary.TextColor}"
+			TextWrapping="Wrap"
+			TextAlignment="Center"
+			VerticalAlignment="Center" HorizontalAlignment="Center"
+			/>
+		<Viewbox
+			IsVisible="{Binding IsCapturing}"
+			Grid.Row="2" Grid.Column="1"
+			Margin="4"
+			>
+			<Canvas 
+				Width="{Binding ImageWidth}"
+				Height="{Binding ImageHeight}"
+				>
+				<Image		
+					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+					Source="{Binding Image}"
+					Stretch="UniformToFill"
+					/>
+			</Canvas>
+		</Viewbox>
 	</Grid>
 </UserControl>

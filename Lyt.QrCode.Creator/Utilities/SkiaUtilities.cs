@@ -9,14 +9,22 @@ public static class SkiaExtensions
 {
     private record class SKBitmapDrawOperation : ICustomDrawOperation
     {
+        private bool isDisposed;
+
         public Rect Bounds { get; set; }
 
-        public SKBitmap? Bitmap { get; init; }
+        public SKBitmap? Bitmap { get; set; }
 
-#pragma warning disable CA1816 
-        // Dispose methods should call SuppressFinalize
-        public void Dispose() { /* nop */ }
-#pragma warning restore CA1816 
+        public void Dispose()
+        {
+            this.isDisposed = true;
+            this.Bounds = new Rect();
+            this.Bitmap?.Dispose();
+            this.Bitmap = null;
+
+            // Tells the GC not to call the finalizer; we've already cleaned up.
+            GC.SuppressFinalize(this);
+        }
 
         public bool Equals(ICustomDrawOperation? other) => false;
 
@@ -24,16 +32,65 @@ public static class SkiaExtensions
 
         public void Render(ImmediateDrawingContext context)
         {
-            if (this.Bitmap is SKBitmap bitmap && 
+            if (this.isDisposed)
+            {
+                if (Debugger.IsAttached)
+                {
+                    // Attempting to render a disposed operation: 
+                    Debugger.Break();
+                }
+            
+                return;
+            }
+
+            if (this.Bitmap is SKBitmap bitmap &&
                 context.PlatformImpl.GetFeature<ISkiaSharpApiLeaseFeature>() is ISkiaSharpApiLeaseFeature leaseFeature)
             {
-                ISkiaSharpApiLease lease = leaseFeature.Lease();
-                using (lease)
+                try
                 {
-                    lease.SkCanvas.DrawBitmap(
-                        bitmap, 
-                        SKRect.Create(
-                            (float)this.Bounds.X, (float)this.Bounds.Y, (float)this.Bounds.Width, (float)this.Bounds.Height));
+                    if (bitmap.IsEmpty || bitmap.IsNull || !bitmap.ReadyToDraw || bitmap.Bytes.Length == 0)
+                    {
+                        if (Debugger.IsAttached)
+                        {
+                            // SKBitmap is not ready to draw: 
+                            Debugger.Break();
+                        }
+
+                        return;
+                    }
+
+                    var skRect = SKRect.Create(
+                        (float)this.Bounds.X, (float)this.Bounds.Y, (float)this.Bounds.Width, (float)this.Bounds.Height);
+                    if ( skRect.IsEmpty || skRect.Width <= 0.0 || skRect.Height <= 0.0)
+                    {
+                        if (Debugger.IsAttached)
+                        {
+                            // Destination rect is invalid: 
+                            Debugger.Break();
+                        }
+
+                        return;
+                    }
+
+                    using ISkiaSharpApiLease lease = leaseFeature.Lease();
+                    var canvas = lease.SkCanvas;
+                    if ( canvas.Context is null || canvas.Context.IsAbandoned)
+                    {
+                        if (Debugger.IsAttached)
+                        {
+                            // SkCanvas is not ready to draw: 
+                            Debugger.Break();
+                        }
+
+                        return;
+                    }
+
+                    // Randomly crashes on DrawBitmap for no obvious reason 
+                    lease.SkCanvas.DrawBitmap(bitmap, skRect); 
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Failed to render SKBitmap: {ex}");
                 }
             }
         }
@@ -41,7 +98,7 @@ public static class SkiaExtensions
 
     public class AvaloniaImage : IImage, IDisposable
     {
-        private readonly SKBitmap? source;
+        private SKBitmap? source;
 
         private SKBitmapDrawOperation? drawImageOperation;
 
@@ -58,19 +115,29 @@ public static class SkiaExtensions
 
         public void Dispose()
         {
-            source?.Dispose();
-            drawImageOperation?.Dispose();
-        } 
+            this.source?.Dispose();
+            this.drawImageOperation?.Dispose();
+            this.source = null;
+            this.drawImageOperation = null;
+
+            // Tells the GC not to call the finalizer; we've already cleaned up.
+            GC.SuppressFinalize(this);
+        }
 
         public void Draw(DrawingContext context, Rect sourceRect, Rect destRect)
         {
-            if (drawImageOperation is null)
+            if (this.source is null)
             {
-                drawImageOperation = new SKBitmapDrawOperation() { Bitmap = source };
+                return;
             }
-            
-            drawImageOperation.Bounds = sourceRect;
-            context.Custom(drawImageOperation);
+
+            if (this.drawImageOperation is null)
+            {
+                this.drawImageOperation = new SKBitmapDrawOperation() { Bitmap = this.source };
+            }
+
+            this.drawImageOperation.Bounds = sourceRect;
+            context.Custom(this.drawImageOperation);
         }
     }
 
@@ -92,5 +159,37 @@ public static class SkiaExtensions
         }
 
         return default;
+    }
+
+    public static WriteableBitmap ToWriteableBitmap(this SKBitmap skiaBitmap)
+    {
+        // Ensure the formats match; Skia often uses Rgba8888 or Bgra8888
+        WriteableBitmap avaloniaBitmap =
+            new(
+                new PixelSize(skiaBitmap.Width, skiaBitmap.Height),
+                new Vector(96, 96),
+                PixelFormat.Bgra8888,
+                AlphaFormat.Premul);
+        using (var lockedBuffer = avaloniaBitmap.Lock())
+        {
+            // Get pointers to the source and destination
+            IntPtr sourcePtr = skiaBitmap.GetPixels();
+            IntPtr destPtr = lockedBuffer.Address;
+
+            // Determine size to copy
+            int size = skiaBitmap.RowBytes * skiaBitmap.Height;
+
+            // Perform the direct memory copy
+            unsafe
+            {
+                Buffer.MemoryCopy(
+                    sourcePtr.ToPointer(),
+                    destPtr.ToPointer(),
+                    lockedBuffer.RowBytes * avaloniaBitmap.PixelSize.Height,
+                    size);
+            }
+        }
+
+        return avaloniaBitmap;
     }
 }
