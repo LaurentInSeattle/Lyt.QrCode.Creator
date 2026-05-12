@@ -37,7 +37,7 @@ public static class SkiaExtensions
                 if (Debugger.IsAttached)
                 {
                     // Attempting to render a disposed operation: 
-                    Debugger.Break();
+                    //Debugger.Break();
                 }
             
                 return;

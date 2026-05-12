@@ -1,8 +1,7 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Decoding;
 
-using Lyt.QrCode.Image;
-
 using SkiaSharp;
+using Lyt.QrCode.Image;
 
 using static Lyt.QrCode.Creator.Utilities.SkiaExtensions;
 
@@ -18,6 +17,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
 
     private DateTime lastFrameTimestamp;
     private int frameCounter;
+    private bool isDecoded;
 
     [ObservableProperty]
     public partial bool IsCapturing { get; set; }
@@ -37,11 +37,19 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
     [ObservableProperty]
     public partial double ImageHeight { get; set; }
 
+    [ObservableProperty]
+    public partial string RawContent { get; set; }
+
+    [ObservableProperty]
+    public partial string ContentType { get; set; }
+
     public DecodingViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     {
         this.qrCodeCreatorModel = qrCodeCreatorModel;
         this.CaptureStatus = string.Empty;
         this.CaptureDeviceInfo = string.Empty;
+        this.RawContent = string.Empty;
+        this.ContentType = string.Empty;
     }
 
     public override void OnViewLoaded()
@@ -50,6 +58,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
 
         this.Image = null; // Clear the image.
         this.IsCapturing = false;
+        this.isDecoded = false;
 
         // Start detection of capture devices: Fire and forget,
         // we will update the view when devices are detected and selected.
@@ -62,6 +71,9 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
     {
         base.Activate(activationParameters);
 
+        this.isDecoded = false;
+        Dispatch.OnUiThread(() => this.HideAllQrPixelPoint());
+
         // Start capture: Fire and forget,
         _ = this.StartCapture();
     }
@@ -71,7 +83,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
         base.Deactivate();
 
         // Stop capture: Fire and forget,
-        _ = this.StopCapture();
+        _ = this.StopCapture(andClearImage: true);
     }
 
     private bool CanCapture
@@ -92,6 +104,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
 
         try
         {
+            await Task.Delay(240);
             await this.selectedDevice!.StartAsync();
             await Task.Delay(240); // Let it run for a while to capture some frames.
             if (this.selectedDevice.IsRunning)
@@ -109,9 +122,13 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
         }
     }
 
-    private async Task StopCapture()
+    private async Task StopCapture(bool andClearImage = false)
     {
-        this.Image = null; // Clear the image when stopping capture.
+        if (andClearImage)
+        {
+            // Clear the image when stopping capture, if requested
+            this.Image = null;
+        }
 
         if (!this.CanCapture)
         {
@@ -200,7 +217,8 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
             this.CaptureStatus = "Not capturing";
             this.selectedDevice =
                 await this.selectedDeviceDescriptor.OpenAsync(this.selectedCharacteristics, this.OnNewFrame);
-            captureDeviceInfo = $"Selected capture device: {this.selectedDeviceDescriptor}, {this.selectedCharacteristics}";
+            captureDeviceInfo =
+                $"Selected capture device: {this.selectedDeviceDescriptor.Description}, {this.selectedCharacteristics}";
             imageWidth = this.selectedCharacteristics.Width;
             imageHeight = this.selectedCharacteristics.Height;
         }
@@ -241,25 +259,28 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
                 return;
             }
 
-            Dispatch.OnUiThread(() => this.UpdateImageAndStatistics(bitmap.ToAvaloniaIImage(), bufferScope));
-            Interlocked.Increment(ref this.frameCounter);
+            Dispatch.OnUiThread(() => this.UpdateImageAndStatistics(bitmap.ToWriteableBitmap()));
+            ++this.frameCounter;
 
-            // Launch decode after 60 frames...
-            // (that's should be around 2 seconds if the camera runs at 30 FPS, or around 1 second if it runs at 60 FPS)...
-            if (this.frameCounter > 60)
+            // Try to decode QR code if not decoded yet.
+            // TODO : Create a UI button to reset that flag.
+            if (!this.isDecoded)
             {
-                // ... and at most once per two seconds, to avoid too much decoding work.
-                var now = DateTime.Now;
-                if (now - this.lastFrameTimestamp > TimeSpan.FromSeconds(2))
+                // Launch decode after 60 frames...
+                // that's should be around 2 seconds if the camera runs at 30 FPS, or around 1 second if it runs at 60 FPS...
+                if (this.frameCounter > 60)
                 {
-                    var sourceImage = this.ToSourceImage(bitmap);
-
-                    // Fire and Forget Decode the source image to get the QR code content
-                    // This will later update the view with the results, if any.
-                    _ = this.TryDecode(sourceImage);
-                    this.lastFrameTimestamp = now;
+                    // ... and at most once per two seconds, to avoid too much decoding work.
+                    var now = DateTime.Now;
+                    if (now - this.lastFrameTimestamp > TimeSpan.FromSeconds(2))
+                    {
+                        // Fire and Forget Decode the source image to get the QR code content
+                        // This will later update the view with the results, if any.
+                        _ = this.TryDecode(this.ToSourceImage(bitmap));
+                        this.lastFrameTimestamp = now;
+                    }
                 }
-            }
+            } 
         }
         catch (Exception ex)
         {
@@ -271,40 +292,29 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
             // Ensure the pixel buffer is released in case of any exception.
             // `bitmap` is copied, so we can release pixel buffer now.
             // => release even if bitmap decoding failed, since we won't use the pixel buffer anymore.
-            // bufferScope.ReleaseNow();
+            bufferScope.ReleaseNow();
         }
     }
 
-    private void UpdateImageAndStatistics(IImage? image, PixelBufferScope bufferScope)
+    private void UpdateImageAndStatistics(IImage? image)
     {
         // Dispose previous frame if exists.
-        if (this.Image is AvaloniaImage oldImage)
+        if (this.Image is WriteableBitmap oldImage)
         {
             oldImage.Dispose();
         }
 
         // Update the image.
         this.Image = image;
-
-        // Ensure the pixel buffer is released in case of any exception.
-        // `bitmap` is copied, so we can release pixel buffer now.
-        // => release even if bitmap decoding failed, since we won't use the pixel buffer anymore.
-        bufferScope.ReleaseNow();
-
-        // Update statistics.
-        //var realFps = countFrames / timestamp.TotalSeconds;
-        //var fpsByIndex = frameIndex / timestamp.TotalSeconds;
-        //this.Statistics2 = $"FPS={realFps:F3}/{fpsByIndex:F3}";
-        //this.Statistics3 = $"SKBitmap={bitmap.Width}x{bitmap.Height} [{bitmap.ColorType}]";
     }
 
     private SourceImage ToSourceImage(SKBitmap bitmap)
     {
         byte[] srcPixels = bitmap.Bytes;
-        byte[] destPixels = new byte[srcPixels.Length];
-        Buffer.BlockCopy(srcPixels, 0, destPixels, 0, srcPixels.Length);
-        return new SourceImage(
-            bitmap.Width, bitmap.Height, bitmap.RowBytes, PixelFormat.BGRA32, destPixels);
+        byte[] dstPixels = new byte[srcPixels.Length];
+        Buffer.BlockCopy(srcPixels, 0, dstPixels, 0, srcPixels.Length);
+        return 
+            new SourceImage(bitmap.Width, bitmap.Height, bitmap.RowBytes, PixelFormat.BGRA32, dstPixels);
     }
 
     private void OnDetect(QrPixelPoint qrPixelPoint)
@@ -316,29 +326,67 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
         }
     }
 
+    // Show the detected QR code point on the view.
     private void ShowQrPixelPoint(QrPixelPoint qrPixelPoint)
-    {
-        // TODO : Show the detected QR code point on the view.
-    }
+        => this.View.AddMarker(qrPixelPoint.X, qrPixelPoint.Y);
 
-    private void HideAllQrPixelPoint()
-    {
-        // TODO : Hide all previously detected QR code points on the view.
-    }
+    // Hide all previously detected QR code points on the view.
+    private void HideAllQrPixelPoint() => this.View.ClearMarkers();
 
     private async Task TryDecode(SourceImage sourceImage)
     {
         Dispatch.OnUiThread(() => this.HideAllQrPixelPoint());
-        DecodeParameters parameters = new ();
+        DecodeParameters parameters = new();
         DecodeResult result = Qr.Decode(sourceImage, this.OnDetect, parameters);
-        if ( result.Success)
+        if (result.Success)
         {
-            // TODO 
             Debug.WriteLine($"QR code decoded");
+            this.isDecoded = true;
+
+            // Freeze the image to show the detected QR code, and stop capture to save resources.
+            _ = this.StopCapture();
+
+            if (result.IsParsed)
+            {
+                Debug.WriteLine($"QR code content: {result.ParsedObject.GetType().Name}");
+            }
         }
         else
         {
             Debug.WriteLine($"QR code decoding failed");
+        }
+
+        // Update the UI 
+        Dispatch.OnUiThread(() => this.UpdateUiOnDecoding(result));
+    }
+
+    private void UpdateUiOnDecoding(DecodeResult result)
+    {
+        bool success = result.Success;
+        if (success)
+        {
+            this.RawContent = result.Text;
+            if (result.IsParsed)
+            {
+                string contentType = result.ParsedObject.GetType().Name;
+                Debug.WriteLine($"QR code content: {contentType}");
+                this.ContentType = contentType;
+            }
+            else if (QrUrl.TryParse(result.Text, out QrUrl? qrUrl))
+            {
+                Debug.WriteLine($"QR code content is a URL: {qrUrl}");
+                this.ContentType = "Web Page (URL)";
+            }
+            else
+            {
+                Debug.WriteLine($"QR code content is plain text.");
+                this.ContentType = "Plain Text";
+            }
+        }
+        else
+        {
+            this.RawContent = string.Empty;
+            this.ContentType = string.Empty;
         }
     }
 }

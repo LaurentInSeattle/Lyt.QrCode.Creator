@@ -232,7 +232,7 @@ public sealed class PixelBuffer
             var copied = new byte[this.imageContainerSize];
             Array.Copy(imageContainer, copied, copied.Length);
 
-            Debug.WriteLine($"Copied: CurrentSize={imageContainer.Length}, Size={this.imageContainerSize}");
+            // Debug.WriteLine($"Copied: CurrentSize={imageContainer.Length}, Size={this.imageContainerSize}");
 
             return new ArraySegment<byte>(copied);
         }

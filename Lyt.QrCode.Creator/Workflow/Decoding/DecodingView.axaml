@@ -17,17 +17,17 @@
 
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="10" />
+			<RowDefinition Height="8" />
 			<RowDefinition Height="60" />
 			<RowDefinition Height="*" />
-			<RowDefinition Height="10" />
+			<RowDefinition Height="8" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="10" />
-			<ColumnDefinition Width="Auto"/>  
-			<ColumnDefinition Width="16" /> 
-			<ColumnDefinition Width="840" MinWidth="400"/>
-			<ColumnDefinition Width="10" />
+			<ColumnDefinition Width="8" />
+			<ColumnDefinition Width="1280"/>  
+			<ColumnDefinition Width="12" /> 
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="8" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
 			Grid.Row="1" Grid.Column="1"
@@ -51,11 +51,12 @@
 			VerticalAlignment="Center" HorizontalAlignment="Center"
 			/>
 		<Viewbox
-			IsVisible="{Binding IsCapturing}"
 			Grid.Row="2" Grid.Column="1"
-			Margin="4"
+			Margin="0"
+			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 			>
 			<Canvas 
+				x:Name="ImageCanvas"
 				Width="{Binding ImageWidth}"
 				Height="{Binding ImageHeight}"
 				>
@@ -66,5 +67,26 @@
 					/>
 			</Canvas>
 		</Viewbox>
+
+		<TextBlock
+			Grid.Row="1" Grid.Column="3"
+			Margin="4"
+			Text="{Binding ContentType}"
+			Theme="{StaticResource H3}"
+			Foreground="{StaticResource Secondary.TextColor}"
+			TextWrapping="Wrap"
+			TextAlignment="Center"
+			VerticalAlignment="Center" HorizontalAlignment="Center"
+			/>
+		<TextBlock
+			Grid.Row="2" Grid.Column="3"
+			Margin="4"
+			Text="{Binding RawContent}"
+			Theme="{StaticResource Large}"
+			Foreground="{StaticResource Secondary.TextColor}"
+			TextWrapping="Wrap"
+			TextAlignment="Center"
+			VerticalAlignment="Top" HorizontalAlignment="Center"
+			/>
 	</Grid>
 </UserControl>

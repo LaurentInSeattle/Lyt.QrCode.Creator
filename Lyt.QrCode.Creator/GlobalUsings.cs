@@ -95,6 +95,7 @@ global using Lyt.Validation;
 
 global using Lyt.QrCode.API;
 global using Lyt.QrCode.Content;
+// DONT: global using Lyt.QrCode.Image; // Causes trouble with Skia and Avalonia
 global using Lyt.QrCode.Parser;
 
 global using Lyt.QrCode.Creator.Controls;
