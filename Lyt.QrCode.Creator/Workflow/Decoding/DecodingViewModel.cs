@@ -17,7 +17,9 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
 
     private DateTime lastFrameTimestamp;
     private int frameCounter;
-    private bool isDecoded;
+
+    [ObservableProperty]
+    public partial bool IsDecoded { get; set; }
 
     [ObservableProperty]
     public partial bool IsCapturing { get; set; }
@@ -58,24 +60,33 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
 
         this.Image = null; // Clear the image.
         this.IsCapturing = false;
-        this.isDecoded = false;
+        this.IsDecoded = false;
 
         // Start detection of capture devices: Fire and forget,
         // we will update the view when devices are detected and selected.
+        this.RawContent = string.Empty;
+        this.ContentType = string.Empty;
         this.CaptureStatus = "Initializing...";
         this.CaptureDeviceInfo = string.Empty;
         _ = this.DetectCaptureDevices();
     }
 
-    public override void Activate(object? activationParameters)
+    [RelayCommand]
+    public void OnRestart()
     {
-        base.Activate(activationParameters);
-
-        this.isDecoded = false;
-        Dispatch.OnUiThread(() => this.HideAllQrPixelPoint());
+        this.IsDecoded = false;
+        this.RawContent = string.Empty;
+        this.ContentType = string.Empty;
+        Dispatch.OnUiThread(() => this.HideAllMarkers());
 
         // Start capture: Fire and forget,
         _ = this.StartCapture();
+    }
+
+    public override void Activate(object? activationParameters)
+    {
+        base.Activate(activationParameters);
+        this.OnRestart();
     }
 
     public override void Deactivate()
@@ -264,7 +275,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
 
             // Try to decode QR code if not decoded yet.
             // TODO : Create a UI button to reset that flag.
-            if (!this.isDecoded)
+            if (!this.IsDecoded)
             {
                 // Launch decode after 60 frames...
                 // that's should be around 2 seconds if the camera runs at 30 FPS, or around 1 second if it runs at 60 FPS...
@@ -276,7 +287,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
                     {
                         // Fire and Forget Decode the source image to get the QR code content
                         // This will later update the view with the results, if any.
-                        _ = this.TryDecode(this.ToSourceImage(bitmap));
+                        _ = this.TryDecode(ToSourceImage(bitmap));
                         this.lastFrameTimestamp = now;
                     }
                 }
@@ -308,13 +319,15 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
         this.Image = image;
     }
 
-    private SourceImage ToSourceImage(SKBitmap bitmap)
+    private static SourceImage ToSourceImage(SKBitmap bitmap)
     {
         byte[] srcPixels = bitmap.Bytes;
         byte[] dstPixels = new byte[srcPixels.Length];
         Buffer.BlockCopy(srcPixels, 0, dstPixels, 0, srcPixels.Length);
+        PixelFormat pixelFormat = 
+            bitmap.ColorType == SKColorType.Bgra8888 ? PixelFormat.BGRA32 : PixelFormat.RGBA32;
         return 
-            new SourceImage(bitmap.Width, bitmap.Height, bitmap.RowBytes, PixelFormat.BGRA32, dstPixels);
+            new SourceImage(bitmap.Width, bitmap.Height, bitmap.RowBytes, pixelFormat, dstPixels);
     }
 
     private void OnDetect(QrPixelPoint qrPixelPoint)
@@ -331,17 +344,17 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
         => this.View.AddMarker(qrPixelPoint.X, qrPixelPoint.Y);
 
     // Hide all previously detected QR code points on the view.
-    private void HideAllQrPixelPoint() => this.View.ClearMarkers();
+    private void HideAllMarkers() => this.View.ClearMarkers();
 
     private async Task TryDecode(SourceImage sourceImage)
     {
-        Dispatch.OnUiThread(() => this.HideAllQrPixelPoint());
+        Dispatch.OnUiThread(() => this.HideAllMarkers());
         DecodeParameters parameters = new();
         DecodeResult result = Qr.Decode(sourceImage, this.OnDetect, parameters);
         if (result.Success)
         {
             Debug.WriteLine($"QR code decoded");
-            this.isDecoded = true;
+            this.IsDecoded = true;
 
             // Freeze the image to show the detected QR code, and stop capture to save resources.
             _ = this.StopCapture();
@@ -365,6 +378,11 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
         bool success = result.Success;
         if (success)
         {
+            if (result.IsDetected)
+            {
+                this.CalculateAndShowDetectionSquare(result);
+            } 
+
             this.RawContent = result.Text;
             if (result.IsParsed)
             {
@@ -388,5 +406,23 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
             this.RawContent = string.Empty;
             this.ContentType = string.Empty;
         }
+    }
+
+    private void CalculateAndShowDetectionSquare(DecodeResult decodeResult) 
+    {
+        QrPixelPoint topRight = decodeResult.TopRight;
+        QrPixelPoint topLeft = decodeResult.TopLeft;
+        QrPixelPoint bottomLeft = decodeResult.BottomLeft;
+        double centerX = (topRight.X + bottomLeft.X) / 2.0;
+        double centerY = (topRight.Y + bottomLeft.Y) / 2.0;
+        double sqrtOfTwo = Math.Sqrt(2.0);
+        double width = 2.0 * Math.Abs(topRight.X - bottomLeft.X)  / sqrtOfTwo;
+        double deltaX = topLeft.X - topRight.X;
+        double deltaY = topLeft.Y - topRight.Y;
+        double angle = Math.Atan2(deltaY, deltaX);
+        
+        // add some room (15%) for the quiet zone
+        double size = width * 1.15; 
+        this.View.AddDetectionSquare(centerX, centerY, size, angle);
     }
 }

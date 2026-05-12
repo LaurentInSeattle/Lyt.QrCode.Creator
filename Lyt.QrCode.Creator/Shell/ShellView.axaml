@@ -119,7 +119,7 @@
                     <glyphs:GlyphButton
                         x:Name="DecodingButton"
                         Style="{StaticResource NavigationIconButton}"
-                        GlyphSource="qrcode"
+                        GlyphSource="video"
                         GlyphStrokeThickness="0"
                         Text="{DynamicResource Shell.Decoding}"
                         Command="{Binding OnDecoding}"  

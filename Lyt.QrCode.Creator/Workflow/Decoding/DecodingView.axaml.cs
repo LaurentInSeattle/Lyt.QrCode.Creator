@@ -2,15 +2,34 @@ namespace Lyt.QrCode.Creator.Workflow.Decoding;
 
 public partial class DecodingView : View
 {
+    internal void AddDetectionSquare(double centerX, double centerY, double width, double angleRadians)
+    {
+        double angleDegrees = angleRadians * 180.0 / Math.PI; 
+        var square = new Rectangle
+        {
+            Width = width,
+            Height = width,
+            Stroke = Brushes.Green,
+            StrokeThickness = 4,
+            RenderTransform = new RotateTransform(angleDegrees),
+            RadiusX = 8, 
+            RadiusY = 8,
+        };
+
+        Canvas.SetLeft(square, centerX - square.Width / 2);
+        Canvas.SetTop(square, centerY - square.Height / 2);
+        this.ImageCanvas.Children.Add(square);
+    }
+
     internal void AddMarker(double x, double y)
     {
         var marker = new Ellipse
         {
-            Width = 10,
-            Height = 10,
+            Width = 12,
+            Height = 12,
             Fill = Brushes.Red,
             Stroke = Brushes.Black,
-            StrokeThickness = 1
+            StrokeThickness = 2
         };
 
         Canvas.SetLeft(marker, x - marker.Width / 2);
@@ -27,11 +46,13 @@ public partial class DecodingView : View
             {
                 toRemove.Add(ellipse);
             }
+
+            if (control is Rectangle rectangle)
+            {
+                toRemove.Add(rectangle);
+            }
         }
 
-        foreach (var control in toRemove)
-        {
-            this.ImageCanvas.Children.Remove(control);
-        }
+        this.ImageCanvas.Children.RemoveAll(toRemove);
     }
 }
