@@ -203,7 +203,7 @@ public sealed class PixelBuffer
                                 pTranscodedImageContainer + pBfhTo->bfOffBits);
 
 #if DEBUG
-                            Debug.WriteLine($"Transcoded: Elapsed={sw.Elapsed}");
+                            //Debug.WriteLine($"Transcoded: Elapsed={sw.Elapsed}");
 #endif
                         }
 

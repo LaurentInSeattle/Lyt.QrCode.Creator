@@ -144,8 +144,6 @@ internal static class BitmapTranscoder
                 };
                 break;
 
-            //////////////////////////////////////////////////
-
             default:
                 throw new ArgumentException(nameof(conversionStandard));
         }
@@ -316,8 +314,7 @@ internal static class BitmapTranscoder
         value > 255 ? (byte)255 :
         (byte)value;
 
-    public static int? GetRequiredBufferSize(
-        int width, int height, Compression compression)
+    public static int? GetRequiredBufferSize(int width, int height, Compression compression)
     {
         switch (compression)
         {

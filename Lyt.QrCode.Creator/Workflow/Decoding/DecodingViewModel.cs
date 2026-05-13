@@ -218,11 +218,11 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
             }
 
             // Select best characteristics, first by size, then by frame rate
-            var sorted =
-                (from c in characteristics
-                 orderby c.Width * c.Height descending
-                 orderby (double)c.FramesPerSecond descending
-                 select c).ToList();
+            var sorted = 
+                characteristics
+                    .OrderByDescending(c => c.Width * c.Height)
+                    .ThenByDescending(c => (double)c.FramesPerSecond)
+                    .ToList();
             this.selectedCharacteristics = sorted[0];
             Debug.WriteLine($"Selected capture device: {this.selectedDeviceDescriptor}, {this.selectedCharacteristics}");
             this.CaptureStatus = "Not capturing";
@@ -274,7 +274,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
             ++this.frameCounter;
 
             // Try to decode QR code if not decoded yet.
-            // TODO : Create a UI button to reset that flag.
+            // We have a UI button to reset that flag.
             if (!this.IsDecoded)
             {
                 // Launch decode after 60 frames...
@@ -354,10 +354,11 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
         if (result.Success)
         {
             Debug.WriteLine($"QR code decoded");
-            this.IsDecoded = true;
 
             // Freeze the image to show the detected QR code, and stop capture to save resources.
+            // This will also show the button to scan another code 
             _ = this.StopCapture();
+            this.IsDecoded = true;
 
             if (result.IsParsed)
             {
