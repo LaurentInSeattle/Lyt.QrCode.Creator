@@ -21,6 +21,7 @@
     <File Path="Tools/prebuild.bat" />
     <File Path="Tools/QrCodeCreatorLanguages.json" />
   </Folder>
+  <Project Path="Lyt.MediaFoundation.Interop/Lyt.MediaFoundation.Interop.csproj" Id="0633916e-14f7-456c-893f-97493060738b" />
   <Project Path="Lyt.QrCode.Creator.Desktop/Lyt.QrCode.Creator.Desktop.csproj" Id="04bf4f48-6424-4c60-ab15-07cb7b2bf220" />
   <Project Path="Lyt.QrCode.Creator.Model/Lyt.QrCode.Creator.Model.csproj" Id="1fae431d-ca1e-4fa2-90d2-abbe2853de3e" />
   <Project Path="Lyt.QrCode.Creator/Lyt.QrCode.Creator.csproj" Id="f67f5c81-4c34-48dd-8bad-28cd53dce05d" />

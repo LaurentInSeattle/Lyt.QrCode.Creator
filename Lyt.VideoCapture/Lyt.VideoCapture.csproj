@@ -11,4 +11,8 @@
     <Folder Include="Interop\Windows\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Lyt.MediaFoundation.Interop\Lyt.MediaFoundation.Interop.csproj" />
+  </ItemGroup>
+
 </Project>

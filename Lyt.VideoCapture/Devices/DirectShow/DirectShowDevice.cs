@@ -50,17 +50,12 @@ public sealed class DirectShowDevice : CaptureDevice
     // DirectShow objects are sandboxed in the working context.
     private IndependentSingleApartmentContext? workingContext = new();
     private TranscodeFormats transcodeFormat;
-    private FrameProcessor frameProcessor;
+    private FrameProcessor? frameProcessor;
     private NativeMethods_DirectShow.IGraphBuilder? graphBuilder;
     private SampleGrabberSink? sampleGrabberSink;
     private IntPtr pBih;
 
-#pragma warning disable CS8618
-    internal DirectShowDevice(object identity, string name) :
-        base(identity, name)
-#pragma warning restore CS8618
-    {
-    }
+    internal DirectShowDevice(object identity, string name) : base(identity, name) { }
 
     protected override Task OnInitializeAsync(
         VideoCharacteristics characteristics,
@@ -212,7 +207,10 @@ public sealed class DirectShowDevice : CaptureDevice
     {
         if (this.graphBuilder != null)
         {
-            await this.frameProcessor.DisposeAsync().ConfigureAwait(false);
+            if( this.frameProcessor is not null)
+            {
+                await this.frameProcessor.DisposeAsync().ConfigureAwait(false);
+            }
 
             await this.OnStopAsync(default).ConfigureAwait(false);
             await this.workingContext!.InvokeAsync(() =>

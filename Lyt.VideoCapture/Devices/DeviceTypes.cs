@@ -6,4 +6,5 @@ public enum DeviceTypes
     DirectShow,
     V4L2,
     AVFoundation,
+    MediaFoundation,
 }
