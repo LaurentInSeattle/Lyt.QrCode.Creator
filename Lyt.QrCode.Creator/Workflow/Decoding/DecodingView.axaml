@@ -39,7 +39,6 @@
 			VerticalAlignment="Center" HorizontalAlignment="Center"
 			/>
 		<TextBlock
-			IsVisible="{Binding IsCapturing}"
 			Grid.Row="2" Grid.Column="1"
 			Margin="4"
 			Text="{Binding CaptureDeviceInfo}"

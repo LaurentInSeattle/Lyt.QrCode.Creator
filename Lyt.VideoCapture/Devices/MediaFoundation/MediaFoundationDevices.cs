@@ -1,10 +1,7 @@
 ﻿namespace Lyt.VideoCapture.Devices.MediaFoundation;
 
 using global::MediaFoundation;
-using global::MediaFoundation.Misc;
 using global::MediaFoundation.ReadWrite;
-using global::MediaFoundation.Alt;
-using global::MediaFoundation.Transform;
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 #pragma warning disable CA1416 // Validate platform compatibility
@@ -12,7 +9,7 @@ using global::MediaFoundation.Transform;
 
 public static class MediaFoundationDevices
 {
-    internal static List<CaptureDeviceDescriptor> EnumerateDescriptors(BufferPool bufferPool) 
+    internal static List<CaptureDeviceDescriptor> Enumerate(BufferPool bufferPool) 
     {
         var deviceDescriptors = new List<CaptureDeviceDescriptor>();
         var devices = new List<MfDevice>();
@@ -80,9 +77,32 @@ public static class MediaFoundationDevices
 
             // No release of sourceActivate (Don't try!) 
             Marshal.ReleaseComObject(attributes);
+
+            // Using the list of devices, create the descriptors
+            foreach (var device in devices)
+            {
+                // for each device mode, create VideoCharacteristics 
+                List<VideoCharacteristics> videoCharacteristics = []; 
+                foreach (var mode in device.SupportedModes)
+                {
+                    Debug.WriteLine(string.Format("  Mode: {0}x{1} @ {2}fps", mode.Width, mode.Height, mode.FrameRate));
+                    videoCharacteristics.Add(mode.ToVideoCharacteristics());
+                }
+
+                // create a descriptor and add it to the list of descriptors
+                var descriptor = new MfDeviceDescriptor(
+                    device,
+                    device.SymbolicName,
+                    device.FriendlyName,
+                    device.FriendlyName,
+                    [.. videoCharacteristics],
+                    bufferPool);
+                deviceDescriptors.Add(descriptor);
+            }
         }
         catch (Exception ex)
         { 
+            Debug.WriteLine("Error enumerating Media Foundation devices: " + ex.ToString());
         }
 
         return deviceDescriptors;

@@ -25,9 +25,13 @@ public abstract class CaptureDeviceDescriptor
     }
 
     public abstract object Identity { get; }
+
     public abstract DeviceTypes DeviceType { get; }
+
     public string Name { get; }
+
     public string Description { get; }
+
     public VideoCharacteristics[] Characteristics { get; }
 
     protected abstract Task<CaptureDevice> OnOpenWithFrameProcessorAsync(

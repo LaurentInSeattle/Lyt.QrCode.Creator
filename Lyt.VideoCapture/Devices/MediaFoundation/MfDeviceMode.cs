@@ -1,9 +1,9 @@
 ﻿namespace Lyt.VideoCapture.Devices.MediaFoundation;
 
 using global::MediaFoundation;
+using global::MediaFoundation.Alt;
 using global::MediaFoundation.Misc;
 using global::MediaFoundation.ReadWrite;
-using global::MediaFoundation.Alt;
 using global::MediaFoundation.Transform;
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
@@ -103,6 +103,37 @@ internal sealed class MfDeviceMode
     public float AspectRatio
         => this.AspectRatioDenominator != 0 ? this.AspectRatioNumerator / (float)this.AspectRatioDenominator : 0.0f;
 
+    internal VideoCharacteristics ToVideoCharacteristics()
+        => new(
+            this.PixelFormat, 
+            this.Width, 
+            this.Height,
+            new Fraction(this.FrameRateNumerator, this.FrameRateDenominator),
+            this.ToString(), 
+            true, 
+            this.MediaTypeString);
+
+    internal PixelFormats PixelFormat =>
+        this.MediaSubType switch
+        {
+            _ when this.MediaSubType == MFMediaType.ARGB32 => PixelFormats.ARGB32,
+            _ when this.MediaSubType == MFMediaType.RGB8 => PixelFormats.RGB8,
+            _ when this.MediaSubType == MFMediaType.RGB24 => PixelFormats.RGB24,
+            _ when this.MediaSubType == MFMediaType.RGB32 => PixelFormats.RGB32,
+            _ when this.MediaSubType == MFMediaType.ARGB32 => PixelFormats.ARGB32,
+            _ when this.MediaSubType == MFMediaType.MJPG => PixelFormats.JPEG,
+            _ when this.MediaSubType == MFMediaType.UYVY => PixelFormats.UYVY,
+            _ when this.MediaSubType == MFMediaType.NV12 => PixelFormats.NV12,
+
+            // Could be wrong ! 
+            _ when this.MediaSubType == MFMediaType.YVYU => PixelFormats.YUYV,
+
+            // Apparently not available in Media Foundation,
+            // _ when this.MediaSubType == MFMediaType.PNG => PixelFormats.PNG,
+
+            _ => PixelFormats.Unknown,
+        };
+
     public override string ToString()
         => string.Format(
             "{0} ~ {1}  -  {2}x{3}  ({4}:{5})  at {6} fps.",
@@ -112,7 +143,7 @@ internal sealed class MfDeviceMode
 
     public bool IsMatching(IMFMediaType mediaType)
     {
-        MfDeviceMode other = new MfDeviceMode(mediaType);
+        MfDeviceMode other = new(mediaType);
         return
             this.Width == other.Width &&
             this.Height == other.Height &&
@@ -124,7 +155,7 @@ internal sealed class MfDeviceMode
             this.FrameRateNumerator == other.FrameRateNumerator;
     }
 
-    public HResult GetMediaType(MfDevice device, IMFSourceReader sourceReader, out IMFMediaType? selectedMediaType)
+    public HResult GetMediaType(IMFSourceReader sourceReader, out IMFMediaType? selectedMediaType)
     {
         selectedMediaType = null;
         int mediaTypeIndex = 0;

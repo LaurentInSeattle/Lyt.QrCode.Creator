@@ -28,7 +28,7 @@ public static class Program
 		// Step 1: Enumerate capture devices and filter by device type
 		var devices = new CaptureDevices();
 		var descriptors = 
-			devices.EnumerateDescriptors()
+			devices.Enumerate()
 			// Only DirectShow device.
 			.Where(d => d.DeviceType == DeviceTypes.DirectShow)
 			.ToList();

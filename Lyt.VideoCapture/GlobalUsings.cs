@@ -29,5 +29,6 @@ global using Lyt.VideoCapture.Interop;
 global using Lyt.VideoCapture.Interop.DirectShow;
 global using Lyt.VideoCapture.Devices;
 global using Lyt.VideoCapture.Devices.DirectShow;
+global using Lyt.VideoCapture.Devices.MediaFoundation;
 global using Lyt.VideoCapture.Threading;
 global using Lyt.VideoCapture.Utilities;

@@ -6,14 +6,18 @@
 
 public sealed class MfDeviceDescriptor : CaptureDeviceDescriptor
 {
+    private readonly MfDevice device;
     private readonly string devicePath;
 
     internal MfDeviceDescriptor(
+        MfDevice device,         
         string devicePath, string name, string description,
-        VideoCharacteristics[] characteristics,
-        BufferPool defaultBufferPool) :
-        base(name, description, characteristics, defaultBufferPool) =>
+        VideoCharacteristics[] characteristics, BufferPool bufferPool) :
+        base(name, description, characteristics, bufferPool)
+    {
+        this.device = device;
         this.devicePath = devicePath;
+    }
 
     public override object Identity => this.devicePath;
 

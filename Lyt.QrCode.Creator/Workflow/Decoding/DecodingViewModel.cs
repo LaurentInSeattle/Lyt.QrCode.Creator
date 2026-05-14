@@ -110,6 +110,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
         if (!this.CanCapture)
         {
             Debug.WriteLine($"Cannot start capture, no device or characteristics found or selected.");
+            this.CaptureStatus = "Failed to start video capture: no device.";
             return;
         }
 
@@ -129,6 +130,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
         catch (Exception ex)
         {
             Debug.WriteLine($"Failed to start capture: {ex}");
+            this.CaptureStatus = $"Failed to start capture. (Exception: {ex.Message})"; 
             this.selectedDevice = null;
         }
     }
@@ -147,24 +149,32 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
             return;
         }
 
+        string captureStatus = string.Empty;
         try
         {
             await this.selectedDevice!.StopAsync();
             await Task.Delay(120); // Let it run for a while to capture some frames.
             if (this.selectedDevice.IsRunning)
             {
-                Debug.WriteLine($"Cannot stop capture.");
+                Debug.WriteLine("Cannot stop capture.");
+                captureStatus = "Failed to stop capture. Still running?";
             }
             else
             {
-                Debug.WriteLine($"Capture stopped.");
+                Debug.WriteLine("Capture stopped.");
+                captureStatus = "Capture stopped.";
                 this.IsCapturing = false;
             }
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Failed to stop capture: {ex}");
+            captureStatus = $"Failed to stop capture. (Exception: {ex.Message})";
             this.selectedDevice = null;
+        }
+        finally
+        {
+            Dispatch.OnUiThread(() => { this.CaptureStatus = captureStatus; });
         }
     }
 
@@ -193,8 +203,10 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
             CaptureDevices devices = new();
             List<CaptureDeviceDescriptor> descriptors = [];
 
+            // Only MediaFoundation devices.
+            descriptors = [.. devices.Enumerate().Where(d => d.DeviceType == DeviceTypes.MediaFoundation)];
             // Only DirectShow devices.
-            descriptors = [.. devices.EnumerateDescriptors().Where(d => d.DeviceType == DeviceTypes.DirectShow)];
+            // descriptors = [.. devices.EnumerateDescriptors().Where(d => d.DeviceType == DeviceTypes.DirectShow)];
 
             // pickup first device FOR NOW ,
             // TODO: Allow user to select device
@@ -225,7 +237,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
                     .ToList();
             this.selectedCharacteristics = sorted[0];
             Debug.WriteLine($"Selected capture device: {this.selectedDeviceDescriptor}, {this.selectedCharacteristics}");
-            this.CaptureStatus = "Not capturing";
+            captureStatus = "Not capturing";
             this.selectedDevice =
                 await this.selectedDeviceDescriptor.OpenAsync(this.selectedCharacteristics, this.OnNewFrame);
             captureDeviceInfo =
@@ -381,6 +393,7 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
         {
             if (result.IsDetected)
             {
+                this.CaptureStatus = "Not capturing.";
                 this.CalculateAndShowDetectionSquare(result);
             } 
 
