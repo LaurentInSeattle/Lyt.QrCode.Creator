@@ -4,7 +4,7 @@ using static Lyt.VideoCapture.Interop.DirectShow.NativeMethods_DirectShow;
 
 public static class DirectShowDevices 
 {
-    internal static List<CaptureDeviceDescriptor> EnumerateDescriptors(BufferPool bufferPool) =>
+    internal static List<CaptureDeviceDescriptor> Enumerate(BufferPool bufferPool) =>
         [.. NativeMethods_DirectShow
         .EnumerateDeviceMoniker(CLSID_VideoInputDeviceCategory)
         .Collect(moniker => moniker.GetPropertyBag() is { } pb ?

@@ -28,9 +28,8 @@ public sealed class MfDeviceDescriptor : CaptureDeviceDescriptor
         TranscodeFormats transcodeFormat, 
         FrameProcessor frameProcessor, 
         CancellationToken ct)
-    {
-        return Task.FromResult<CaptureDevice>(new MfDevice(this, ""));
-    }
+        => this.InternalOnOpenWithFrameProcessorAsync(
+            this.device, characteristics, transcodeFormat, frameProcessor, ct);
 }
 
 //#pragma warning restore CA1416 

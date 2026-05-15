@@ -15,7 +15,7 @@ public static class MediaFoundationDevices
 
         try
         {
-            var hr = (HResult) NativeMethods.CoInitializeEx((IntPtr)null, NativeMethods.COINIT.SPEED_OVER_MEMORY);            
+            var hr = (HResult) NativeMethods.CoInitialize((IntPtr)null);            
             MF.Startup();
 
             IMFAttributes attributes = MF.CreateAttributes(1);

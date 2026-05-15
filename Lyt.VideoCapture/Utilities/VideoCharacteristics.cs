@@ -11,19 +11,19 @@ public sealed class VideoCharacteristics :
     public readonly bool IsDiscrete;
     public readonly string RawPixelFormat;
 
-    public VideoCharacteristics(
-        PixelFormats pixelFormat,
-        int width, int height,
-        Fraction framesPerSecond)
-    {
-        this.PixelFormat = pixelFormat;
-        this.Width = width;
-        this.Height = height;
-        this.FramesPerSecond = framesPerSecond;
-        this.Description = pixelFormat.ToString();
-        this.IsDiscrete = true;
-        this.RawPixelFormat = pixelFormat.ToString();
-    }
+    //public VideoCharacteristics(
+    //    PixelFormats pixelFormat,
+    //    int width, int height,
+    //    Fraction framesPerSecond)
+    //{
+    //    this.PixelFormat = pixelFormat;
+    //    this.Width = width;
+    //    this.Height = height;
+    //    this.FramesPerSecond = framesPerSecond;
+    //    this.Description = pixelFormat.ToString();
+    //    this.IsDiscrete = true;
+    //    this.RawPixelFormat = pixelFormat.ToString();
+    //}
 
     public VideoCharacteristics(
         PixelFormats pixelFormat,
@@ -41,6 +41,8 @@ public sealed class VideoCharacteristics :
         this.IsDiscrete = isDiscrete;
         this.RawPixelFormat = rawPixelFormat;
     }
+
+    internal CaptureDevice? CaptureDevice { get; set; }
 
     public short FixedBitsPerPixel =>
         this.PixelFormat switch

@@ -197,7 +197,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
             // Only MediaFoundation devices.
             descriptors = [.. devices.Enumerate().Where(d => d.DeviceType == DeviceTypes.MediaFoundation)];
             // Only DirectShow devices.
-            // descriptors = [.. devices.EnumerateDescriptors().Where(d => d.DeviceType == DeviceTypes.DirectShow)];
+            // descriptors = [.. devices.Enumerate().Where(d => d.DeviceType == DeviceTypes.DirectShow)];
 
             // pickup first device FOR NOW ,
             // TODO: Allow user to select device

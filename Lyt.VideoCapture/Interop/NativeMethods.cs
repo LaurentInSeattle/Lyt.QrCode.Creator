@@ -67,6 +67,9 @@ internal static class NativeMethods
 
     ////////////////////////////////////////////////////////////////////////
 
+    [DllImport("ole32.dll")]
+    public static extern int CoInitialize(IntPtr pvReserved);
+
     [Flags]
     public enum COINIT
     {

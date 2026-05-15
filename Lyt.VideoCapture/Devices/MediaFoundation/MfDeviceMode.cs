@@ -113,6 +113,13 @@ internal sealed class MfDeviceMode
             true, 
             this.MediaTypeString);
 
+    internal bool IsMatching (VideoCharacteristics characteristics)
+        => this.PixelFormat == characteristics.PixelFormat &&
+           this.Width == characteristics.Width &&
+           this.Height == characteristics.Height &&
+           this.FrameRateNumerator == characteristics.FramesPerSecond.Numerator &&
+           this.FrameRateDenominator == characteristics.FramesPerSecond.Denominator;
+    
     internal PixelFormats PixelFormat =>
         this.MediaSubType switch
         {
