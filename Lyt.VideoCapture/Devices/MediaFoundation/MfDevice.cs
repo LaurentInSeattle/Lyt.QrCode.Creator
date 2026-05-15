@@ -76,7 +76,7 @@ public sealed class MfDevice : CaptureDevice
         IMFAttributes configAttributes = MF.CreateAttributes(1);
         // From working sample: 
         // MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID, 0x8ac3587a, 0x4ae7, 0x42d8, 0x99, 0xe0, 0x0a, 0x60, 0x13, 0xee, 0xf9, 0x0f);
-        Guid MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID = new Guid("8ac3587a-4ae7-42d8-99e0-0a6013eef90f");
+        Guid MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID = new ("8ac3587a-4ae7-42d8-99e0-0a6013eef90f");
         HResult hr = configAttributes.SetGUID(
             MFAttributesClsid.MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE,
             MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID);

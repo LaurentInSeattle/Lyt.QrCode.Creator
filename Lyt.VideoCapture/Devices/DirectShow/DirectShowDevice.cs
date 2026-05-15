@@ -77,8 +77,10 @@ public sealed class DirectShowDevice : CaptureDevice
                         pb.GetValue("DevicePath", default(string))?.Trim() is { } dp &&
                         dp.Equals(devicePath))).
                 Collect(moniker =>
-                    moniker.BindToObject(null, null, in NativeMethods_DirectShow.IID_IBaseFilter, out var captureSource) == 0 ?
-                    captureSource as NativeMethods_DirectShow.IBaseFilter : null).
+                    moniker.BindToObject(
+                        null, null, 
+                        in NativeMethods_DirectShow.IID_IBaseFilter, 
+                        out object? captureSource) == 0 ? captureSource as NativeMethods_DirectShow.IBaseFilter : null).
                 FirstOrDefault() is { } captureSource)
             {
                 try
@@ -283,8 +285,7 @@ public sealed class DirectShowDevice : CaptureDevice
         IntPtr parentWindow, CancellationToken ct) =>
         this.workingContext!.InvokeAsync(() =>
         {
-            var devicePath = (string)this.Identity;
-
+            string devicePath = (string)this.Identity;
             if (NativeMethods_DirectShow.EnumerateDeviceMoniker(
                NativeMethods_DirectShow.CLSID_VideoInputDeviceCategory).
                Where(moniker =>
@@ -293,7 +294,7 @@ public sealed class DirectShowDevice : CaptureDevice
                        pb.GetValue("DevicePath", default(string))?.Trim() is { } dp &&
                        dp.Equals(devicePath))).
                Collect(moniker =>
-                   moniker.BindToObject(null, null, in NativeMethods_DirectShow.IID_IBaseFilter, out var captureSource) == 0 ?
+                   moniker.BindToObject(null, null, in NativeMethods_DirectShow.IID_IBaseFilter, out object? captureSource) == 0 ?
                    captureSource as NativeMethods_DirectShow.IBaseFilter : null).
                FirstOrDefault() is { } captureSource)
             {
@@ -303,7 +304,7 @@ public sealed class DirectShowDevice : CaptureDevice
                 {
                     try
                     {
-                        NativeMethods_DirectShow.OleCreatePropertyFrame(
+                        _ = NativeMethods_DirectShow.OleCreatePropertyFrame(
                             parentWindow, 0, 0, this.Name, 1, ref sourceAsObject,
                             pPages.cElems, pPages.pElems, 0, 0, IntPtr.Zero);
 

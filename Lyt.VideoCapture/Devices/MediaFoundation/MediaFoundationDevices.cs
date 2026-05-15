@@ -5,7 +5,6 @@ using global::MediaFoundation.ReadWrite;
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 #pragma warning disable CA1416 // Validate platform compatibility
-#pragma warning disable CS8604 // Possible null reference argument.
 
 public static class MediaFoundationDevices
 {
@@ -20,7 +19,7 @@ public static class MediaFoundationDevices
             MF.Startup();
 
             IMFAttributes attributes = MF.CreateAttributes(1);
-            Guid MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID = new Guid("8ac3587a-4ae7-42d8-99e0-0a6013eef90f");
+            Guid MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID = new ("8ac3587a-4ae7-42d8-99e0-0a6013eef90f");
             hr = attributes.SetGUID(
                 MFAttributesClsid.MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE,
                 MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID);
@@ -109,6 +108,5 @@ public static class MediaFoundationDevices
     }
 }
 
-#pragma warning restore CA1416 
-#pragma warning restore CA8604
 #pragma warning restore CA8625 
+#pragma warning restore CA1416 

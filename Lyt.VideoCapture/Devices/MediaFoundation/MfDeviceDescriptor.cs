@@ -1,8 +1,8 @@
 ﻿namespace Lyt.VideoCapture.Devices.MediaFoundation;
 
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-#pragma warning disable CA1416 // Validate platform compatibility
-#pragma warning disable CS8604 // Possible null reference argument.
+//#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+//#pragma warning disable CA1416 // Validate platform compatibility
+//#pragma warning disable CS8604 // Possible null reference argument.
 
 public sealed class MfDeviceDescriptor : CaptureDeviceDescriptor
 {
@@ -33,6 +33,6 @@ public sealed class MfDeviceDescriptor : CaptureDeviceDescriptor
     }
 }
 
-#pragma warning restore CA1416 
-#pragma warning restore CA8604
-#pragma warning restore CA8625 
+//#pragma warning restore CA1416 
+//#pragma warning restore CA8604
+//#pragma warning restore CA8625 

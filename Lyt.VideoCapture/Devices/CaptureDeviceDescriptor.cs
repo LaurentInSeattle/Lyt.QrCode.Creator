@@ -1,38 +1,29 @@
 ﻿
 namespace Lyt.VideoCapture.Devices; 
 
-public delegate void PixelBufferArrivedDelegate(
-    PixelBufferScope bufferScope);
+public delegate void PixelBufferArrivedDelegate(PixelBufferScope bufferScope);
 
-public delegate Task PixelBufferArrivedTaskDelegate(
-    PixelBufferScope bufferScope);
+public delegate Task PixelBufferArrivedTaskDelegate(PixelBufferScope bufferScope);
 
-public abstract class CaptureDeviceDescriptor
+public abstract class CaptureDeviceDescriptor(
+    string name, 
+    string description,
+    VideoCharacteristics[] characteristics,
+    BufferPool bufferPool)
 {
     private readonly AsyncLock locker = new();
 
-    internal readonly BufferPool defaultBufferPool;
+    internal readonly BufferPool defaultBufferPool = bufferPool;
 
-    protected CaptureDeviceDescriptor(
-        string name, string description,
-        VideoCharacteristics[] characteristics,
-        BufferPool defaultBufferPool)
-    {
-        this.Name = name;
-        this.Description = description;
-        this.Characteristics = characteristics;
-        this.defaultBufferPool = defaultBufferPool;
-    }
+    public string Name { get; } = name;
+
+    public string Description { get; } = description;
 
     public abstract object Identity { get; }
 
     public abstract DeviceTypes DeviceType { get; }
 
-    public string Name { get; }
-
-    public string Description { get; }
-
-    public VideoCharacteristics[] Characteristics { get; }
+    public VideoCharacteristics[] Characteristics { get; } = characteristics;
 
     protected abstract Task<CaptureDevice> OnOpenWithFrameProcessorAsync(
         VideoCharacteristics characteristics,
@@ -242,9 +233,8 @@ public abstract class CaptureDeviceDescriptor
             ct);
 
         await device.InternalStartAsync(ct);
-        var image = await tcs.Task;
+        byte[] image = await tcs.Task;
         await device.InternalStopAsync(ct);
-
         return image;
     }
 }

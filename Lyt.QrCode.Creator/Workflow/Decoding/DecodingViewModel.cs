@@ -5,9 +5,9 @@ using Lyt.QrCode.Image;
 
 using static Lyt.QrCode.Creator.Utilities.SkiaExtensions;
 
-public sealed partial class DecodingViewModel : ViewModel<DecodingView>
+public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<DecodingView>
 {
-    private readonly QrCodeCreatorModel qrCodeCreatorModel;
+    private readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
 
     private CaptureDevice? selectedDevice;
 
@@ -25,10 +25,10 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
     public partial bool IsCapturing { get; set; }
 
     [ObservableProperty]
-    public partial string CaptureStatus { get; set; }
+    public partial string CaptureStatus { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string CaptureDeviceInfo { get; set; }
+    public partial string CaptureDeviceInfo { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial IImage? Image { get; set; }
@@ -40,19 +40,10 @@ public sealed partial class DecodingViewModel : ViewModel<DecodingView>
     public partial double ImageHeight { get; set; }
 
     [ObservableProperty]
-    public partial string RawContent { get; set; }
+    public partial string RawContent { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string ContentType { get; set; }
-
-    public DecodingViewModel(QrCodeCreatorModel qrCodeCreatorModel)
-    {
-        this.qrCodeCreatorModel = qrCodeCreatorModel;
-        this.CaptureStatus = string.Empty;
-        this.CaptureDeviceInfo = string.Empty;
-        this.RawContent = string.Empty;
-        this.ContentType = string.Empty;
-    }
+    public partial string ContentType { get; set; } = string.Empty;
 
     public override void OnViewLoaded()
     {
