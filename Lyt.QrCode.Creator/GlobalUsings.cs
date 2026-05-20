@@ -113,11 +113,8 @@ global using Lyt.QrCode.Creator.Workflow.Encoding.DesignForms;
 global using Lyt.QrCode.Creator.Workflow.Language;
 global using Lyt.QrCode.Creator.Workflow.Shared;
 
-global using Lyt.VideoCapture.Buffers;
-global using Lyt.VideoCapture.FrameProcessors;
-global using Lyt.VideoCapture.Interop;
-global using Lyt.VideoCapture.Interop.DirectShow;
-global using Lyt.VideoCapture.Devices;
-global using Lyt.VideoCapture.Devices.DirectShow;
-global using Lyt.VideoCapture.Threading;
-global using Lyt.VideoCapture.Utilities;
+global using Lyt.Video.Capture;
+global using Lyt.Video.Capture.Device;
+global using Lyt.Video.Capture.FrameProcessors;
+global using Lyt.Video.Shared.Frames;
+

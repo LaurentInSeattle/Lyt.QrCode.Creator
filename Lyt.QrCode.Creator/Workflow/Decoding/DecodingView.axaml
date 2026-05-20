@@ -21,6 +21,7 @@
 			<RowDefinition Height="52" />
 			<RowDefinition Height="60" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="60" />
 			<RowDefinition Height="8" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -31,23 +32,23 @@
 			<ColumnDefinition Width="8" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Grid.Row="1" Grid.Column="1"
+			Grid.Row="4" Grid.Column="1"
 			Margin="4"
 			Text="{Binding CaptureStatus}"
 			Theme="{StaticResource Alert}"
-			TextAlignment="Center"
-			VerticalAlignment="Center" HorizontalAlignment="Center"
+			TextAlignment="Right"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
 			/>
 		<TextBlock
-			Grid.Row="2" Grid.Column="1"
+			Grid.Row="4" Grid.Column="1"
 			Margin="4"
 			Text="{Binding CaptureDeviceInfo}"
 			Theme="{StaticResource H2}"
 			FontWeight="Normal"
 			Foreground="{StaticResource Secondary.TextColor}"
 			TextWrapping="Wrap"
-			TextAlignment="Center"
-			VerticalAlignment="Center" HorizontalAlignment="Center"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 		<Viewbox
 			Grid.Row="3" Grid.Column="1"
