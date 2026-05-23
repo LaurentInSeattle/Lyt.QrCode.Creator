@@ -204,16 +204,10 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
         int imageHeight = 0;
         try
         {
-            var deviceExplorer = Platform.DeviceExplorer;
-            var devices = deviceExplorer.SystemCaptureDevices;
+            var devices = Platform.DeviceExplorer.DetectCaptureDevices();
 
-            // Only MediaFoundation devices.
-            // descriptors = [.. devices.Enumerate().Where(d => d.DeviceType == DeviceTypes.MediaFoundation)];
-            // Only DirectShow devices.
-            // descriptors = [.. devices.Enumerate().Where(d => d.DeviceType == DeviceTypes.DirectShow)];
-
-            // pickup first device FOR NOW ,
-            // TODO: Allow user to select device
+            // pickup first device
+            // TODO , maybe: Allow user to select device
             var firstDevice = devices.FirstOrDefault();
             if (firstDevice == null)
             {
