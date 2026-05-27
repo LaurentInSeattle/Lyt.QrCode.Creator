@@ -1,5 +1,9 @@
 ﻿
 using Avalonia;
+
+using Lyt.Video.Capture.MediaFoundation;
+using Lyt.Video.Shared.Abstractions;
+
 using System;
 
 namespace Lyt.QrCode.Creator.Desktop;
@@ -21,4 +25,7 @@ internal class Program
             .With(new SkiaOptions() { MaxGpuResourceSizeBytes = 2L * 1024L * 1024L * 1024L }) // 2 GB 
             .LogToTrace()
             .WithDeveloperTools();
+
+    // Artificially creates a dependency 
+    public static ICaptureDeviceExplorer CaptureDeviceExplorer => new MediaFoundationDeviceExplorer();
 }

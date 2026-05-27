@@ -114,6 +114,7 @@ global using Lyt.QrCode.Creator.Workflow.Language;
 global using Lyt.QrCode.Creator.Workflow.Shared;
 
 global using Lyt.Video.Shared;
+global using Lyt.Video.Shared.Abstractions;
 global using Lyt.Video.Shared.Frames;
 global using Lyt.Video.Capture;
 global using Lyt.Video.Capture.Device;

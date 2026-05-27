@@ -3,9 +3,10 @@
 // Conflict with Skia , cannot be made global 
 using Lyt.QrCode.Image;
 
-public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<DecodingView>
+public sealed partial class DecodingViewModel : ViewModel<DecodingView>
 {
-    private readonly QrCodeCreatorModel qrCodeCreatorModel = qrCodeCreatorModel;
+    private readonly ICaptureDeviceExplorer? deviceExplorer;
+    private readonly QrCodeCreatorModel qrCodeCreatorModel;
 
     private VideoCaptureDevice? videoCaptureDevice;
 
@@ -42,6 +43,21 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
 
     [ObservableProperty]
     public partial string ContentType { get; set; } = string.Empty;
+
+    public DecodingViewModel(QrCodeCreatorModel qrCodeCreatorModel)
+    {
+        this.qrCodeCreatorModel = qrCodeCreatorModel;
+        try
+        {
+            // Inject interface instance                 
+            this.deviceExplorer = Platform.OsSpecificService<ICaptureDeviceExplorer>("Lyt.Video.Capture");
+        }
+        catch (Exception ex)
+        {
+            // TODO : Message 
+            Debug.WriteLine(ex);
+        }
+    }
 
     public override void OnViewLoaded()
     {
@@ -119,7 +135,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
 
             // Let it run for a while to capture some frames and adjust WB and exposure 
             await Task.Delay(240); 
-            if (this.videoCaptureDevice.IsRunning)
+            if (this.videoCaptureDevice.IsCapturing)
             {
                 Debug.WriteLine($"Capture started.");
                 this.lastFrameTimestamp = DateTime.Now;
@@ -157,7 +173,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
             this.videoCaptureDevice.EndCapture();
             // Let it run for a while to ensure all threads are terminated 
             await Task.Delay(120); 
-            if (this.videoCaptureDevice.IsRunning)
+            if (this.videoCaptureDevice.IsCapturing)
             {
                 Debug.WriteLine("Cannot stop capture.");
                 captureStatus = "Failed to stop capture. Still running?";
@@ -203,8 +219,13 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
         int imageHeight = 0;
         try
         {
-            var devices = Platform.DeviceExplorer.DetectCaptureDevices();
+            if (this.deviceExplorer is null)
+            {
+                captureStatus = "Failed to retrieve the Device Explorer.";
+                return; 
+            }
 
+            var devices = this.deviceExplorer.DetectCaptureDevices(); 
             // pickup first device
             // TODO , maybe: Allow user to select device
             var firstDevice = devices.FirstOrDefault();
@@ -240,12 +261,17 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
             this.captureMode = sorted[0];
             Debug.WriteLine($"Capture device: {this.captureDevice.FriendlyName}, {this.captureMode}");
             captureStatus = "Not capturing";
-            this.videoCaptureDevice =
-                new VideoCaptureDevice(this.captureMode, this.OnNewFrame); 
-            captureDeviceInfo =
-                $"Capture device: {this.captureDevice.FriendlyName}, {this.captureMode.Description}";
-            imageWidth = this.captureMode.Width;
-            imageHeight = this.captureMode.Height;
+
+            var systemDevice = this.deviceExplorer.SystemCaptureDeviceFromId(this.captureDevice.UniqueID);
+            if (systemDevice is not null)
+            {
+                this.videoCaptureDevice =
+                  new VideoCaptureDevice(systemDevice, this.captureMode, this.OnNewFrame);
+                captureDeviceInfo =
+                    $"Capture device: {this.captureDevice.FriendlyName}, {this.captureMode.Description}";
+                imageWidth = this.captureMode.Width;
+                imageHeight = this.captureMode.Height;
+            } 
         }
         catch (Exception ex)
         {
@@ -367,7 +393,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
             IntPtr destPtr = lockedBuffer.Address;
 
             // Determine size to copy
-            int size = frame.Data!.Length;
+            int size = frame.ByteCount;
 
             // Perform the direct memory copy
             unsafe { fixed (byte* p = frame.Data)
