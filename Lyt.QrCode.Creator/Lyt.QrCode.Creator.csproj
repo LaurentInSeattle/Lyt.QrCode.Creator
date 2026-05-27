@@ -49,7 +49,6 @@
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Utilities\Lyt.Utilities.csproj" />
     <ProjectReference Include="..\..\Lyt.Framework\Lyt.Validation\Lyt.Validation.csproj" />
     <ProjectReference Include="..\..\Lyt.Video\Lyt.Video.Capture\Lyt.Video.Capture.csproj" />
-    <ProjectReference Include="..\..\Lyt.Video\Lyt.Video.Recording\Lyt.Video.Recording.csproj" />
     <ProjectReference Include="..\..\Lyt.Video\Lyt.Video.Shared\Lyt.Video.Shared.csproj" />
     <ProjectReference Include="..\Lyt.QrCode.Creator.Model\Lyt.QrCode.Creator.Model.csproj" />
   </ItemGroup>

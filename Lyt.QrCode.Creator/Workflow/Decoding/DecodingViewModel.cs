@@ -1,8 +1,7 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Decoding;
 
+// Conflict with Skia , cannot be made global 
 using Lyt.QrCode.Image;
-
-using SkiaSharp;
 
 public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorModel) : ViewModel<DecodingView>
 {
@@ -10,9 +9,9 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
 
     private VideoCaptureDevice? videoCaptureDevice;
 
-    private ISystemCaptureDevice? systemCaptureDevice;
+    private CaptureDevice? captureDevice;
 
-    private IVideoCaptureMode? captureMode;
+    private CaptureMode? captureMode;
 
     private DateTime lastFrameTimestamp;
     private int frameCounter;
@@ -91,13 +90,13 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
     private void NullifyDevice()
     {
         this.videoCaptureDevice = null;
-        this.systemCaptureDevice = null;
+        this.captureDevice = null;
         this.captureMode = null;
     } 
 
     private bool CanCapture
         => this.videoCaptureDevice is not null &&
-            this.systemCaptureDevice is not null &&
+            this.captureDevice is not null &&
             this.captureMode is not null;
 
     private async Task StartCapture()
@@ -106,7 +105,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
         this.IsCapturing = false;
 
         // Not using : if (!this.CanCapture) ... to prevent nullable warnings 
-        if ((this.videoCaptureDevice is null) || (this.systemCaptureDevice is null) || (this.captureMode is null))
+        if ((this.videoCaptureDevice is null) || (this.captureDevice is null) || (this.captureMode is null))
         {
             Debug.WriteLine($"Cannot start capture, no device or characteristics found or selected.");
             this.CaptureStatus = "Failed to start video capture: no device.";
@@ -120,7 +119,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
 
             // Let it run for a while to capture some frames and adjust WB and exposure 
             await Task.Delay(240); 
-            if (this.systemCaptureDevice.IsRunning)
+            if (this.videoCaptureDevice.IsRunning)
             {
                 Debug.WriteLine($"Capture started.");
                 this.lastFrameTimestamp = DateTime.Now;
@@ -146,7 +145,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
         }
 
         // Not using : if (!this.CanCapture) ... to prevent nullable warnings 
-        if ((this.videoCaptureDevice is null) || (this.systemCaptureDevice is null) || (this.captureMode is null))
+        if ((this.videoCaptureDevice is null) || (this.captureDevice is null) || (this.captureMode is null))
         {
             Debug.WriteLine($"Cannot stop capture, no device or characteristics found or selected.");
             return;
@@ -158,7 +157,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
             this.videoCaptureDevice.EndCapture();
             // Let it run for a while to ensure all threads are terminated 
             await Task.Delay(120); 
-            if (this.systemCaptureDevice.IsRunning)
+            if (this.videoCaptureDevice.IsRunning)
             {
                 Debug.WriteLine("Cannot stop capture.");
                 captureStatus = "Failed to stop capture. Still running?";
@@ -216,10 +215,10 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
                 return;
             }
 
-            this.systemCaptureDevice = firstDevice;
+            this.captureDevice = firstDevice;
 
             // get characteristics 
-            var videoModes = this.systemCaptureDevice.SupportedVideoModes;
+            var videoModes = this.captureDevice.SupportedCaptureModes;
             if (videoModes.Count == 0)
             {
                 Debug.WriteLine($"Could not select color format characteristics.");
@@ -239,12 +238,12 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
                     .ThenByDescending(c => (double)c.FramesPerSecond)
                     .ToList();
             this.captureMode = sorted[0];
-            Debug.WriteLine($"Capture device: {this.systemCaptureDevice.Name}, {this.captureMode}");
+            Debug.WriteLine($"Capture device: {this.captureDevice.FriendlyName}, {this.captureMode}");
             captureStatus = "Not capturing";
             this.videoCaptureDevice =
-                new VideoCaptureDevice(this.systemCaptureDevice, this.captureMode, this.OnNewFrame); 
+                new VideoCaptureDevice(this.captureMode, this.OnNewFrame); 
             captureDeviceInfo =
-                $"Capture device: {this.systemCaptureDevice.Name}, {this.captureMode.Description}";
+                $"Capture device: {this.captureDevice.FriendlyName}, {this.captureMode.Description}";
             imageWidth = this.captureMode.Width;
             imageHeight = this.captureMode.Height;
         }
@@ -269,7 +268,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
         }
     }
 
-    private void OnNewFrame(RawFrame frame)
+    private void OnNewFrame(Frame frame)
     {
         if (frame.Data is null)
         {
@@ -349,7 +348,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
         this.Image = image;
     }
 
-    public static WriteableBitmap? ToWriteableBitmap(RawFrame frame)
+    public static WriteableBitmap? ToWriteableBitmap(Frame frame)
     {
         if (frame.Data is null)
         {
@@ -385,7 +384,7 @@ public sealed partial class DecodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
         return avaloniaBitmap;
     }
 
-    private static SourceImage ToSourceImage(RawFrame frame)
+    private static SourceImage ToSourceImage(Frame frame)
     {
         // Important: Assumes BGRA 32 pixel format Frame
         int height = frame.Height;
