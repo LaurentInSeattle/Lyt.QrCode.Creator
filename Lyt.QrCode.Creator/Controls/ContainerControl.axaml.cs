@@ -7,13 +7,26 @@ public partial class ContainerControl : UserControl
     public ContainerControl()
     {
         this.InitializeComponent();
-        this.ToggleCollapse();
+
+        if (this.IsAlwaysVisible)
+        {
+            this.EnforceVisible(); 
+        }
+        else
+        {
+            this.ToggleCollapse();
+        }
     }
 
     public bool IsCollapsed => this.isCollapsed;
 
     public void ToggleCollapse()
     {
+        if (this.IsAlwaysVisible)
+        {
+            return; 
+        } 
+
         var rows = this.rootGrid.RowDefinitions;
         var contentRow = rows[2];
         this.isCollapsed = !this.isCollapsed;
@@ -29,6 +42,14 @@ public partial class ContainerControl : UserControl
         }
     }
 
+    private void EnforceVisible ()
+    {
+        var rows = this.rootGrid.RowDefinitions;
+        var contentRow = rows[2];
+        contentRow.Height = GridLength.Auto;
+        this.glyphButton.IsVisible = false;
+    }
+
     public static readonly StyledProperty<object?> ContainerControlContentProperty =
         AvaloniaProperty.Register<ContainerControl, object?>(nameof(ContainerControlContent), null);
 
@@ -40,6 +61,39 @@ public partial class ContainerControl : UserControl
             this.SetValue(ContainerControlContentProperty, value);
             this.presenter.Content = value;
         }
+    }
+
+    /// <summary> IsAlwaysVisible Styled Property </summary>
+    public static readonly StyledProperty<bool> IsAlwaysVisibleProperty =
+        AvaloniaProperty.Register<ContainerControl, bool>(
+            nameof(IsAlwaysVisible),
+            defaultValue: false,
+            inherits: false,
+            defaultBindingMode: BindingMode.TwoWay,
+            validate: null,
+            coerce: CoerceIsAlwaysVisible,
+            enableDataValidation: false);
+
+    /// <summary> Gets or sets the IsAlwaysVisibleProperty property.</summary>
+    public bool IsAlwaysVisible
+    {
+        get => this.GetValue(IsAlwaysVisibleProperty);
+        set
+        {
+            this.SetValue(IsAlwaysVisibleProperty, value);
+            this.EnforceVisible(); 
+        }
+    }
+
+    /// <summary> Coerces the IsAlwaysVisible value. </summary>
+    private static bool CoerceIsAlwaysVisible(AvaloniaObject sender, bool newVisible)
+    {
+        if (sender is ContainerControl containerControl)
+        {
+            containerControl.EnforceVisible();
+        }
+
+        return newVisible;
     }
 
     /// <summary> Title Styled Property </summary>
