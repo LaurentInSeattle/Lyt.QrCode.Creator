@@ -1,12 +1,23 @@
 ﻿// Consider moving this into the Avalonia area and create a new library for Avalonia images and media.
 namespace Lyt.QrCode.Creator.Utilities;
 
+using Lyt.QrCode.Image;
+
 public static class ImagingUtilities
 {
     /// <summary> Saves the specified visual as an image to the given file path. </summary>
     /// <param name="visual">The visual to save as an image.</param>
     /// <param name="filePath">The file path where the image will be saved.</param>
     public static void SaveAsHighQualityImage(this Visual visual, string filePath)
+    {
+        // Create then save to the specified file path
+        Bitmap scaledBitmap = visual.CreateHighQualityImage();
+        scaledBitmap.Save(filePath);
+    }
+
+    /// <summary> Saves the specified visual as an image. </summary>
+    /// <param name="visual">The visual to save as an image.</param>
+    public static Bitmap CreateHighQualityImage(this Visual visual)
     {
         int scaling = 4;
         int width = (int)visual.Bounds.Width;
@@ -29,10 +40,7 @@ public static class ImagingUtilities
         // CreateScaledBitmap fails on writeable bitmaps and render targets 
         Bitmap bitmapForScaling = FromWriteableBitmap(writeableBitmap);
         var pixelSizeFinal = new PixelSize(width, height);
-        Bitmap scaledBitmap = bitmapForScaling.CreateScaledBitmap(pixelSizeFinal, BitmapInterpolationMode.HighQuality);
-
-        // Save to the specified file path
-        scaledBitmap.Save(filePath);
+        return bitmapForScaling.CreateScaledBitmap(pixelSizeFinal, BitmapInterpolationMode.HighQuality);
     }
 
     public static Bitmap DecodeBitmap(IEnumerable<byte> blob)
@@ -53,7 +61,7 @@ public static class ImagingUtilities
     public static Bitmap FromWriteableBitmap(WriteableBitmap writeableBitmap)
     {
         using ILockedFramebuffer fb = writeableBitmap.Lock();
-        var format = (PixelFormat)writeableBitmap.Format!;
+        var format = (global::Avalonia.Platform.PixelFormat)writeableBitmap.Format!;
         nint data = fb.Address;
         var bitmap = new Bitmap(
             format,
@@ -246,6 +254,23 @@ public static class ImagingUtilities
             Debug.WriteLine("ImageBytes Failed: " + ex);
             throw new Exception("Failed to retrieve ImageBytes: " + ex);
         }
+    }
+
+    public static unsafe SourceImage BitmapToSourceImage(Bitmap bitmap)
+    {
+        // Important: Assumes BGRA 32 pixel format with Avalonia 
+        int height = bitmap.PixelSize.Height;
+        int width = bitmap.PixelSize.Width;
+        PixelRect sourceRect = new(0, 0, width, height);
+        int pixelSize = 4;
+        int stride = width * pixelSize;
+        byte[] dstPixels = new byte[height * stride];
+        fixed (byte* dstPixelsPtr = dstPixels)
+        {
+            bitmap.CopyPixels(sourceRect, (IntPtr)dstPixelsPtr, dstPixels.Length, stride);
+        }
+
+        return new SourceImage(width, height, stride, PixelFormat.BGRA32, dstPixels);
     }
 }
 

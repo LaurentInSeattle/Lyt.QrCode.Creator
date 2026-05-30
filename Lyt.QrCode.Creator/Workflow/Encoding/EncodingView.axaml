@@ -319,7 +319,7 @@
 			>			
 			<shared:ContainerControl
 				x:Name="QrCodeContainer"
-				Title="QR Code"
+				Title="QR Code Image"
 				Text="Save or download your generated QR Code here!"
 				>
 				<shared:ContainerControl.ContainerControlContent>
@@ -333,6 +333,7 @@
 				</shared:ContainerControl.ContainerControlContent>
 			</shared:ContainerControl>
 			<shared:ContainerControl
+				x:Name="TestImageContainer"
 				Title="Test Image"
 				Text="Test how reliably your QR code can be scanned in various simulated lighting conditions."
 				>

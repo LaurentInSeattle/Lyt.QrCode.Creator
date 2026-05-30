@@ -414,6 +414,18 @@ public sealed partial class QrCodeCreatorModel : ModelBase
         });
 
 
+    // Test Image 
+    public void SetQrCodeImage(object bitmap) =>
+         this.ApiAction(() =>
+         {
+             this.QrCodeImage = bitmap;
+             new ImageGeneratedMessage().Publish();
+
+             // No need to publish an update message here, since the ImageGeneratedMessage is published.
+             return false;
+         });
+
+
     private bool ApiAction(Func<bool> action)
     {
         if (!this.timeoutTimer.IsRunning)

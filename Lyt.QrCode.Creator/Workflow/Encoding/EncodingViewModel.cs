@@ -36,6 +36,7 @@ public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
         base.OnViewLoaded();
         this.View.ContentContainer.ToggleCollapse();
         this.View.QrCodeContainer.ToggleCollapse();
+        this.View.TestImageContainer.ToggleCollapse();
     }
 
     [RelayCommand]

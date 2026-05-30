@@ -11,9 +11,11 @@
 	>
 	<Grid> 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="60" />
+			<RowDefinition Height="80" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="80" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
@@ -21,12 +23,46 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
-			Grid.Column="0" Grid.Row="0" 
+			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
 			Margin="0"
-			Text="TestImage View"
 			Theme="{StaticResource H1}"
+			Text="{Binding DecodingStatusText}"
+			Foreground="{Binding DecodingStatusColor}"
 			TextAlignment="Center"
-			VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch" HorizontalAlignment="Center"
+			/>
+		<Image		
+			Grid.Column="1" Grid.Row="1"
+			Source="{Binding ImageSource}"	
+			/>
+		<Rectangle
+			Grid.Column="1" Grid.Row="1"
+			Fill="{Binding ExposureColor}"
+			Opacity="{Binding ExposureOpacity}"
+			/>
+		<Rectangle
+			Grid.Column="1" Grid.Row="1"
+			Fill="{Binding TemperatureColor}"
+			Opacity="{Binding TemperatureOpacity}"
+			/>
+
+		<TextBlock
+			Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" 
+			Text="{Binding ContentType}"
+			Theme="{StaticResource H1}"
+			Foreground="{StaticResource Secondary.TextColor}"
+			TextWrapping="Wrap"
+			TextAlignment="Center"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<TextBlock
+			Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" 
+			Text="{Binding RawContent}"
+			Theme="{StaticResource H3}"
+			Foreground="{StaticResource Secondary.TextColor}"
+			TextWrapping="Wrap"
+			TextAlignment="Center"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 	</Grid>
 </UserControl>

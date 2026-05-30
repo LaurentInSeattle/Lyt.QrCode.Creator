@@ -21,6 +21,10 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     [JsonIgnore]
     public bool IsUpdatePending { get; set; } = false;
 
+    // Image : NOT as a bitmap to avoid dependency issues in the model 
+    [JsonIgnore]
+    public object? QrCodeImage { get; set; } = null;
+
     // Content
 
     [JsonIgnore]

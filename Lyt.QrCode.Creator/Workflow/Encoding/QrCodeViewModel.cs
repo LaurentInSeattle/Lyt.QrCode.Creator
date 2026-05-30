@@ -41,7 +41,9 @@ public sealed partial class QrCodeViewModel :
         {
             // Save to desktop or documents depending on model settings
             string filePath = this.qrCodeCreatorModel.OutputFilePath();
-            this.View.FrameGrid.SaveAsHighQualityImage(filePath);
+            var bitmap = this.View.FrameGrid.CreateHighQualityImage();
+            bitmap.Save(filePath);
+            this.qrCodeCreatorModel.SetQrCodeImage(bitmap);
             message = $"QR code image saved to {filePath}";
             success = true;
         }
@@ -111,5 +113,17 @@ public sealed partial class QrCodeViewModel :
             model.UseLogo, model.LogoImageBytes, model.LogoSize,
             model.UseBackground, model.BackgroundImageBytes, model.Coloring,
             model.ModuleShape);
+
+        // We need to wait until the UI thread has finished processing the grid construction before we can create the bitmap,
+        // By using DispatcherPriority.ApplicationIdle, we ensure that the bitmap is created after all other
+        // UI work has been completed. 130 ms is about two frames at 60 fps, which should be enough time... 
+        Schedule.OnUiThread(
+            130,
+            () =>
+            {
+                var bitmap = this.View.FrameGrid.CreateHighQualityImage();
+                this.qrCodeCreatorModel.SetQrCodeImage(bitmap);
+            }, 
+            DispatcherPriority.ApplicationIdle);
     }
 }
