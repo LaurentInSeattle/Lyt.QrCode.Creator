@@ -15,57 +15,85 @@
 		ShowGridLines="False"
 		>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="80" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="80" />
 			<RowDefinition Height="8" />
+			<RowDefinition Height="80" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Grid
-			x:Name="FrameGrid"
-			Grid.Row="0"
-			IsVisible="{Binding HasData}"
-			ShowGridLines="False"
-			> 
-		  <Grid.RowDefinitions>
-				<RowDefinition Height="0" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="0" />
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="0" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="0" />
-			</Grid.ColumnDefinitions>
-			<TextBlock
-				x:Name="TopTextBlock"
-				Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
-				Margin="0"
-				Theme="{StaticResource H1}"
-				TextAlignment="Center"
-				VerticalAlignment="Center" HorizontalAlignment="Stretch"
-				/>
-			<TextBlock
-				x:Name="BottomTextBlock"
-				Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" 
-				Margin="0 -4 0 0"
-				Theme="{StaticResource H3}"
-				TextAlignment="Center"
-				VerticalAlignment="Center" HorizontalAlignment="Stretch"
-				/>
-		</Grid>
 		<TextBlock
-			IsVisible="{Binding !HasData}"
-			Margin="0 20 0 20"
-			Text="- No Content Yet -"
-			Theme="{StaticResource Alert}"
+			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
+			Margin="0"
+			Theme="{StaticResource H1}"
+			Text="{Binding DecodingStatusText}"
+			Foreground="{Binding DecodingStatusColor}"
 			TextAlignment="Center"
-			VerticalAlignment="Center" HorizontalAlignment="Stretch"
+			VerticalAlignment="Center" HorizontalAlignment="Center"
 			/>
+		<Grid
+			Grid.Row="1"
+			>			
+			<Grid
+				x:Name="FrameGrid"
+				IsVisible="{Binding ShowPrimaryImage}"
+				ShowGridLines="False"
+				> 
+			  <Grid.RowDefinitions>
+					<RowDefinition Height="0" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="0" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="0" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="0" />
+				</Grid.ColumnDefinitions>
+				<TextBlock
+					x:Name="TopTextBlock"
+					Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
+					Margin="0"
+					Theme="{StaticResource H1}"
+					TextAlignment="Center"
+					VerticalAlignment="Center" HorizontalAlignment="Stretch"
+					/>
+				<TextBlock
+					x:Name="BottomTextBlock"
+					Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" 
+					Margin="0 -4 0 0"
+					Theme="{StaticResource H3}"
+					TextAlignment="Center"
+					VerticalAlignment="Center" HorizontalAlignment="Stretch"
+					/>
+			</Grid>
+			<Grid
+				IsVisible="{Binding ShowTestImage}"
+				Width="{Binding TestImageWidth}"
+				Height="{Binding TestImageHeight}"
+				>
+				<Image		
+					Grid.Column="1" Grid.Row="1"
+					Source="{Binding ImageSource}"	
+					/>
+				<Rectangle
+					Grid.Column="1" Grid.Row="1"
+					Fill="{Binding ExposureColor}"
+					Opacity="{Binding ExposureOpacity}"
+					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+					/>
+				<Rectangle
+					Grid.Column="1" Grid.Row="1"
+					Fill="{Binding TemperatureColor}"
+					Opacity="{Binding TemperatureOpacity}"
+					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+					/>
+			</Grid>
+		</Grid>
 		<glyphs:GlyphButton
 			Style="{StaticResource ViewIconButton}"
 			IsDisabled="{Binding !HasData}"
 			HorizontalAlignment="Center" VerticalAlignment="Center"
-			Grid.Row="1"
+			Grid.Row="2"
 			Width="400" Height="52"
 			Margin="0 4 0 4"
 			FontSize="24"
@@ -76,15 +104,22 @@
 			Command="{Binding OnSave}"
 			/>
 		<TextBlock
-			IsVisible="{Binding HasData}"
-			Grid.Row="3"
-			Margin="12"
-			MaxWidth="800"
-			Text="{Binding EncodedString}"
-			Theme="{StaticResource Medium}"
+			Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
+			Text="{Binding ContentType}"
+			Theme="{StaticResource H1}"
+			Foreground="{StaticResource Secondary.TextColor}"
 			TextWrapping="Wrap"
-			TextAlignment="Left"
-			VerticalAlignment="Top" HorizontalAlignment="Left"
+			TextAlignment="Center"
+			VerticalAlignment="Center" HorizontalAlignment="Center"
+			/>
+		<TextBlock
+			Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" 
+			Text="{Binding RawContent}"
+			Theme="{StaticResource H3}"
+			Foreground="{StaticResource Secondary.TextColor}"
+			TextWrapping="Wrap"
+			TextAlignment="Center"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 	</Grid>
 </UserControl>

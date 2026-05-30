@@ -58,10 +58,6 @@
 				</ControlTemplate>
 			</Setter>
 		</Style>
-		<Style Selector="shared|ContainerControl"> 
-			<Setter Property="Width" Value="820"/>
-			<Setter Property="HorizontalAlignment" Value="Left"/>
-		</Style>
 		<Style Selector="shared|OptionControl"> 
 			<Setter Property="Width" Value="800"/>
 			<Setter Property="HorizontalAlignment" Value="Left"/>
@@ -80,7 +76,7 @@
 			<ColumnDefinition Width="10" />
 			<ColumnDefinition Width="850"/>  
 			<ColumnDefinition Width="16" /> 
-			<ColumnDefinition Width="*" MinWidth="400"/>
+			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="10" />
 		</Grid.ColumnDefinitions>
 
@@ -184,6 +180,7 @@
 					x:Name="ContentContainer"
 					Title="Data Content"
 					Text="Select the type of content to include in your QR code, then populate the corresponding form."
+					Width="820"
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<vm:ContentView 
@@ -198,6 +195,7 @@
 					x:Name="ModulesContainer"
 					Title="Pick Module Size and Colours"
 					Text="Select here the size and the colours of the modules. A strong colour contrast is still needed."
+					Width="820"
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<design:ModulesView
@@ -212,6 +210,7 @@
 					x:Name="FrameContainer"
 					Title="Framing your Content "
 					Text="You can add a frame around the QR Code to make clear for users what is going to happen when scanning the code."
+					Width="820"
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<shared:OptionControl
@@ -232,6 +231,7 @@
 					x:Name="LogoContainer"
 					Title="Adding your Logo. (or any Image)"		
 					Text="QR Code encoding is redondant and allows for the loss of some pixels, thus making room for a small logo or image."
+					Width="820"
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<shared:OptionControl
@@ -251,6 +251,7 @@
 					x:Name="BackgroundContainer"
 					Title="Add a Background Image."
 					Text="You can replace the uniform background with an image of your choice. To ensure proper scanning, it needs to be luminous and low constrast."
+					Width="820"
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<shared:OptionControl
@@ -270,6 +271,7 @@
 					x:Name="ShapesContainer"
 					Title="Customize Module Shapes."
 					Text="When using modules with a large pixel count, at least above 20, you can customize their shape without compromising decoding."
+					Width="820"
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<design:ShapesView
@@ -283,6 +285,7 @@
 					x:Name="OutputFormatContainer"
 					Title="Select the Output Format and Location"
 					Text="Choose the output location on disk and the file format for the final QR Code image."
+					Width="820"
 					>
 					<shared:ContainerControl.ContainerControlContent>
 						<design:OutputFormatView
@@ -314,41 +317,22 @@
 			Opacity="0.55"
 			/>
 		-->
-		<StackPanel
-			Grid.Row="1" Grid.RowSpan="2" Grid.Column="3"
-			>			
-			<shared:ContainerControl
-				x:Name="QrCodeContainer"
-				IsAlwaysVisible="True"
-				Title="QR Code Image"
-				Text="Save or download your generated QR Code; Check how reliably your QR code can be scanned in various simulated lighting conditions."
-				>
-				<shared:ContainerControl.ContainerControlContent>
-					<vm:QrCodeView
-						x:Name="QrCodeView"
-						DataContext="{Binding QrCodeViewModel}"
-						Margin="2"
-						Background="Transparent"
-						VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-						/>
-				</shared:ContainerControl.ContainerControlContent>
-			</shared:ContainerControl>
-			<shared:ContainerControl
-				IsVisible="False"
-				x:Name="TestImageContainer"
-				Title="Test Image"
-				Text="Test how reliably your QR code can be scanned in various simulated lighting conditions."
-				>
-				<shared:ContainerControl.ContainerControlContent>
-					<vm:TestImageView
-						x:Name="TestImageView"
-						DataContext="{Binding TestImageViewModel}"
-						Margin="2"
-						Background="Transparent"
-						VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-						/>
-				</shared:ContainerControl.ContainerControlContent>
-			</shared:ContainerControl>
-		</StackPanel>
+		<shared:ContainerControl
+			x:Name="QrCodeContainer"
+			Grid.Row="1" Grid.RowSpan="999" Grid.Column="3"
+			IsAlwaysVisible="True"
+			Title="QR Code Image"
+			Text="Save or download your generated QR Code then check how reliably your QR code can be scanned in various simulated lighting conditions."
+			>
+			<shared:ContainerControl.ContainerControlContent>
+				<vm:QrCodeView
+					x:Name="QrCodeView"
+					DataContext="{Binding QrCodeViewModel}"
+					Margin="2"
+					Background="Transparent"
+					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+					/>
+			</shared:ContainerControl.ContainerControlContent>
+		</shared:ContainerControl>
 	</Grid>
 </UserControl>

@@ -2,7 +2,8 @@
 
 public sealed partial class QrCodeViewModel :
     ViewModel<QrCodeView>,
-    IRecipient<ModelChangedMessage>
+    IRecipient<ModelChangedMessage>,
+    IRecipient<ImageGeneratedMessage>
 {
     private readonly QrCodeCreatorModel qrCodeCreatorModel;
     private readonly Dictionary<string, FontFamily> fontFamiliesDictionary;
@@ -11,7 +12,46 @@ public sealed partial class QrCodeViewModel :
     public partial bool HasData { get; set; }
 
     [ObservableProperty]
+    public partial bool ShowPrimaryImage { get; set; }
+
+    [ObservableProperty]
+    public partial bool ShowTestImage { get; set; }
+
+    [ObservableProperty]
     public partial string EncodedString { get; set; }
+
+    [ObservableProperty]
+    public partial Bitmap? ImageSource { get; private set; }
+
+    [ObservableProperty]
+    public partial double TestImageWidth { get; private set; }
+
+    [ObservableProperty]
+    public partial double TestImageHeight { get; private set; }
+
+    [ObservableProperty]
+    public partial string DecodingStatusText { get; private set; }
+
+    [ObservableProperty]
+    public partial SolidColorBrush DecodingStatusColor { get; private set; }
+
+    [ObservableProperty]
+    public partial string RawContent { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string ContentType { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial SolidColorBrush ExposureColor { get; private set; }
+
+    [ObservableProperty]
+    public partial double ExposureOpacity { get; private set; }
+
+    [ObservableProperty]
+    public partial SolidColorBrush TemperatureColor { get; private set; }
+
+    [ObservableProperty]
+    public partial double TemperatureOpacity { get; private set; }
 
     public QrCodeViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     {
@@ -24,7 +64,21 @@ public sealed partial class QrCodeViewModel :
         // Enforce property changed 
         this.HasData = true;
         this.HasData = false;
+        this.ShowPrimaryImage = true;
+        this.ShowPrimaryImage = false;
+        this.ShowTestImage = true;
+        this.ShowTestImage = false;
+
         this.EncodedString = string.Empty;
+
+        this.DecodingStatusText = "No image generated yet.";
+        this.DecodingStatusColor = new SolidColorBrush(Colors.Gray);
+        this.ExposureColor = new SolidColorBrush(Colors.Transparent);
+        this.ExposureOpacity = 0.0;
+        this.TemperatureColor = new SolidColorBrush(Colors.Transparent);
+        this.TemperatureOpacity = 0.0;
+
+        this.Subscribe<ImageGeneratedMessage>();
     }
 
     [RelayCommand]
@@ -63,10 +117,9 @@ public sealed partial class QrCodeViewModel :
         }
     }
 
-    public void Receive(ModelChangedMessage message)
-        => Dispatch.OnUiThread(() => this.ReceiveOnUiThread(message));
+    public void Receive(ModelChangedMessage _) => Dispatch.OnUiThread(this.ReceiveModelChangedOnUiThread);
 
-    private void ReceiveOnUiThread(ModelChangedMessage _)
+    private void ReceiveModelChangedOnUiThread()
     {
         // Debug.WriteLine("Model changed message received in QrCodeViewModel");
         var model = this.qrCodeCreatorModel;
@@ -77,6 +130,8 @@ public sealed partial class QrCodeViewModel :
         }
 
         this.HasData = true;
+        this.ShowPrimaryImage = true;
+        this.ShowTestImage = false;
         this.EncodedString = model.QrCodeContent.QrString;
         var trueBrush = new SolidColorBrush(model.TrueColor);
         var falseBrush =
@@ -125,5 +180,80 @@ public sealed partial class QrCodeViewModel :
                 this.qrCodeCreatorModel.SetQrCodeImage(bitmap);
             }, 
             DispatcherPriority.ApplicationIdle);
+    }
+
+    public void Receive(ImageGeneratedMessage _) => Dispatch.OnUiThread(this.ReceiveImageGeneratedOnUiThread);
+
+    private void ReceiveImageGeneratedOnUiThread()
+    {
+        var model = this.qrCodeCreatorModel;
+        if (model.QrCodeImage is not Bitmap image)
+        {
+            return;
+        }
+
+        Debug.WriteLine("Image generated message received in Test Image ViewModel");
+        this.ShowPrimaryImage = false;
+        this.ShowTestImage = true;
+        this.TestImageWidth = image.PixelSize.Width;
+        this.TestImageHeight = image.PixelSize.Height;
+        this.ImageSource = image;
+        _ = this.TryDecode(image);
+    }
+
+    private async Task TryDecode(Bitmap bitmap)
+    {
+        var sourceImage = ImagingUtilities.BitmapToSourceImage(bitmap);
+        DecodeResult result = Qr.Decode(sourceImage);
+        if (result.Success)
+        {
+            Debug.WriteLine($"QR code decoded");
+
+            if (result.IsParsed)
+            {
+                Debug.WriteLine($"QR code content: {result.ParsedObject.GetType().Name}");
+            }
+        }
+        else
+        {
+            Debug.WriteLine($"QR code decoding failed");
+        }
+
+        // Update the UI 
+        Dispatch.OnUiThread(() => this.UpdateUiOnDecoding(result));
+    }
+
+    private void UpdateUiOnDecoding(DecodeResult result)
+    {
+        bool success = result.Success;
+        if (success)
+        {
+            this.DecodingStatusText = "Image decoded successfully.";
+            this.DecodingStatusColor = new SolidColorBrush(Colors.Green);
+            this.RawContent = result.Text;
+            if (result.IsParsed)
+            {
+                string contentType = result.ParsedObject.GetType().Name;
+                Debug.WriteLine($"QR code content: {contentType}");
+                this.ContentType = contentType;
+            }
+            else if (QrUrl.TryParse(result.Text, out QrUrl? qrUrl))
+            {
+                Debug.WriteLine($"QR code content is a URL: {qrUrl}");
+                this.ContentType = "Web Page (URL)";
+            }
+            else
+            {
+                Debug.WriteLine($"QR code content is plain text.");
+                this.ContentType = "Plain Text";
+            }
+        }
+        else
+        {
+            this.RawContent = string.Empty;
+            this.ContentType = string.Empty;
+            this.DecodingStatusText = "Failed to decode the image.";
+            this.DecodingStatusColor = new SolidColorBrush(Colors.Firebrick);
+        }
     }
 }
