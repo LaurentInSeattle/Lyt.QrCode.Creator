@@ -2,6 +2,8 @@ namespace Lyt.QrCode.Creator.Workflow.Encoding;
 
 using global::Avalonia.Controls; // For 'Image', conflicting with one 'Lyt' namespace
 
+using Lyt.Avalonia.Controls.Images;
+
 public partial class QrCodeView : View
 {
     internal void ConstructGrid(
@@ -32,11 +34,13 @@ public partial class QrCodeView : View
 
         this.FrameGrid.Background = frameBackgroundBrush;
         var frameRows = this.FrameGrid.RowDefinitions;
-        var frameCols = this.FrameGrid.ColumnDefinitions;
         frameRows[0].Height = new GridLength(frameSize, GridUnitType.Pixel);
         frameRows[2].Height = new GridLength(frameSize, GridUnitType.Pixel);
-        frameCols[0].Width = new GridLength(frameSize, GridUnitType.Pixel);
-        frameCols[2].Width = new GridLength(frameSize, GridUnitType.Pixel);
+
+        // Frame columns are made slightly smaller
+        var frameCols = this.FrameGrid.ColumnDefinitions;
+        frameCols[0].Width = new GridLength(frameSize* 0.8, GridUnitType.Pixel);
+        frameCols[2].Width = new GridLength(frameSize * 0.8, GridUnitType.Pixel);
 
         if (frame == 0)
         {
@@ -249,12 +253,13 @@ public partial class QrCodeView : View
             {
                 using var ms = new MemoryStream(logoImageBytes);
                 var bitmap = new Bitmap(ms);
-                var image = new Image()
+                var image = new RoundedImage()
                 {
                     Source = bitmap,
                     Stretch = Stretch.UniformToFill,
                 };
 
+                image.SetValue(RoundedImage.CornerRadiusProperty, moduleSize);
                 logoGrid.Children.Add(image);
             }
         }
