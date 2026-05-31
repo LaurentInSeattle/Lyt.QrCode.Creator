@@ -89,13 +89,25 @@ public sealed partial class QrCodeViewModel :
             return;
         }
 
+        // We want to show the primary image when saving, as the test image may have test overlays
+        // that we don't want to see in the saved image
+        this.ShowPrimaryImage = true;
+        this.ShowTestImage = false;
+
+        // We need to wait until the UI thread has swapping images.
+        // 130 ms is about two frames at 60 fps, which should be enough time... 
+        Schedule.OnUiThread(130,this.DoSave,DispatcherPriority.ApplicationIdle);
+    }
+
+    private void DoSave ()
+    {
         bool success = false;
         string message = string.Empty;
         try
         {
             // Save to desktop or documents depending on model settings
-            string filePath = this.qrCodeCreatorModel.OutputFilePath();
             var bitmap = this.View.FrameGrid.CreateHighQualityImage();
+            string filePath = this.qrCodeCreatorModel.OutputFilePath();
             bitmap.Save(filePath);
             message = $"QR code image saved to {filePath}";
             success = true;
@@ -113,6 +125,10 @@ public sealed partial class QrCodeViewModel :
                 message,
                 success ? 10_000 : 30_000,
                 success ? InformationLevel.Success : InformationLevel.Error);
+
+            // Restore the test image if it was showing before
+            this.ShowPrimaryImage = false;
+            this.ShowTestImage = true;
         }
     }
 
