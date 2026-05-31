@@ -8,6 +8,8 @@ Avalonia Application to create QR Codes based on the Lyt.QrCode library: https:/
 
 Camera (Webcam) support is only partially implemented, for Windows only. The "Camera" tab is still a work in progress. 
 
+<p align="left"><img src="Screenshots/Screenshot 2026-05-31 163123.png" height="600"/>
+
 # Localization
 
 - Coming soon... 
