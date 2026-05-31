@@ -15,6 +15,9 @@
     <Project Path="../Lyt.Framework/Lyt.Utilities/Lyt.Utilities.csproj" />
     <Project Path="../Lyt.Framework/Lyt.Validation/Lyt.Validation.csproj" />
   </Folder>
+  <Folder Name="/Solution Folder/">
+    <File Path="README.md" />
+  </Folder>
   <Folder Name="/Tools/">
     <File Path="README.md" />
     <File Path="Tools/Lyt.Translator.Cli.exe" />
