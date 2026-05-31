@@ -13,7 +13,7 @@ public partial class QrCodeView : View
         int topTextFontSize, int bottomTextFontSize,
         int topTextFontWeight, int bottomTextFontWeight,
         FontFamily fontFamily,
-        bool useLogo, byte[] logoImageBytes, double logoSize,
+        bool useLogo, byte[] logoImageBytes, double logoSize, int logoQuietZone,
         bool useBackground, byte[] backgroundImageBytes, double coloring, double darkModulesOpacity,
         ModuleShape moduleShape)
     {
@@ -205,6 +205,11 @@ public partial class QrCodeView : View
                     continue;
                 }
 
+                if (IsLogoQuietZone(useLogo, i, j, rows, cols, (int)Math.Round(rows * logoSize), logoQuietZone))
+                {
+                    continue;
+                }
+
                 var shape = CreateModuleShape(i, j);                
                 Grid.SetRow(shape, i + 1);
                 Grid.SetColumn(shape, j + 1);
@@ -267,5 +272,22 @@ public partial class QrCodeView : View
 
         // TODO: Verify: Maybe not needed
         this.FrameGrid.InvalidateVisual();
+    }
+
+    private bool IsLogoQuietZone(
+        bool useLogo, int i, int j, int rows, int cols, int logoSize, int logoQuietZone)
+    {
+        if ( !useLogo || logoQuietZone <= 0)
+        {
+            return false;
+        }
+
+        int centerCol = cols / 2;
+        int centerRow = rows / 2;
+        int halfLogoSize = logoSize / 2;
+        return i >= centerRow - halfLogoSize - logoQuietZone &&
+               i <= centerRow + halfLogoSize + logoQuietZone &&
+               j >= centerCol - halfLogoSize - logoQuietZone &&
+               j <= centerCol + halfLogoSize + logoQuietZone;
     }
 }

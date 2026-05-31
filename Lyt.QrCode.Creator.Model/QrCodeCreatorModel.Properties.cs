@@ -102,6 +102,9 @@ public sealed partial class QrCodeCreatorModel : ModelBase
     public double LogoSize { get; set; } = 0.25;
 
     [JsonIgnore]
+    public int LogoQuietZone { get; set; } = 1;
+
+    [JsonIgnore]
     public byte[] LogoImageBytes { get; set; } = [];
 
     // Background

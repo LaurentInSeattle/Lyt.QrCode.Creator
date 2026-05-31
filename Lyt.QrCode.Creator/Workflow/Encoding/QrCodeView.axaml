@@ -24,7 +24,7 @@
 		</Grid.RowDefinitions>
 		<TextBlock
 			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
-			Margin="32 0 0 0"
+			Margin="26 0 0 0"
 			Theme="{StaticResource H1}"
 			Text="{Binding DecodingStatusText}"
 			Foreground="{Binding DecodingStatusColor}"
@@ -36,13 +36,13 @@
 			IsDisabled="{Binding !HasData}"
 			HorizontalAlignment="Right" VerticalAlignment="Center"
 			Grid.Row="0"
-			Width="350" Height="54"
+			Width="280" Height="54"
 			Margin="0 4 0 4"
 			FontSize="24"
 			GlyphSource="save"
 			ButtonBackground="BorderlessRectangle"
 			GlyphStrokeThickness="0"
-			Text="Save QR Code Image"
+			Text="Save QR Code"
 			Command="{Binding OnSave}"
 			/>
 		<Grid
@@ -105,7 +105,7 @@
 		</Grid>
 		<TextBlock
 			Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
-			Margin="32 0 0 0"
+			Margin="26 0 0 0"
 			Text="{Binding ContentType}"
 			Theme="{StaticResource H1}"
 			Foreground="{StaticResource Secondary.TextColor}"
@@ -115,7 +115,7 @@
 			/>
 		<TextBlock
 			Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" 
-			Margin="32 0 0 0"
+			Margin="26 0 0 0"
 			Text="{Binding RawContent}"
 			Theme="{StaticResource H3}"
 			Foreground="{StaticResource Secondary.TextColor}"

@@ -308,6 +308,27 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             return true;
         });
 
+    public bool SetLogoQuietZone(int logoQuietZone) =>
+        this.ApiAction(() =>
+        {
+            // TODO: Magic numbers
+            if (logoQuietZone < 0)
+            {
+                // Too small
+                return false;
+            }
+
+            if (logoQuietZone > 2)
+            {
+                // Too big
+                return false;
+            }
+
+
+            this.LogoQuietZone = logoQuietZone;
+            return true;
+        });
+
     // Background Image
 
     public bool DoUseBackground(bool useBackground = true) =>

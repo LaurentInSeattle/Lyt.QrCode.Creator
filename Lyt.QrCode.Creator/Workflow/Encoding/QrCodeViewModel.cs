@@ -97,7 +97,6 @@ public sealed partial class QrCodeViewModel :
             string filePath = this.qrCodeCreatorModel.OutputFilePath();
             var bitmap = this.View.FrameGrid.CreateHighQualityImage();
             bitmap.Save(filePath);
-            this.qrCodeCreatorModel.SetQrCodeImage(bitmap);
             message = $"QR code image saved to {filePath}";
             success = true;
         }
@@ -165,7 +164,7 @@ public sealed partial class QrCodeViewModel :
             topTextFontSize, bottomTextFontSize,
             topTextFontWeight, bottomTextFontWeight,
             fontFamily,
-            model.UseLogo, model.LogoImageBytes, model.LogoSize,
+            model.UseLogo, model.LogoImageBytes, model.LogoSize, model.LogoQuietZone,
             model.UseBackground, model.BackgroundImageBytes, model.Coloring, model.DarkModulesOpacity,
             model.ModuleShape);
 
