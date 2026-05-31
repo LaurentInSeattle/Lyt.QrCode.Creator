@@ -57,11 +57,8 @@ public sealed partial class QrCodeCreatorModel : ModelBase
         this.IsDirty = false;
     }
 
-    public override async Task Shutdown()
-    {
-        // Force a save on shutdown 
-        await this.Save();
-    }
+    // Force a save on shutdown 
+    public override async Task Shutdown() => await this.Save();
 
     public Task Load()
     {

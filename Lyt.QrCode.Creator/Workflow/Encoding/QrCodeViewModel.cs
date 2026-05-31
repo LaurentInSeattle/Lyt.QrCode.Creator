@@ -166,7 +166,7 @@ public sealed partial class QrCodeViewModel :
             topTextFontWeight, bottomTextFontWeight,
             fontFamily,
             model.UseLogo, model.LogoImageBytes, model.LogoSize,
-            model.UseBackground, model.BackgroundImageBytes, model.Coloring,
+            model.UseBackground, model.BackgroundImageBytes, model.Coloring, model.DarkModulesOpacity,
             model.ModuleShape);
 
         // We need to wait until the UI thread has finished processing the grid construction before we can create the bitmap,

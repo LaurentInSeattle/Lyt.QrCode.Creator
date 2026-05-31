@@ -14,7 +14,7 @@ public partial class QrCodeView : View
         int topTextFontWeight, int bottomTextFontWeight,
         FontFamily fontFamily,
         bool useLogo, byte[] logoImageBytes, double logoSize,
-        bool useBackground, byte[] backgroundImageBytes, double coloring,
+        bool useBackground, byte[] backgroundImageBytes, double coloring, double darkModulesOpacity,
         ModuleShape moduleShape)
     {
         double screenScaling = App.MainWindow.Screens.ScreenFromVisual(this)?.Scaling ?? 1.0;
@@ -141,12 +141,15 @@ public partial class QrCodeView : View
         // Add QR code modules above background image and below logo ( if any )
         Shape CreateModuleShape(int i, int j)
         {
-            var brush = modules[i, j] ? trueBrush : falseBrush;
+            bool isDark = modules[i, j];
+            var brush = isDark ? trueBrush : falseBrush;
+            double opacity = isDark && useBackground ? darkModulesOpacity : 1.0;
             return moduleShape switch
             {
                 ModuleShape.Square => new Rectangle()
                 {
                     Fill = brush,
+                    Opacity = opacity,
                     RadiusX = 0,
                     RadiusY = 0,
                     Stroke = Brushes.Transparent,
@@ -156,6 +159,7 @@ public partial class QrCodeView : View
                 ModuleShape.Circle => new Ellipse()
                 {
                     Fill = brush,
+                    Opacity = opacity,
                     Height = moduleSize,
                     Width = moduleSize,
                 },
@@ -163,6 +167,9 @@ public partial class QrCodeView : View
                 ModuleShape.RoundedSquare => new Rectangle()
                 {
                     Fill = brush,
+                    Height = moduleSize * 1.05,
+                    Width = moduleSize * 1.05,
+                    Opacity = opacity,
                     RadiusX = moduleSize / 4.0,
                     RadiusY = moduleSize / 4.0,
                     Stroke = Brushes.Transparent,
@@ -193,7 +200,12 @@ public partial class QrCodeView : View
         {
             for (int j = 0; j < cols; j++)
             {
-                var shape = CreateModuleShape(i, j);
+                if (!modules[i, j])
+                {
+                    continue;
+                }
+
+                var shape = CreateModuleShape(i, j);                
                 Grid.SetRow(shape, i + 1);
                 Grid.SetColumn(shape, j + 1);
                 grid.Children.Add(shape);

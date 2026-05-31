@@ -17,19 +17,33 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="80" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="80" />
+			<RowDefinition Height="0" /> <!-- Was: button -->
 			<RowDefinition Height="8" />
 			<RowDefinition Height="80" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<TextBlock
 			Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" 
-			Margin="0"
+			Margin="32 0 0 0"
 			Theme="{StaticResource H1}"
 			Text="{Binding DecodingStatusText}"
 			Foreground="{Binding DecodingStatusColor}"
-			TextAlignment="Center"
-			VerticalAlignment="Center" HorizontalAlignment="Center"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<glyphs:GlyphButton
+			Style="{StaticResource ViewIconButton}"
+			IsDisabled="{Binding !HasData}"
+			HorizontalAlignment="Right" VerticalAlignment="Center"
+			Grid.Row="0"
+			Width="350" Height="54"
+			Margin="0 4 0 4"
+			FontSize="24"
+			GlyphSource="save"
+			ButtonBackground="BorderlessRectangle"
+			GlyphStrokeThickness="0"
+			Text="Save QR Code Image"
+			Command="{Binding OnSave}"
 			/>
 		<Grid
 			Grid.Row="1"
@@ -89,31 +103,19 @@
 					/>
 			</Grid>
 		</Grid>
-		<glyphs:GlyphButton
-			Style="{StaticResource ViewIconButton}"
-			IsDisabled="{Binding !HasData}"
-			HorizontalAlignment="Center" VerticalAlignment="Center"
-			Grid.Row="2"
-			Width="400" Height="52"
-			Margin="0 4 0 4"
-			FontSize="24"
-			GlyphSource="save"
-			ButtonBackground="BorderlessRectangle"
-			GlyphStrokeThickness="0"
-			Text="Save QR Code Image"
-			Command="{Binding OnSave}"
-			/>
 		<TextBlock
 			Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 
+			Margin="32 0 0 0"
 			Text="{Binding ContentType}"
 			Theme="{StaticResource H1}"
 			Foreground="{StaticResource Secondary.TextColor}"
 			TextWrapping="Wrap"
-			TextAlignment="Center"
-			VerticalAlignment="Center" HorizontalAlignment="Center"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 		<TextBlock
 			Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" 
+			Margin="32 0 0 0"
 			Text="{Binding RawContent}"
 			Theme="{StaticResource H3}"
 			Foreground="{StaticResource Secondary.TextColor}"

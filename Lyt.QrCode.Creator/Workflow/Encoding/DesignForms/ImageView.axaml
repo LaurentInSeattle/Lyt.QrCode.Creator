@@ -16,6 +16,8 @@
 			<RowDefinition Height="140" />   <!-- Drop zone  --> 
 			<RowDefinition Height="40" />	<!-- Size Prompt  --> 
 			<RowDefinition Height="40" />   <!-- Size Slider   --> 
+			<RowDefinition Height="40" />	<!-- Opacity Prompt  --> 
+			<RowDefinition Height="40" />   <!-- Opacity Slider   --> 
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="40" />
@@ -59,6 +61,33 @@
 			Theme="{StaticResource Large}"
 			VerticalAlignment="Center" HorizontalAlignment="Right"
 			Text="{Binding ColoringString}"
+			/>
+		<TextBlock
+			Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" 
+			Margin="12 0 0 0"
+			Text="Adjust the amount of opacity of the dark modules."
+			Theme="{StaticResource Medium}"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<Slider 
+			Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" 
+			Margin="12 -24 64 4 "
+			VerticalAlignment="Center" HorizontalAlignment="Stretch"
+			TickFrequency="0.01"
+			TickPlacement="BottomRight"
+			IsSnapToTickEnabled="True"
+			SmallChange="0.05" LargeChange="0.1"
+			Minimum="0.5"
+			Maximum="1.0"
+			Value="{Binding OpacitySliderValue}"
+			/>
+		<TextBlock
+			Grid.Row="5" Grid.Column="2" 
+			Margin="0 -20 0 0"
+			Theme="{StaticResource Large}"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			Text="{Binding OpacityString}"
 			/>
 	</Grid>
 </UserControl>

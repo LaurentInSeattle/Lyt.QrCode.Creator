@@ -353,7 +353,7 @@ public sealed partial class QrCodeCreatorModel : ModelBase
                 return false;
             }
 
-            if (coloring > 0.99)
+            if (coloring > 1.0)
             {
                 // Too big
                 return false;
@@ -363,6 +363,28 @@ public sealed partial class QrCodeCreatorModel : ModelBase
             this.Coloring = coloring;
             return true;
         });
+
+    public void SetDarkModulesOpacity(double opacity) => 
+        this.ApiAction(() =>
+        {
+        // TODO: Magic numbers
+        if (opacity < 0.0)
+        {
+            // Too small
+            return false;
+        }
+
+        if (opacity > 1.0)
+        {
+            // Too big
+            return false;
+        }
+
+
+        this.DarkModulesOpacity = opacity;
+        return true;
+    });
+
 
     public void UpdateOutputFilename(string filename) =>
         this.ApiAction(() =>

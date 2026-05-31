@@ -8,9 +8,6 @@ public sealed partial class EncodingViewModel(QrCodeCreatorModel qrCodeCreatorMo
     public partial QrCodeViewModel QrCodeViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
-    public partial TestImageViewModel TestImageViewModel { get; set; } = new(qrCodeCreatorModel);
-
-    [ObservableProperty]
     public partial ContentViewModel ContentViewModel { get; set; } = new(qrCodeCreatorModel);
 
     [ObservableProperty]
