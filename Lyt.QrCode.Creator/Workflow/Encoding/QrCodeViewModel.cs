@@ -65,6 +65,12 @@ public sealed partial class QrCodeViewModel :
     [ObservableProperty]
     public partial string TemperatureString { get; private set; } = string.Empty;
 
+    [ObservableProperty]
+    public partial string TestImageDecodingStatusText { get; private set; }
+
+    [ObservableProperty]
+    public partial SolidColorBrush TestImageDecodingStatusColor { get; private set; }
+
     public QrCodeViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     {
         this.qrCodeCreatorModel = qrCodeCreatorModel;
@@ -89,23 +95,48 @@ public sealed partial class QrCodeViewModel :
         this.ExposureOpacity = 0.0;
         this.TemperatureColor = new SolidColorBrush(Colors.Transparent);
         this.TemperatureOpacity = 0.0;
+
+        // Enforce property changed 
+        this.ExposureSliderValue = 0.01;
+        this.TemperatureSliderValue = 0.01;
         this.ExposureSliderValue = 0.0; 
-        this.TemperatureSliderValue = 0.0; 
+        this.TemperatureSliderValue = 0.0;
+
+        this.TestImageDecodingStatusText = string.Empty;
+        this.TestImageDecodingStatusColor = new SolidColorBrush(Colors.Gray);
 
         this.Subscribe<ImageGeneratedMessage>();
     }
 
     partial void OnExposureSliderValueChanged(double value)
     {
-        // int intValue = (int)(value + 0.5);
-        // this.qrCodeCreatorModel.SetColoring(value / 100.0);
+        if ( value > 0.0)
+        {
+            this.ExposureColor = new SolidColorBrush(Colors.White);
+            this.ExposureOpacity = value;
+        }
+        else
+        {
+            this.ExposureColor = new SolidColorBrush(Colors.Black);
+            this.ExposureOpacity = -value;
+        } 
+
         this.ExposureString = string.Format("{0:F1} %", value);
     }
 
     partial void OnTemperatureSliderValueChanged(double value)
     {
-        // int intValue = (int)(value + 0.5);
-        // this.qrCodeCreatorModel.SetTemperature(value / 100.0);
+        if (value > 0.0)
+        {
+            this.TemperatureColor = new SolidColorBrush(Colors.OrangeRed);
+            this.TemperatureOpacity = value;
+        }
+        else
+        {
+            this.TemperatureColor = new SolidColorBrush(Colors.DodgerBlue);
+            this.TemperatureOpacity = -value;
+        }
+
         this.TemperatureString = string.Format("{0:F1} %", value);
     }
 
@@ -114,6 +145,12 @@ public sealed partial class QrCodeViewModel :
     {
         this.ExposureSliderValue = 0.0;
         this.TemperatureSliderValue = 0.0;
+    }
+    
+    [RelayCommand]
+    public void OnTryDecode()
+    {
+        // TODO 
     }
 
     [RelayCommand]

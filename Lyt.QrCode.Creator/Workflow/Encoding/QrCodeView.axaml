@@ -110,24 +110,38 @@
 				<RowDefinition Height="40" />   <!-- Exposure Slider   --> 
 				<RowDefinition Height="40" />	<!-- Temperature Prompt  --> 
 				<RowDefinition Height="40" />   <!-- Temperature Slider   --> 
+				<RowDefinition Height="60" />   <!-- Decode Result --> 
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="40" />
 				<ColumnDefinition Width="*" /> <!-- Sliders --> 
-				<ColumnDefinition Width="160" /> <!-- Reset Button -->
+				<ColumnDefinition Width="16" /> <!-- Spacer -->
+				<ColumnDefinition Width="290" /> <!-- Buttons -->
 			</Grid.ColumnDefinitions>
 		<glyphs:GlyphButton
+			Grid.Column="3" Grid.Row="2" 
 			Style="{StaticResource ViewIconButton}"
-			Layout="IconTextBelow"
 			HorizontalAlignment="Center" VerticalAlignment="Center"
-			Grid.Column="2" Grid.Row="1" Grid.RowSpan="4"
-			Width="140" Height="140"
-			Margin="4"
+			Width="280" Height="54"
+			Margin="0 -16 0 0"
+			FontSize="24"
+			GlyphSource="text_align_distributed"
+			ButtonBackground="BorderlessRectangle"
+			GlyphStrokeThickness="0"
+			Text="Try Decode"
+			Command="{Binding OnTryDecode}"
+			/>
+		<glyphs:GlyphButton
+			Grid.Column="3" Grid.Row="4" 
+			Style="{StaticResource ViewIconButton}"
+			HorizontalAlignment="Center" VerticalAlignment="Center"
+			Width="280" Height="54"
+			Margin="0 -16 0 0"
 			FontSize="24"
 			GlyphSource="broom"
 			ButtonBackground="BorderlessRectangle"
 			GlyphStrokeThickness="0"
-			Text="Reset"
+			Text="Reset Simulation"
 			Command="{Binding OnResetLighting}"
 			/>
 		<TextBlock
@@ -144,10 +158,8 @@
 			VerticalAlignment="Center" HorizontalAlignment="Stretch"
 			TickFrequency="0.05"
 			TickPlacement="BottomRight"
-			IsSnapToTickEnabled="True"
 			SmallChange="0.05" LargeChange="0.1"
-			Minimum="-1.0"
-			Maximum="1.0"
+			Minimum="-0.5" Maximum="0.5"
 			Value="{Binding ExposureSliderValue}"
 			/>
 		<TextBlock
@@ -171,10 +183,8 @@
 			VerticalAlignment="Center" HorizontalAlignment="Stretch"
 			TickFrequency="0.05"
 			TickPlacement="BottomRight"
-			IsSnapToTickEnabled="True"
 			SmallChange="0.05" LargeChange="0.1"
-			Minimum="-1.0"
-			Maximum="1.0"
+			Minimum="-0.35" Maximum="0.35"
 			Value="{Binding TemperatureSliderValue}"
 			/>
 		<TextBlock
@@ -183,6 +193,15 @@
 			Theme="{StaticResource Large}"
 			VerticalAlignment="Center" HorizontalAlignment="Right"
 			Text="{Binding TemperatureString}"
+			/>
+		<TextBlock
+			Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5" 
+			Margin="0"
+			Theme="{StaticResource H1}"
+			Text="{Binding TestImageDecodingStatusText}"
+			Foreground="{Binding TestImageDecodingStatusColor}"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
 			/>
 		</Grid>
 		<TextBlock
