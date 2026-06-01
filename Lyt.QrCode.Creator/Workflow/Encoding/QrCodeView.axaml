@@ -81,6 +81,7 @@
 					/>
 			</Grid>
 			<Grid
+				x:Name="TestImageGrid"
 				IsVisible="{Binding ShowTestImage}"
 				Width="{Binding TestImageWidth}"
 				Height="{Binding TestImageHeight}"
@@ -129,7 +130,7 @@
 			ButtonBackground="BorderlessRectangle"
 			GlyphStrokeThickness="0"
 			Text="Try Decode"
-			Command="{Binding OnTryDecode}"
+			Command="{Binding OnTryDecodeTestImage}"
 			/>
 		<glyphs:GlyphButton
 			Grid.Column="3" Grid.Row="4" 
@@ -159,7 +160,7 @@
 			TickFrequency="0.05"
 			TickPlacement="BottomRight"
 			SmallChange="0.05" LargeChange="0.1"
-			Minimum="-0.5" Maximum="0.5"
+			Minimum="-0.55" Maximum="0.55"
 			Value="{Binding ExposureSliderValue}"
 			/>
 		<TextBlock
@@ -184,7 +185,7 @@
 			TickFrequency="0.05"
 			TickPlacement="BottomRight"
 			SmallChange="0.05" LargeChange="0.1"
-			Minimum="-0.35" Maximum="0.35"
+			Minimum="-0.45" Maximum="0.45"
 			Value="{Binding TemperatureSliderValue}"
 			/>
 		<TextBlock

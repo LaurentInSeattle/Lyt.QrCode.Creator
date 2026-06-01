@@ -1,5 +1,7 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding;
 
+using static System.Net.Mime.MediaTypeNames;
+
 public sealed partial class QrCodeViewModel :
     ViewModel<QrCodeView>,
     IRecipient<ModelChangedMessage>,
@@ -7,6 +9,10 @@ public sealed partial class QrCodeViewModel :
 {
     private readonly QrCodeCreatorModel qrCodeCreatorModel;
     private readonly Dictionary<string, FontFamily> fontFamiliesDictionary;
+
+    private bool isDecodingTestImage;
+
+    #region ObservableProperties 
 
     [ObservableProperty]
     public partial bool HasData { get; set; }
@@ -70,6 +76,8 @@ public sealed partial class QrCodeViewModel :
 
     [ObservableProperty]
     public partial SolidColorBrush TestImageDecodingStatusColor { get; private set; }
+
+    #endregion ObservableProperties 
 
     public QrCodeViewModel(QrCodeCreatorModel qrCodeCreatorModel)
     {
@@ -145,12 +153,22 @@ public sealed partial class QrCodeViewModel :
     {
         this.ExposureSliderValue = 0.0;
         this.TemperatureSliderValue = 0.0;
+        this.TestImageDecodingStatusText = string.Empty;
     }
-    
+
     [RelayCommand]
-    public void OnTryDecode()
+    public void OnTryDecodeTestImage()
     {
-        // TODO 
+        if (this.isDecodingTestImage)
+        {
+            return ;
+        }
+
+        this .isDecodingTestImage = true;
+        this.ShowTestImage = true;
+        var bitmap = this.View.TestImageGrid.CreateHighQualityImage();
+        _ = this.TryDecode(bitmap, isSourceImage: false);
+
     }
 
     [RelayCommand]
@@ -288,8 +306,17 @@ public sealed partial class QrCodeViewModel :
         _ = this.TryDecode(image);
     }
 
-    private async Task TryDecode(Bitmap bitmap)
+    private async Task TryDecode(Bitmap bitmap, bool isSourceImage= true)
     {
+        if (isSourceImage)
+        {
+            this.DecodingStatusText = string.Empty;
+        }
+        else
+        {
+            this.TestImageDecodingStatusText = string.Empty;
+        }
+
         var sourceImage = ImagingUtilities.BitmapToSourceImage(bitmap);
         DecodeResult result = Qr.Decode(sourceImage);
         if (result.Success)
@@ -306,41 +333,63 @@ public sealed partial class QrCodeViewModel :
             Debug.WriteLine($"QR code decoding failed");
         }
 
+        this.isDecodingTestImage = false;
+
         // Update the UI 
-        Dispatch.OnUiThread(() => this.UpdateUiOnDecoding(result));
+        Dispatch.OnUiThread(() => this.UpdateUiOnDecoding(result, isSourceImage));
     }
 
-    private void UpdateUiOnDecoding(DecodeResult result)
+    private void UpdateUiOnDecoding(DecodeResult result, bool isSourceImage)
     {
         bool success = result.Success;
         if (success)
         {
-            this.DecodingStatusText = "Image decoded successfully.";
-            this.DecodingStatusColor = new SolidColorBrush(Colors.Green);
-            this.RawContent = result.Text;
-            if (result.IsParsed)
+            if (isSourceImage)
             {
-                string contentType = result.ParsedObject.GetType().Name;
-                Debug.WriteLine($"QR code content: {contentType}");
-                this.ContentType = contentType;
-            }
-            else if (QrUrl.TryParse(result.Text, out QrUrl? qrUrl))
-            {
-                Debug.WriteLine($"QR code content is a URL: {qrUrl}");
-                this.ContentType = "Web Page (URL)";
+                this.DecodingStatusText = "QR Code decoded successfully.";
+                this.DecodingStatusColor = new SolidColorBrush(Colors.Green);
+
+                this.RawContent = result.Text;
+                string content; 
+                if (result.IsParsed)
+                {
+                    string contentType = result.ParsedObject.GetType().Name;
+                    Debug.WriteLine($"QR code content: {contentType}");
+                    content = contentType;
+                }
+                else if (QrUrl.TryParse(result.Text, out QrUrl? qrUrl))
+                {
+                    Debug.WriteLine($"QR code content is a URL: {qrUrl}");
+                    content = "Web Page (URL)";
+                }
+                else
+                {
+                    Debug.WriteLine($"QR code content is plain text.");
+                    content = "Plain Text";
+                }
+
+                this.ContentType = string.Concat("QR Code Content: ", content); 
             }
             else
             {
-                Debug.WriteLine($"QR code content is plain text.");
-                this.ContentType = "Plain Text";
+                this.TestImageDecodingStatusText = "Test image decoded successfully.";
+                this.TestImageDecodingStatusColor = new SolidColorBrush(Colors.Green);
             }
         }
         else
         {
-            this.RawContent = string.Empty;
-            this.ContentType = string.Empty;
-            this.DecodingStatusText = "Failed to decode the image.";
-            this.DecodingStatusColor = new SolidColorBrush(Colors.Firebrick);
+            if (isSourceImage)
+            {
+                this.RawContent = string.Empty;
+                this.ContentType = string.Empty;
+                this.DecodingStatusText = "Failed to decode the source image.";
+                this.DecodingStatusColor = new SolidColorBrush(Colors.Firebrick);
+            }
+            else
+            {
+                this.TestImageDecodingStatusText = "Failed to decode the test image.";
+                this.TestImageDecodingStatusColor = new SolidColorBrush(Colors.Firebrick);
+            }
         }
     }
 }
