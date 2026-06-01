@@ -17,7 +17,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="80" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="0" /> <!-- Was: button -->
+			<RowDefinition Height="Auto" /> <!-- Light simulation -->
 			<RowDefinition Height="8" />
 			<RowDefinition Height="80" />
 			<RowDefinition Height="Auto" />
@@ -86,22 +86,104 @@
 				Height="{Binding TestImageHeight}"
 				>
 				<Image		
-					Grid.Column="1" Grid.Row="1"
 					Source="{Binding ImageSource}"	
 					/>
 				<Rectangle
-					Grid.Column="1" Grid.Row="1"
 					Fill="{Binding ExposureColor}"
 					Opacity="{Binding ExposureOpacity}"
 					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 					/>
 				<Rectangle
-					Grid.Column="1" Grid.Row="1"
 					Fill="{Binding TemperatureColor}"
 					Opacity="{Binding TemperatureOpacity}"
 					VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
 					/>
 			</Grid>
+		</Grid>
+		<!-- Lighting Simulation -->
+		<Grid
+			Grid.Row="2"
+			> 
+			<Grid.RowDefinitions>
+				<RowDefinition Height="8" />	<!-- Spacer --> 
+				<RowDefinition Height="40" />	<!-- Exposure Prompt  --> 
+				<RowDefinition Height="40" />   <!-- Exposure Slider   --> 
+				<RowDefinition Height="40" />	<!-- Temperature Prompt  --> 
+				<RowDefinition Height="40" />   <!-- Temperature Slider   --> 
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="40" />
+				<ColumnDefinition Width="*" /> <!-- Sliders --> 
+				<ColumnDefinition Width="160" /> <!-- Reset Button -->
+			</Grid.ColumnDefinitions>
+		<glyphs:GlyphButton
+			Style="{StaticResource ViewIconButton}"
+			Layout="IconTextBelow"
+			HorizontalAlignment="Center" VerticalAlignment="Center"
+			Grid.Column="2" Grid.Row="1" Grid.RowSpan="4"
+			Width="140" Height="140"
+			Margin="4"
+			FontSize="24"
+			GlyphSource="broom"
+			ButtonBackground="BorderlessRectangle"
+			GlyphStrokeThickness="0"
+			Text="Reset"
+			Command="{Binding OnResetLighting}"
+			/>
+		<TextBlock
+			Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" 
+			Margin="12 0 0 0"
+			Text="Simulate the exposure of a photo image of the QR Code."
+			Theme="{StaticResource Medium}"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<Slider 
+			Grid.Row="2" Grid.Column="1" 
+			Margin="12 -24 64 4 "
+			VerticalAlignment="Center" HorizontalAlignment="Stretch"
+			TickFrequency="0.05"
+			TickPlacement="BottomRight"
+			IsSnapToTickEnabled="True"
+			SmallChange="0.05" LargeChange="0.1"
+			Minimum="-1.0"
+			Maximum="1.0"
+			Value="{Binding ExposureSliderValue}"
+			/>
+		<TextBlock
+			Grid.Row="2" Grid.Column="1" 
+			Margin="0 -20 0 0"
+			Theme="{StaticResource Large}"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			Text="{Binding ExposureString}"
+			/>
+		<TextBlock
+			Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" 
+			Margin="12 0 0 0"
+			Text="Simulate the color temperature of a photo image of the QR Code."
+			Theme="{StaticResource Medium}"
+			TextAlignment="Left"
+			VerticalAlignment="Center" HorizontalAlignment="Left"
+			/>
+		<Slider 
+			Grid.Row="4" Grid.Column="1" 
+			Margin="12 -24 64 4 "
+			VerticalAlignment="Center" HorizontalAlignment="Stretch"
+			TickFrequency="0.05"
+			TickPlacement="BottomRight"
+			IsSnapToTickEnabled="True"
+			SmallChange="0.05" LargeChange="0.1"
+			Minimum="-1.0"
+			Maximum="1.0"
+			Value="{Binding TemperatureSliderValue}"
+			/>
+		<TextBlock
+			Grid.Row="4" Grid.Column="1" 
+			Margin="0 -20 0 0"
+			Theme="{StaticResource Large}"
+			VerticalAlignment="Center" HorizontalAlignment="Right"
+			Text="{Binding TemperatureString}"
+			/>
 		</Grid>
 		<TextBlock
 			Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" 

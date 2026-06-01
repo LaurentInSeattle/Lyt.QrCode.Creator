@@ -14,7 +14,7 @@ Camera (Webcam) support is only partially implemented, for Windows only. The "Ca
 
 - Coming soon... 
 
-# Build it...
+# Build it... Windows ONLY for now.
 
 - Clone this repo'
 - => Clone the "Lyt.Framework" repo' side by side. (https://github.com/LaurentInSeattle/Lyt.Framework)
