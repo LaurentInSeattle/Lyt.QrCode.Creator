@@ -20,6 +20,7 @@
   </Folder>
   <Folder Name="/Tools/">
     <File Path="README.md" />
+    <File Path="TODO.txt" />
     <File Path="Tools/Lyt.Translator.Cli.exe" />
     <File Path="Tools/prebuild.bat" />
     <File Path="Tools/QrCodeCreatorLanguages.json" />

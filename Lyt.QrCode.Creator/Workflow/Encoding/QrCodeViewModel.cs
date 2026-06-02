@@ -1,7 +1,5 @@
 ﻿namespace Lyt.QrCode.Creator.Workflow.Encoding;
 
-using static System.Net.Mime.MediaTypeNames;
-
 public sealed partial class QrCodeViewModel :
     ViewModel<QrCodeView>,
     IRecipient<ModelChangedMessage>,
@@ -107,7 +105,7 @@ public sealed partial class QrCodeViewModel :
         // Enforce property changed 
         this.ExposureSliderValue = 0.01;
         this.TemperatureSliderValue = 0.01;
-        this.ExposureSliderValue = 0.0; 
+        this.ExposureSliderValue = 0.0;
         this.TemperatureSliderValue = 0.0;
 
         this.TestImageDecodingStatusText = string.Empty;
@@ -118,7 +116,7 @@ public sealed partial class QrCodeViewModel :
 
     partial void OnExposureSliderValueChanged(double value)
     {
-        if ( value > 0.0)
+        if (value > 0.0)
         {
             this.ExposureColor = new SolidColorBrush(Colors.White);
             this.ExposureOpacity = value;
@@ -127,7 +125,7 @@ public sealed partial class QrCodeViewModel :
         {
             this.ExposureColor = new SolidColorBrush(Colors.Black);
             this.ExposureOpacity = -value;
-        } 
+        }
 
         this.ExposureString = string.Format("{0:F1} %", value);
     }
@@ -161,10 +159,10 @@ public sealed partial class QrCodeViewModel :
     {
         if (this.isDecodingTestImage)
         {
-            return ;
+            return;
         }
 
-        this .isDecodingTestImage = true;
+        this.isDecodingTestImage = true;
         this.ShowTestImage = true;
         var bitmap = this.View.TestImageGrid.CreateHighQualityImage();
         _ = this.TryDecode(bitmap, isSourceImage: false);
@@ -184,12 +182,12 @@ public sealed partial class QrCodeViewModel :
         this.ShowPrimaryImage = true;
         this.ShowTestImage = false;
 
-        // We need to wait until the UI thread has swapping images.
+        // We need to wait until the UI thread is done with swapping images.
         // 130 ms is about two frames at 60 fps, which should be enough time... 
-        Schedule.OnUiThread(130,this.DoSave,DispatcherPriority.ApplicationIdle);
+        Schedule.OnUiThread(130, this.DoSave, DispatcherPriority.ApplicationIdle);
     }
 
-    private void DoSave ()
+    private void DoSave()
     {
         bool success = false;
         string message = string.Empty;
@@ -248,7 +246,7 @@ public sealed partial class QrCodeViewModel :
         int frameSize = model.UseFrame ? model.FrameSize : 0;
 
         if (! // NOT 
-            (this.fontFamiliesDictionary.TryGetValue(model.FrameTextFontFamily, out FontFamily? fontFamily) && 
+            (this.fontFamiliesDictionary.TryGetValue(model.FrameTextFontFamily, out FontFamily? fontFamily) &&
             fontFamily is not null)
             )
         {
@@ -283,7 +281,7 @@ public sealed partial class QrCodeViewModel :
             {
                 var bitmap = this.View.FrameGrid.CreateHighQualityImage();
                 this.qrCodeCreatorModel.SetQrCodeImage(bitmap);
-            }, 
+            },
             DispatcherPriority.ApplicationIdle);
     }
 
@@ -306,7 +304,7 @@ public sealed partial class QrCodeViewModel :
         _ = this.TryDecode(image);
     }
 
-    private async Task TryDecode(Bitmap bitmap, bool isSourceImage= true)
+    private async Task TryDecode(Bitmap bitmap, bool isSourceImage = true)
     {
         if (isSourceImage)
         {
@@ -350,7 +348,7 @@ public sealed partial class QrCodeViewModel :
                 this.DecodingStatusColor = new SolidColorBrush(Colors.Green);
 
                 this.RawContent = result.Text;
-                string content; 
+                string content;
                 if (result.IsParsed)
                 {
                     string contentType = result.ParsedObject.GetType().Name;
@@ -368,7 +366,7 @@ public sealed partial class QrCodeViewModel :
                     content = "Plain Text";
                 }
 
-                this.ContentType = string.Concat("QR Code Content: ", content); 
+                this.ContentType = string.Concat("QR Code Content: ", content);
             }
             else
             {

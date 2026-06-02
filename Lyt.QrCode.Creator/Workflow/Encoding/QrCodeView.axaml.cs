@@ -33,17 +33,20 @@ public partial class QrCodeView : View
             }
         }
 
-        this.FrameGrid.Background = Brushes.Transparent;
-        var frameRows = this.FrameGrid.RowDefinitions;
-        frameRows[0].Height = new GridLength(frameSize, GridUnitType.Pixel);
-        frameRows[2].Height = new GridLength(frameSize, GridUnitType.Pixel);
+        // Adjust these constants to make the frame columns or the rows slightly smaller or larger.
+        // Could become user parameters if needed, but for now they are hardcoded to make the frame
+        // slightly less tall than the specified size, and make it look better.
+        const double columnSizingFactor = 1.0;
+        const double rowSizingFactor = 0.9;
 
-        // Frame columns are made slightly smaller
-        const double columnSizingFactor = 0.8;
+        var frameRows = this.FrameGrid.RowDefinitions;
+        frameRows[0].Height = new GridLength(frameSize * rowSizingFactor , GridUnitType.Pixel);
+        frameRows[2].Height = new GridLength(frameSize * rowSizingFactor, GridUnitType.Pixel);
         var frameCols = this.FrameGrid.ColumnDefinitions;
         frameCols[0].Width = new GridLength(frameSize * columnSizingFactor, GridUnitType.Pixel);
         frameCols[2].Width = new GridLength(frameSize * columnSizingFactor, GridUnitType.Pixel);
 
+        this.FrameGrid.Background = Brushes.Transparent;
         if (frame == 0)
         {
             // If zero: no frame
@@ -330,7 +333,7 @@ public partial class QrCodeView : View
         int width = cols + border * 2;
         centerColumn.Width = new GridLength(width * moduleSize, GridUnitType.Pixel);
 
-        this.FrameGrid.Height = height * moduleSize + 2.0 * frameSize;
+        this.FrameGrid.Height = height * moduleSize + 2.0 * frameSize * rowSizingFactor;
         this.FrameGrid.Width = width * moduleSize + 2.0 * frameSize * columnSizingFactor;
 
         // TODO: Verify: Maybe not needed

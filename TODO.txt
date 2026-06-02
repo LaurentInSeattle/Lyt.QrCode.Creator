@@ -1,0 +1,14 @@
+
+- Investigate: Decoding Issue with long URLs ? 
+
+Ex: https://www.lemonde.fr/international/live/2026/06/03/en-direct-guerre-en-ukraine-volodymyr-zelensky-craint-une-nouvelle-frappe-massive-russe-sur-l-ukraine-apres-les-attaques-qui-ont-fait-23-morts-la-nuit-precedente_6695365_3210.html 
+
+When using a logo image, decoding fails unless we use 28 pixels per module (Standard is 20) 
+
+- Avalonia: 
+
+[Control] PlatformImpl is null, couldn't handle input. (PresentationSource #39119692) 
+
+- Avalonia:
+
+Text box randomly blocking input, even when not focused.
