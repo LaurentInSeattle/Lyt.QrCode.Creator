@@ -28,7 +28,6 @@
     <Project Path="../Lyt.Video/Lyt.MediaFoundation.Interop/Lyt.MediaFoundation.Interop.csproj" />
     <Project Path="../Lyt.Video/Lyt.Video.Capture.MediaFoundation/Lyt.Video.Capture.MediaFoundation.csproj" />
     <Project Path="../Lyt.Video/Lyt.Video.Capture/Lyt.Video.Capture.csproj" />
-    <Project Path="../Lyt.Video/Lyt.Video.Recording/Lyt.Video.Recording.csproj" />
     <Project Path="../Lyt.Video/Lyt.Video.Shared/Lyt.Video.Shared.csproj" />
     <Project Path="../Lyt.Video/Lyt.Video.TestApp/Lyt.Video.TestApp.csproj" />
   </Folder>

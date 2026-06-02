@@ -2,9 +2,11 @@
 
 Avalonia Application to create QR Codes based on the Lyt.QrCode library: https://github.com/LaurentInSeattle/Lyt.QrCode 
 
-# Almost there...
+Built-in support for both encoding and decoding of canonical content such as: Links, GeoLocation, Wifi, VCard, Email, and more...
 
-<p align="left"><img src="Screenshots/Screenshot 2026-05-31 105825.png" height="600"/>
+# 'Beautify', customize and test your QR Code Images 
+
+<p align="left"><img src="Screenshots/Screenshot 2026-06-02 100410.png" height="600"/>
 
 Camera (Webcam) support is only partially implemented, for Windows only. The "Camera" tab is still a work in progress. 
 
@@ -13,6 +15,9 @@ Camera (Webcam) support is only partially implemented, for Windows only. The "Ca
 # Localization
 
 - Coming soon... 
+
+- Planned support for the following languages: Italian, French and English natively, and the following languages via
+machine translation: Ukrainian, Spanish, Bulgarian, Armenian, Greek, German, Japanese, Chinese, Korean, Magyar, Hindi and Bengali.
 
 # Build it... Windows ONLY for now.
 
@@ -28,8 +33,8 @@ Does not build yet with Jet Brains Rider. Windows ONLY for now.
 
 # Dependencies
 
-- Avalonia (Skia) 12
 - Lyt.QrCode library: https://github.com/LaurentInSeattle/Lyt.QrCode (Nuget package: Lyt.QrCode)
+- Avalonia (Skia) 12
 - Microsoft Dependency Injection and Hosting Framework
 - Microsoft Community Toolkit MVVM Framework
-- Microsoft CSharp Scripting Framework
+
