@@ -3,6 +3,7 @@ namespace Lyt.QrCode.Creator.Workflow.Encoding;
 using global::Avalonia.Controls; // For 'Image', conflicting with one 'Lyt' namespace
 
 using Lyt.Avalonia.Controls.Images;
+using AvLayout = global::Avalonia.Layout; 
 
 public partial class QrCodeView : View
 {
@@ -32,15 +33,16 @@ public partial class QrCodeView : View
             }
         }
 
-        this.FrameGrid.Background = frameBackgroundBrush;
+        this.FrameGrid.Background = Brushes.Transparent;
         var frameRows = this.FrameGrid.RowDefinitions;
         frameRows[0].Height = new GridLength(frameSize, GridUnitType.Pixel);
         frameRows[2].Height = new GridLength(frameSize, GridUnitType.Pixel);
 
         // Frame columns are made slightly smaller
+        const double columnSizingFactor = 0.8;
         var frameCols = this.FrameGrid.ColumnDefinitions;
-        frameCols[0].Width = new GridLength(frameSize* 0.8, GridUnitType.Pixel);
-        frameCols[2].Width = new GridLength(frameSize * 0.8, GridUnitType.Pixel);
+        frameCols[0].Width = new GridLength(frameSize * columnSizingFactor, GridUnitType.Pixel);
+        frameCols[2].Width = new GridLength(frameSize * columnSizingFactor, GridUnitType.Pixel);
 
         if (frame == 0)
         {
@@ -50,10 +52,26 @@ public partial class QrCodeView : View
         }
         else
         {
+            var frameRectangle = new Rectangle()
+            {
+                Fill = frameBackgroundBrush,
+                RadiusX = moduleSize * 2,
+                RadiusY = moduleSize * 2,
+                HorizontalAlignment = AvLayout.HorizontalAlignment.Stretch,
+                VerticalAlignment = AvLayout.VerticalAlignment.Stretch,
+                ZIndex = -1,
+            };
+
+            Grid.SetColumn(frameRectangle, 0);
+            Grid.SetRow(frameRectangle, 0);
+            Grid.SetColumnSpan(frameRectangle, 3);
+            Grid.SetRowSpan(frameRectangle, 3);
+            this.FrameGrid.Children.Add(frameRectangle);
+
             this.TopTextBlock.Text = topText;
             this.TopTextBlock.Foreground = frameForegroundBrush;
             this.TopTextBlock.FontSize = topTextFontSize;
-            this.TopTextBlock.FontWeight = (FontWeight)topTextFontWeight; 
+            this.TopTextBlock.FontWeight = (FontWeight)topTextFontWeight;
             this.TopTextBlock.FontFamily = fontFamily;
 
             this.BottomTextBlock.Text = bottomText;
@@ -66,7 +84,7 @@ public partial class QrCodeView : View
         var grid = new Grid()
         {
             Name = "QrCodeGrid",
-            Background = falseBrush,
+            Background = Brushes.Transparent,
         };
 
         int rows = modules.GetLength(0);
@@ -87,6 +105,7 @@ public partial class QrCodeView : View
 
         grid.ColumnDefinitions.Add(new ColumnDefinition(borderSize, GridUnitType.Pixel));
 
+
         Grid.SetColumn(grid, 1);
         Grid.SetRow(grid, 1);
 
@@ -99,8 +118,8 @@ public partial class QrCodeView : View
                 var rectangle = new Rectangle()
                 {
                     Fill = Brushes.DarkOrchid,
-                    VerticalAlignment = global::Avalonia.Layout.VerticalAlignment.Stretch,
-                    HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Stretch,
+                    VerticalAlignment = AvLayout.VerticalAlignment.Stretch,
+                    HorizontalAlignment = AvLayout.HorizontalAlignment.Stretch,
                 };
 
                 Grid.SetColumn(rectangle, 0);
@@ -113,11 +132,13 @@ public partial class QrCodeView : View
             {
                 using var ms = new MemoryStream(backgroundImageBytes);
                 var bitmap = new Bitmap(ms);
-                var image = new Image()
+                var image = new RoundedImage()
                 {
                     Source = bitmap,
-                    Stretch = Stretch.UniformToFill,
+                    Stretch = Stretch.Fill,
                 };
+
+                image.SetValue(RoundedImage.CornerRadiusProperty, moduleSize * 1.2);
 
                 Grid.SetColumn(image, 0);
                 Grid.SetRow(image, 0);
@@ -130,9 +151,11 @@ public partial class QrCodeView : View
             var coloringRectangle = new Rectangle()
             {
                 Fill = Brushes.White,
+                RadiusX = moduleSize * 1.2,
+                RadiusY = moduleSize * 1.2,
                 Opacity = coloring,
-                VerticalAlignment = global::Avalonia.Layout.VerticalAlignment.Stretch,
-                HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Stretch,
+                VerticalAlignment = AvLayout.VerticalAlignment.Stretch,
+                HorizontalAlignment = AvLayout.HorizontalAlignment.Stretch,
             };
 
             Grid.SetColumn(coloringRectangle, 0);
@@ -140,6 +163,23 @@ public partial class QrCodeView : View
             Grid.SetColumnSpan(coloringRectangle, cols + 2);
             Grid.SetRowSpan(coloringRectangle, rows + 2);
             grid.Children.Add(coloringRectangle);
+        }
+        else
+        {
+            var qrCodeRectangle = new Rectangle()
+            {
+                Fill = falseBrush,
+                RadiusX = moduleSize * 1.2,
+                RadiusY = moduleSize * 1.2,
+                HorizontalAlignment = AvLayout.HorizontalAlignment.Stretch,
+                VerticalAlignment = AvLayout.VerticalAlignment.Stretch,
+            };
+
+            Grid.SetColumn(qrCodeRectangle, 0);
+            Grid.SetRow(qrCodeRectangle, 0);
+            Grid.SetColumnSpan(qrCodeRectangle, cols + 2);
+            Grid.SetRowSpan(qrCodeRectangle, rows + 2);
+            grid.Children.Add(qrCodeRectangle);
         }
 
         // Add QR code modules above background image and below logo ( if any )
@@ -159,7 +199,7 @@ public partial class QrCodeView : View
                     Stroke = Brushes.Transparent,
                     StrokeThickness = 0,
                 },
-                
+
                 ModuleShape.Circle => new Ellipse()
                 {
                     Fill = brush,
@@ -167,7 +207,7 @@ public partial class QrCodeView : View
                     Height = moduleSize,
                     Width = moduleSize,
                 },
-                
+
                 ModuleShape.RoundedSquare => new Rectangle()
                 {
                     Fill = brush,
@@ -200,6 +240,24 @@ public partial class QrCodeView : View
             };
         }
 
+        int pixelLogoSize = (int)Math.Round(rows * logoSize);
+
+        bool IsLogoQuietZone(int i, int j)
+        {
+            if (!useLogo || logoQuietZone <= 0)
+            {
+                return false;
+            }
+
+            int centerCol = cols / 2;
+            int centerRow = rows / 2;
+            int halfLogoSize = pixelLogoSize / 2;
+            return i >= centerRow - halfLogoSize - logoQuietZone &&
+                   i <= centerRow + halfLogoSize + logoQuietZone &&
+                   j >= centerCol - halfLogoSize - logoQuietZone &&
+                   j <= centerCol + halfLogoSize + logoQuietZone;
+        }
+
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < cols; j++)
@@ -209,12 +267,12 @@ public partial class QrCodeView : View
                     continue;
                 }
 
-                if (IsLogoQuietZone(useLogo, i, j, rows, cols, (int)Math.Round(rows * logoSize), logoQuietZone))
+                if (IsLogoQuietZone(i, j))
                 {
                     continue;
                 }
 
-                var shape = CreateModuleShape(i, j);                
+                var shape = CreateModuleShape(i, j);
                 Grid.SetRow(shape, i + 1);
                 Grid.SetColumn(shape, j + 1);
                 grid.Children.Add(shape);
@@ -256,7 +314,7 @@ public partial class QrCodeView : View
                 var image = new RoundedImage()
                 {
                     Source = bitmap,
-                    Stretch = Stretch.UniformToFill,
+                    Stretch = Stretch.Fill,
                 };
 
                 image.SetValue(RoundedImage.CornerRadiusProperty, moduleSize);
@@ -272,27 +330,10 @@ public partial class QrCodeView : View
         int width = cols + border * 2;
         centerColumn.Width = new GridLength(width * moduleSize, GridUnitType.Pixel);
 
-        this.FrameGrid.Height = height * moduleSize + 2 * frameSize;
-        this.FrameGrid.Width = width * moduleSize + 2 * frameSize;
+        this.FrameGrid.Height = height * moduleSize + 2.0 * frameSize;
+        this.FrameGrid.Width = width * moduleSize + 2.0 * frameSize * columnSizingFactor;
 
         // TODO: Verify: Maybe not needed
         this.FrameGrid.InvalidateVisual();
-    }
-
-    private bool IsLogoQuietZone(
-        bool useLogo, int i, int j, int rows, int cols, int logoSize, int logoQuietZone)
-    {
-        if ( !useLogo || logoQuietZone <= 0)
-        {
-            return false;
-        }
-
-        int centerCol = cols / 2;
-        int centerRow = rows / 2;
-        int halfLogoSize = logoSize / 2;
-        return i >= centerRow - halfLogoSize - logoQuietZone &&
-               i <= centerRow + halfLogoSize + logoQuietZone &&
-               j >= centerCol - halfLogoSize - logoQuietZone &&
-               j <= centerCol + halfLogoSize + logoQuietZone;
     }
 }
